@@ -15,8 +15,8 @@ import java.sql.SQLException;
  */
 public interface IUserDao {
     
-    public void persist(User user);
+    public void persist(User user) throws ClassNotFoundException, SQLException;
     
-    public User findByCPFAndEmail(String cpf, String email) throws SQLException, ClassNotFoundException;
+//    public User findByCPFAndEmail(String cpf, String email) throws SQLException, ClassNotFoundException;
     
 }

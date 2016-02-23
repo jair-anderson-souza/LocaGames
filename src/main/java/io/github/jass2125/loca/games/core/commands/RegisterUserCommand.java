@@ -7,7 +7,9 @@ package io.github.jass2125.loca.games.core.commands;
 
 import io.github.jass2125.loca.games.core.business.User;
 import io.github.jass2125.loca.games.core.dao.IUserDao;
-import io.github.jass2125.loca.games.core.dao.UserDao;
+import io.github.jass2125.loca.games.core.util.Factory;
+import io.github.jass2125.loca.games.core.util.FactoryDao;
+import java.sql.SQLException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,25 +19,35 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class RegisterUserCommand implements Command {
 
+    /**
+     *
+     * @param request
+     * @param response
+     * @return
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        String name = request.getParameter("name");
-        String cpf = request.getParameter("cpf");
-        String email = request.getParameter("email");
+        try {
+            String name = request.getParameter("name");
+            String cpf = request.getParameter("cpf");
+            String email = request.getParameter("email");
 
-//        User user = new User(name, cpf, email);
-        IUserDao dao = new UserDao();
-//        dao.persist(user);
-        
-        return null;
-
+            Factory factory = new FactoryDao();
+            IUserDao dao = factory.createDao();
+            User user = new User(name, cpf, email);
+            dao.persist(user);
+            return "employee/home.jsp";
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            request.getSession().setAttribute("error", "Email e/ou CPF ja existentes, por favor tente novamente.");
+            return "index.jsp";
+        }
     }
-
-    
-    
 }
-//
-//create table user(    
-//name
-//)
-//
+
+//create table user(
+//    name varchar(50),
+//    email varchar(50),
+//    cpf varchar(15),
+//    primary key(cpf, email)
+//);

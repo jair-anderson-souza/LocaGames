@@ -14,10 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @author Anderson Souza <jair_anderson_bs@hotmail.com>
- * <jair_anderson_bs@hotmail.com>
- * @since 15:31:16, 20-Feb-2016 Package io.github.jass2125.loca.games.controller
- * Project Name loca-games Encoding UTF-8 File Name FrontController.java
+ * @author Anderson Souza
+ * @since 15:31:16, 20-Feb-2016 
  */
 @WebServlet(urlPatterns = {"/front"})
 public class FrontController extends HttpServlet {
