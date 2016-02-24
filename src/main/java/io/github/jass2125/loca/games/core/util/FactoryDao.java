@@ -6,6 +6,8 @@
 
 package io.github.jass2125.loca.games.core.util;
 
+import io.github.jass2125.loca.games.core.dao.GameDao;
+import io.github.jass2125.loca.games.core.dao.IGameDao;
 import io.github.jass2125.loca.games.core.dao.IUserDao;
 import io.github.jass2125.loca.games.core.dao.UserDao;
 
@@ -13,11 +15,16 @@ import io.github.jass2125.loca.games.core.dao.UserDao;
  * @author Anderson Souza 
  * @since 16:52:22, 23-Feb-2016
  */
-public class FactoryDao extends Factory {
+public class FactoryDao implements Factory {
 
     @Override
-    public IUserDao createDao() {
+    public IUserDao createUserDao() {
         return new UserDao();
+    }
+    
+    @Override
+    public IGameDao createGameDao(){
+        return new GameDao();
     }
 
 }

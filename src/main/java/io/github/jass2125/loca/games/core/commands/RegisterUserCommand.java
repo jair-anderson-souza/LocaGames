@@ -6,6 +6,7 @@
 package io.github.jass2125.loca.games.core.commands;
 
 import io.github.jass2125.loca.games.core.business.User;
+import io.github.jass2125.loca.games.core.dao.IGameDao;
 import io.github.jass2125.loca.games.core.dao.IUserDao;
 import io.github.jass2125.loca.games.core.util.Factory;
 import io.github.jass2125.loca.games.core.util.FactoryDao;
@@ -33,9 +34,11 @@ public class RegisterUserCommand implements Command {
             String email = request.getParameter("email");
 
             Factory factory = new FactoryDao();
-            IUserDao dao = factory.createDao();
+            IUserDao dao = factory.createUserDao();
+            IGameDao daoGame = factory.createGameDao();
             User user = new User(name, cpf, email);
             dao.persist(user);
+            request.getSession().setAttribute("listGames", daoGame.listGames());
             return "employee/home.jsp";
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -51,3 +54,13 @@ public class RegisterUserCommand implements Command {
 //    cpf varchar(15),
 //    primary key(cpf, email)
 //);
+
+//create table game(
+//    idGame int AUTO_INCREMENT,
+//    nameGame varchar(50) not null,
+//    gender varchar(30) not null,
+//    primary key(idGame)
+//);
+// insert into game values(1, 'Donkey Kong 3','Aventura');
+//insert into game values(2, 'Resident Evil','Suspense');
+//insert into game values(3, 'Beavis and Butthead','Aventura');

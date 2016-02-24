@@ -6,7 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="pu-bt">
+<html lang="pt-br">
     <head>
         <title>Pagina Inicial</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">

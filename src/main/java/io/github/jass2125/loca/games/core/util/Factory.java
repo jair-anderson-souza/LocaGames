@@ -6,15 +6,17 @@
 
 package io.github.jass2125.loca.games.core.util;
 
+import io.github.jass2125.loca.games.core.dao.IGameDao;
 import io.github.jass2125.loca.games.core.dao.IUserDao;
 
 /**
  * @author Anderson Souza 
  * @since 16:52:22, 23-Feb-2016
  */
-public abstract class Factory {
+public interface Factory {
     
-    public abstract IUserDao createDao();
+    public IUserDao createUserDao();
+    public IGameDao createGameDao();
     
 
 }

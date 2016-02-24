@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @author Anderson Souza
  * @since 14:06:27, 20-Feb-2016
  */
-public class User implements Serializable {
+public class User implements Serializable{
 
     private String name;
     private String cpf;

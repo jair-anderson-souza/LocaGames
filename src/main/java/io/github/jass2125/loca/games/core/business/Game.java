@@ -5,47 +5,74 @@
  */
 package io.github.jass2125.loca.games.core.business;
 
+import io.github.jass2125.loca.games.core.util.SituationEnum;
+import io.github.jass2125.loca.games.state.GameAvailableState;
+import io.github.jass2125.loca.games.state.GameState;
+
 /**
- * @author Anderson Souza <jair_anderson_bs@hotmail.com>
- * <jair_anderson_bs@hotmail.com>
- * @since 14:17:38, 20-Feb-2016 Package io.github.jass2125.loca.games.business
- * Project Name loca-games Encoding UTF-8 File Name Game.java
+ * @author Anderson Souza
+ * @since 14:17:38, 20-Feb-2016
  */
 public class Game {
 
-    private Long id;
-    private byte img[];
-    private String description;
+    private int id;
+    private String name;
+    private String gender;
+    private SituationEnum situation;
+    private GameState state;
 
     public Game() {
+        state = new GameAvailableState();
     }
 
-    public Game(String description, byte img[]) {
-        this.description = description;
-        this.img = img;
+    public Game(String name, String gender) {
+        this.name = name;
+        this.gender = gender;
+        
     }
 
-    public Long getId() {
+    public Game(int idGame, String nameGame, String gender) {
+        this.id = idGame;
+        this.name = nameGame;
+        this.gender = gender;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public String getName() {
+        return name;
     }
 
-    public String getDescription() {
-        return description;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public String getGender() {
+        return gender;
     }
 
-    public byte[] getImg() {
-        return img;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
-    public void setImg(byte[] img) {
-        this.img = img;
+    public String getSituation() {
+        return this.situation.getSituation();
     }
+
+    public void setSituation(String situation) {
+        this.situation.setSituation(situation);
+    }
+
+    public GameState getState() {
+        return state;
+    }
+
+    public void setState(GameState state) {
+        this.state = state;
+    }
+    
+    
+
 }
