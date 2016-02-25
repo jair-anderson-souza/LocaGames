@@ -7,13 +7,14 @@ package io.github.jass2125.loca.games.core.commands;
 
 import io.github.jass2125.loca.games.core.business.Game;
 import io.github.jass2125.loca.games.core.business.Location;
+import io.github.jass2125.loca.games.core.business.User;
 import io.github.jass2125.loca.games.core.dao.GameDao;
 import io.github.jass2125.loca.games.core.dao.LocationDao;
 import io.github.jass2125.loca.games.core.factory.DaoFactory;
-import io.github.jass2125.loca.games.core.services.GameRenderState;
+import io.github.jass2125.loca.games.core.services.GameAvailableState;
 import io.github.jass2125.loca.games.core.util.DaoEnum;
-import io.github.jass2125.loca.games.core.util.SituationEnum;
 import java.sql.SQLException;
+import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -26,21 +27,19 @@ public class GameAvailableCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         try {
-            Long idGame = Long.parseLong(request.getParameter("idGame"));
             GameDao daoGame = (GameDao) DaoFactory.createDao(DaoEnum.GAME.getOption());
-            LocationDao daoLocation = (LocationDao) DaoFactory.createDao(DaoEnum.LOCATION.getOption());
+            Long idGame = Long.parseLong(request.getParameter("idGame"));
             Game game = daoGame.findById(idGame);
 
-            if (game.getSituation().equals(SituationEnum.AVAILABLE.getSituation())) {
-                game.setState(new GameRenderState());
-                Location location = new Location();
-                daoLocation.save(location);
-                //pagina a qual sera endereçada
-                return "employee/home.jsp";
-            } else {
-                
-                return "";
-            }
+            LocationDao daoLocation = (LocationDao) DaoFactory.createDao(DaoEnum.LOCATION.getOption());
+            //Data atual
+            Location location = daoLocation.findByUserAndGame(idGame, new Date());
+
+            User user = (User) request.getSession().getAttribute("user");
+            game.setState(new GameAvailableState());
+//            location.
+            //pagina a qual sera endereçada
+            return "home.jsp";
 
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();

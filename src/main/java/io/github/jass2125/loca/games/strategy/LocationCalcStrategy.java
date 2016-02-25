@@ -12,8 +12,10 @@ import java.math.BigDecimal;
  * @author Anderson Souza 
  * @since 14:56:26, 24-Feb-2016
  */
-public interface LocationCalcStrategy {
+public abstract class LocationCalcStrategy {
     
-//    public BigDecimal calculatePriceGame(Location location);
+    
+    public abstract BigDecimal calculatePriceGame();
+    
 
 }

@@ -7,7 +7,6 @@ package io.github.jass2125.loca.games.core.commands;
 
 import io.github.jass2125.loca.games.core.business.Game;
 import io.github.jass2125.loca.games.core.business.Location;
-import io.github.jass2125.loca.games.core.business.User;
 import io.github.jass2125.loca.games.core.dao.GameDao;
 import io.github.jass2125.loca.games.core.dao.LocationDao;
 import io.github.jass2125.loca.games.core.factory.DaoFactory;

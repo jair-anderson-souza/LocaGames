@@ -12,6 +12,15 @@
     <body>
         <%@include file="header.jsp" %>
         <div class="dj-modal__section">
+            <c:if test="${sessionScope.user == null}">
+                <button data-toggle="modal" data-target="#modal" class="btn btn-info btn-sm">Novo Cliente</button>
+                <div class="text-right">
+
+                </div>
+                <%@include file="modalCliente.jsp" %>
+            </c:if>
+                
+                //APAGAR ESSA PARTE DE BAIXO
             <c:choose>
                 <c:when test="${gamesParaDevolucao == null}">
                     <div class="dj-titulo__left">
@@ -19,8 +28,8 @@
                     </div>
                     <br>
                     <h4>Não há jogos para serem desenvolvidos!</h4>
-                    </c:when>
-                    <c:otherwise>
+                </c:when>
+                <c:otherwise>
                     <h2 class="dj-titulo__left">Devolução</h2>
                     <br>
                     <div class="form-group dj-form__input">
@@ -36,6 +45,7 @@
                                     <th>ID</th>
                                     <th>Nome</th>
                                     <th>Gênero</th>
+                                    <th>Devolver</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -44,6 +54,15 @@
                                         <td>${game.id}</td>
                                         <td>${game.nome}</td>
                                         <td>${game.genero}</td>
+                                        <c:choose>
+                                            <c:when test="${sessionScope.user != null}">
+                                                <td><a href="front?command=availableGame&idGame=${game.id}">Devolver</a></td>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <td>Operaçao nao permitida</td>
+                                            </c:otherwise>
+
+                                        </c:choose>
                                     </tr>
                                 </c:forEach>
                             </tbody>

@@ -6,6 +6,7 @@
 package io.github.jass2125.loca.games.controller;
 
 import io.github.jass2125.loca.games.core.commands.Command;
+import io.github.jass2125.loca.games.core.commands.GameAvailableCommand;
 import io.github.jass2125.loca.games.core.commands.GameRenderCommand;
 import io.github.jass2125.loca.games.core.commands.LoadGamesCommand;
 import io.github.jass2125.loca.games.core.commands.RegisterUserCommand;
@@ -29,6 +30,7 @@ public class CommandFactory {
         commands.put("loadGames", new LoadGamesCommand());
         commands.put("renderGame", new GameRenderCommand());
         commands.put("registerUser", new RegisterUserCommand());
+        commands.put("availableGame", new GameAvailableCommand());
 //        commands.put("render", new GameRenderCommand());
 //        commands.put("return", new GameRenderCommand());
 

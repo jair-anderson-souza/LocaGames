@@ -3,19 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package io.github.jass2125.loca.games.core.business;
 
+import io.github.jass2125.loca.games.strategy.LocationCalcStrategy;
 import java.util.Date;
 
 /**
- * @author Anderson Souza 
+ * @author Anderson Souza
  * @since 13:51:29, 24-Feb-2016
  */
 public class Location {
+
     private Long idLocation;
     private Date dateLocation;
     private Date dateDevolution;
+    private LocationCalcStrategy strategyCalc;
 
     public Location() {
         this.dateLocation = new Date();
@@ -40,9 +42,9 @@ public class Location {
     public void setDateDevolution(Date dateDevolution) {
         this.dateDevolution = dateDevolution;
     }
-    
-    
-    
-    
-    
+
+    public LocationCalcStrategy getStrategyCalc() {
+        return strategyCalc;
+    }
+
 }

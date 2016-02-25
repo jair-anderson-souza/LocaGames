@@ -5,8 +5,6 @@
  */
 package io.github.jass2125.loca.games.core.business;
 
-import io.github.jass2125.loca.games.core.util.SituationEnum;
-import io.github.jass2125.loca.games.core.services.GameAvailableState;
 import io.github.jass2125.loca.games.core.services.GameState;
 import java.io.Serializable;
 
