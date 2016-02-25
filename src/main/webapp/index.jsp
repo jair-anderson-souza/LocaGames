@@ -1,60 +1,75 @@
 <%-- 
     Document   : index
-    Created on : 23-Feb-2016, 17:52:14
-    Author     : Anderson Souza
+    Created on : 23/02/2016, 19:47:54
+    Author     : Dijalma Silva <dijalmacz@gmail.com>
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="pt-br">
-    <head>
-        <title>Pagina Inicial</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-        <script src="js/bootstrap.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-    </head>
+<html>
+    <%@include file="head.jsp" %>
     <body>
+        <%@include file="header.jsp" %>
 
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <!--<img src="img/Firefox_wallpaper.png" class="img-rounded" style="width: 1200px;height: 100px;"/>-->
-                </div>
-            </div>
-        </div>
-        <h5>${sessionScope.error}</h5>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-3"></div>
-                <div class="col-md-6">
-                    <form role="form" action="front?command=registerUser" method="post">
-                        <div class="form-group">
-                            <label for="name">Nome</label>
-                            <input type="text" name="name" class="form-control" id="name">
+        <div class="dj-modal__section">
+            <div class="dj-titulo__left">
+                <c:choose>
+                    <c:when test="${sessionScope.success != null}">
+                        <div class="alert alert-danger">
+                            <strong>Sucesso</strong> A locação foi efetuado com sucesso
                         </div>
-                        <div class="form-group">
-                            <label for="cpf">CPF</label>
-                            <input type="text" name="cpf" class="form-control" id="cpf">
+                    </c:when>
+                    <c:when test="${sessionScope.error != null}">
+                        <div class="alert alert-danger">
+                            <strong>Falha</strong> Ocorreu um problema, tente novamente
                         </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" name="email" class="form-control" id="email">
-                        </div>
-                        <button type="submit" class="btn btn-success">Cadastrar Usuario</button>
-                    </form>
-                </div>
+                    </c:when>
 
-                <div class="col-md-3"></div>
+                </c:choose>
+
             </div>
+            <br>
+
+            <div class="dj-titulo__left">
+                <h2>Funcionalidades do sistema</h2>
+            </div>
+            <div>
+                <div class="modal-header">
+                    <h3>Jogos</h3>
+                </div>
+                <br>
+                <ul>
+                    <li>
+                        <img src="icons/rent.png" class="dj-image__funcionalidade">
+                        <a href="front?command=loadGames">Alugar</a>
+                    </li>
+                    <li>
+                        <img src="icons/return.png" class="dj-image__funcionalidade">
+                        <a href="devolver.jsp">Devolver</a>
+                    </li>
+                    <li>
+                        <img src="icons/observer.png" class="dj-image__funcionalidade">
+                        <a href="observar.jsp">Observar</a>
+                    </li>
+                    <li>
+                        <img src="  icons/newGame.png" class="dj-image__funcionalidade">
+                        <a href="novoJogo.jsp">Novo jogo</a>
+                    </li>
+                </ul>
+            </div>
+            <br><br>
+            <div>
+                <h3>Clientes</h3>
+                <br>
+                <ul>
+                    <li>
+                        <img src="icons/rent.png" class="dj-image__funcionalidade">
+                        <a href="novoCliente.jsp">Novo Cliente</a>
+                    </li>
+                </ul>
+            </div>
+
         </div>
     </body>
 </html>

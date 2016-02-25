@@ -6,8 +6,8 @@
 package io.github.jass2125.loca.games.core.business;
 
 import io.github.jass2125.loca.games.core.util.SituationEnum;
-import io.github.jass2125.loca.games.state.GameAvailableState;
-import io.github.jass2125.loca.games.state.GameState;
+import io.github.jass2125.loca.games.core.services.GameAvailableState;
+import io.github.jass2125.loca.games.core.services.GameState;
 
 /**
  * @author Anderson Souza
@@ -15,7 +15,7 @@ import io.github.jass2125.loca.games.state.GameState;
  */
 public class Game {
 
-    private int id;
+    private Long idGame;
     private String name;
     private String gender;
     private SituationEnum situation;
@@ -28,17 +28,17 @@ public class Game {
     public Game(String name, String gender) {
         this.name = name;
         this.gender = gender;
-        
+
     }
 
-    public Game(int idGame, String nameGame, String gender) {
-        this.id = idGame;
+    public Game(Long idGame, String nameGame, String gender) {
+        this.idGame = idGame;
         this.name = nameGame;
         this.gender = gender;
     }
 
-    public int getId() {
-        return id;
+    public Long getId() {
+        return this.idGame;
     }
 
     public String getName() {
@@ -72,7 +72,4 @@ public class Game {
     public void setState(GameState state) {
         this.state = state;
     }
-    
-    
-
 }

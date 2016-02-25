@@ -6,10 +6,9 @@
 package io.github.jass2125.loca.games.core.commands;
 
 import io.github.jass2125.loca.games.core.business.User;
-import io.github.jass2125.loca.games.core.dao.IGameDao;
-import io.github.jass2125.loca.games.core.dao.IUserDao;
-import io.github.jass2125.loca.games.core.util.Factory;
-import io.github.jass2125.loca.games.core.util.FactoryDao;
+import io.github.jass2125.loca.games.core.dao.UserDao;
+import io.github.jass2125.loca.games.core.factory.DaoFactory;
+import io.github.jass2125.loca.games.core.util.DaoEnum;
 import java.sql.SQLException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,18 +32,15 @@ public class RegisterUserCommand implements Command {
             String cpf = request.getParameter("cpf");
             String email = request.getParameter("email");
 
-            Factory factory = new FactoryDao();
-            IUserDao dao = factory.createUserDao();
-            IGameDao daoGame = factory.createGameDao();
+            UserDao dao = (UserDao) DaoFactory.createDao(DaoEnum.USER.getOption());
             User user = new User(name, cpf, email);
             dao.persist(user);
-            request.getSession().setAttribute("listGames", daoGame.listGames());
-            return "employee/home.jsp";
+            request.getSession().setAttribute("user", user);
+            return "index.jsp";
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
-            request.getSession().setAttribute("error", "Email e/ou CPF ja existentes, por favor tente novamente.");
-            return "index.jsp";
         }
+        return null;
     }
 }
 
@@ -52,15 +48,32 @@ public class RegisterUserCommand implements Command {
 //    name varchar(50),
 //    email varchar(50),
 //    cpf varchar(15),
-//    primary key(cpf, email)
+//    primary key(cpf)
 //);
-
 //create table game(
-//    idGame int AUTO_INCREMENT,
+//    idGame bigint AUTO_INCREMENT,
 //    nameGame varchar(50) not null,
 //    gender varchar(30) not null,
 //    primary key(idGame)
 //);
-// insert into game values(1, 'Donkey Kong 3','Aventura');
+//
+//create table location(
+//    idLocation bigint AUTO_INCREMENT,
+//    idUser varchar(50),
+//    idGame bigint,
+//    dateLocation varchar(15) not null, 
+//    dateDevolution varchar(15) not null,
+//    foreign key(idGame) references game(idGame) on update cascade on delete restrict,
+//    foreign key(idUser) references user(cpf) on update cascade on delete restrict,
+//    primary key(idLocation)
+//);
+//insert into game values(1, 'Donkey Kong 3','Aventura');
 //insert into game values(2, 'Resident Evil','Suspense');
-//insert into game values(3, 'Beavis and Butthead','Aventura');
+//insert into location values(3, 'Beavis and Butthead','Aventura');
+//insert into user values('Anderson Souza', 'jair_anderson_bs@hotmail.com','98765445678');
+//insert into user values('Diogo Moreira', 'diogomoreira@hotmail.com','765678987');
+//insert into user values('Dijalma', 'dijalma@hotmail.com','9658');
+//insert into location values(1, '98765445678', 1, '24/02/16', '25/02/16');
+//insert into location values(2, '765678987',2, '20/02/16', '21/02/16');
+//insert into location values(3, '9658',3, '19/02/16', '20/02/16');
+

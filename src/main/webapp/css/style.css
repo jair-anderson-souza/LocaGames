@@ -1,0 +1,76 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 23/02/2016, 20:31:55
+    Author     : Dijalma Silva <dijalmacz@gmail.com>
+*/
+
+*{
+    margin: 0px;
+    padding: 0px
+}
+
+body {
+    text-align: center;
+    background: #f7f7f7;
+}
+
+.dj-header{
+    position: relative;
+    width: 100%;
+    background: #ffffff;
+    height: 100px;
+    box-shadow: 0px 0px 5px -2px #000;
+}
+
+.dj-header h1{
+    margin: 0px;
+    padding: 20px;
+}
+
+.dj-titulo__left{
+    text-align: left;
+    padding: 4px;
+    margin-left: 20px;
+}
+
+.dj-modal__section{
+    background: #ffffff;
+    width: 60%;
+    margin: 70px auto;
+    padding: 10px;
+    box-shadow: 0px 0px 15px -1px #cccccc;
+}
+
+ul li {
+    display: inline;
+    margin: 30px;
+}
+
+.dj-image__funcionalidade{
+    width: 40px;
+    height: 40px;
+}
+
+.dj-form__input {
+    text-align: left;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.dj-form__input--menor{
+    width: 40%;
+    margin: 0 auto;
+}
+
+.dj-button__submit{
+    margin: 20px;
+}
+
+.dj-table{
+    width: 90%;
+    margin: 0 auto;
+}

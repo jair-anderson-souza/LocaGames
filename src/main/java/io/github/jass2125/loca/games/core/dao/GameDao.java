@@ -6,6 +6,7 @@
 package io.github.jass2125.loca.games.core.dao;
 
 import io.github.jass2125.loca.games.core.business.Game;
+import io.github.jass2125.loca.games.core.factory.IDao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -18,7 +19,7 @@ import java.util.List;
  * @author Anderson Souza
  * @since 21:17:49, 23-Feb-2016
  */
-public class GameDao implements IGameDao {
+public class GameDao implements IDao {
 
     private String url;
 
@@ -26,7 +27,6 @@ public class GameDao implements IGameDao {
         this.url = "jdbc:mysql://localhost:3306/locagames";
     }
 
-    @Override
     public List<Game> listGames() throws SQLException, ClassNotFoundException {
         Class.forName("com.mysql.jdbc.Driver");
         Connection connection = DriverManager.getConnection(url, "root", "12345");
@@ -36,17 +36,16 @@ public class GameDao implements IGameDao {
         List<Game> listGamers = new ArrayList<>();
         Game game = null;
         while (resulSet.next()) {
-            int idGame = resulSet.getInt("idGame");
-            String nameGame = resulSet.getString("nameGame");
+            Long idGame = resulSet.getLong("idGame");
+            String name = resulSet.getString("nameGame");
             String gender = resulSet.getString("gender");
-            game = new Game(idGame, nameGame, gender);
+            game = new Game(idGame, name, gender);
             listGamers.add(game);
         }
         return listGamers;
     }
 
-    @Override
-    public Game findById(int idGame) throws SQLException, ClassNotFoundException {
+    public Game findById(Long idGame) throws SQLException, ClassNotFoundException {
         Class.forName("com.mysql.jdbc.Driver");
         Connection connection = DriverManager.getConnection(url, "root", "12345");
         String sql = "select * from game where idGame = ?;";

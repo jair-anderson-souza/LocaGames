@@ -6,6 +6,7 @@
 package io.github.jass2125.loca.games.core.dao;
 
 import io.github.jass2125.loca.games.core.business.User;
+import io.github.jass2125.loca.games.core.factory.IDao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -16,7 +17,7 @@ import java.util.Properties;
  * @author Anderson Souza
  * @since 14:23:27, 20-Feb-2016
  */
-public class UserDao implements IUserDao {
+public class UserDao implements IDao {
 
     private String url;
     private Properties propertie = new Properties();
@@ -44,7 +45,6 @@ public class UserDao implements IUserDao {
 //        return null;
 //    }
 
-    @Override
     public void persist(User user) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.jdbc.Driver");
         Connection connection = DriverManager.getConnection(url, "root", "12345");
