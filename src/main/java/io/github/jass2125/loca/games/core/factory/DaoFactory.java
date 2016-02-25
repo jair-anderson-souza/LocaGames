@@ -16,7 +16,7 @@ import io.github.jass2125.loca.games.core.dao.UserDao;
  */
 public class DaoFactory {
     
-    public static IDao createDao(int op){
+    public static IDao createDao(int op) {
         switch(op){
             case 1:
                 return new GameDao();

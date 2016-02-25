@@ -17,13 +17,15 @@
                 <c:choose>
                     <c:when test="${sessionScope.success != null}">
                         <div class="alert alert-danger">
-                            <strong>Sucesso</strong> A locação foi efetuado com sucesso
+                            <strong>Sucesso</strong> ${sessionScope.success}
                         </div>
+                        <c:remove scope="session" var="success"></c:remove>
                     </c:when>
                     <c:when test="${sessionScope.error != null}">
                         <div class="alert alert-danger">
-                            <strong>Falha</strong> Ocorreu um problema, tente novamente
+                            <strong>Falha</strong> ${sessionScope.error}
                         </div>
+                        <c:remove scope="session" var="error"></c:remove>
                     </c:when>
 
                 </c:choose>

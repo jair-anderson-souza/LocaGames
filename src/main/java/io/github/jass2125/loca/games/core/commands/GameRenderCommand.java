@@ -25,30 +25,28 @@ import javax.servlet.http.HttpServletResponse;
 public class GameRenderCommand implements Command {
 
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        
+
         try {
             Long idGame = Long.parseLong(request.getParameter("idGame"));
             GameDao daoGame = (GameDao) DaoFactory.createDao(DaoEnum.GAME.getOption());
             LocationDao daoLocation = (LocationDao) DaoFactory.createDao(DaoEnum.LOCATION.getOption());
             Game game = daoGame.findById(idGame);
-            User user = (User) request.getSession().getAttribute("user");
-            if (user == null) {
-                request.getSession().setAttribute("userNull", "");
-            }
-            else if (game.getSituation().equals(SituationEnum.AVAILABLE.getSituation())) {
+            
+            if (game.getSituation().equals(SituationEnum.AVAILABLE.getSituation())) {
                 game.setState(new GameRenderState());
                 Location location = new Location();
                 daoLocation.save(location);
+                request.getSession().setAttribute("success", "A locação foi efetuado com sucesso");
                 //pagina a qual sera endereçada
                 return "index.jsp";
             } else {
-                
+                request.getSession().setAttribute("error", "Occoreu um erro, tente novamente");
                 return "index.jsp";
             }
-            
+
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-            return null;
-        }
+        return null;
     }
+}

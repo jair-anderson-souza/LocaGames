@@ -39,7 +39,8 @@ public class GameDao implements IDao {
             Long idGame = resulSet.getLong("idGame");
             String name = resulSet.getString("nameGame");
             String gender = resulSet.getString("gender");
-            game = new Game(idGame, name, gender);
+            String state = resulSet.getString("state");
+            game = new Game(idGame, name, gender, state);
             listGamers.add(game);
         }
         return listGamers;
@@ -50,11 +51,13 @@ public class GameDao implements IDao {
         Connection connection = DriverManager.getConnection(url, "root", "12345");
         String sql = "select * from game where idGame = ?;";
         PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setLong(1, idGame);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
             String nameGame = rs.getString("nameGame");
             String gender = rs.getString("gender");
-            return new Game(idGame, nameGame, gender);
+            String state = rs.getString("state");
+            return new Game(idGame, nameGame, gender, state);
         }
         return null;
     }
