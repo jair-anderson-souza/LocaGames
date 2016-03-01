@@ -73,8 +73,9 @@ public class RegisterUserCommand implements Command {
 //insert into user values('Dijalma', 'dijalma@hotmail.com','9658');
 //insert into game values(1, 'Donkey Kong 3','Aventura', 'available');
 //insert into game values(2, 'Resident Evil','Suspense', 'available');
-//insert into location values(3, 'Beavis and Butthead','Aventura');
-//insert into location values(1, '98765445678', 1, '24/02/16', '25/02/16');
-//insert into location values(2, '765678987',2, '20/02/16', '21/02/16');
-//insert into location values(3, '9658',3, '19/02/16', '20/02/16');
-
+//insert into game values(3, 'Mario','Aventura', 'available');
+//insert into location values(1, '9658',1, '10/10/2016', '11/10/2016');
+//insert into location values(2, '98765445678', 2, '24/02/16', '25/02/16');
+//insert into location values(3, '765678987',3, '20/02/16', '21/02/16');
+//
+//

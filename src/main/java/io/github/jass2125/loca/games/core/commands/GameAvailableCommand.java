@@ -36,7 +36,7 @@ public class GameAvailableCommand implements Command {
             Location location = daoLocation.findByUserAndGame(idGame, new Date());
 
             User user = (User) request.getSession().getAttribute("user");
-            game.setState(new GameAvailableState());
+//            game.setState(new GameAvailableState());
 //            location.
             //pagina a qual sera endereçada
             return "home.jsp";

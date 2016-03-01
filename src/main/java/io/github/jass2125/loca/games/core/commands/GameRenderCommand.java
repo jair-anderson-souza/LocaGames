@@ -10,7 +10,6 @@ import io.github.jass2125.loca.games.core.business.Location;
 import io.github.jass2125.loca.games.core.dao.GameDao;
 import io.github.jass2125.loca.games.core.dao.LocationDao;
 import io.github.jass2125.loca.games.core.factory.DaoFactory;
-import io.github.jass2125.loca.games.core.services.GameRenderState;
 import io.github.jass2125.loca.games.core.util.DaoEnum;
 import io.github.jass2125.loca.games.core.util.SituationEnum;
 import java.sql.SQLException;
@@ -32,7 +31,7 @@ public class GameRenderCommand implements Command {
             Game game = daoGame.findById(idGame);
             
             if (game.getSituation().equals(SituationEnum.AVAILABLE.getSituation())) {
-                game.setState(new GameRenderState());
+//                game.setState(new GameRenderState());
                 Location location = new Location();
                 daoLocation.save(location);
                 request.getSession().setAttribute("success", "A locação foi efetuado com sucesso");

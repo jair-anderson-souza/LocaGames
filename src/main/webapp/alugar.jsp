@@ -36,7 +36,7 @@
         <%@include file="header.jsp" %>
         <div class="dj-modal__section">
             <c:if test="${sessionScope.user == null}">
-                <button data-toggle="modal" data-target="#modal" class="btn btn-info btn-sm">Novo Cliente</button>
+                <button data-toggle="modal" data-target="#modal" class="btn btn-info btn-sm">Identifique o cliente</button>
                 <div class="text-right">
                     
                 </div>
