@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Anderson Souza
  * @since 16:55:23, 24-Feb-2016
  */
-public class LoadGamesCommand implements Command {
+public class LoaderGamesCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {

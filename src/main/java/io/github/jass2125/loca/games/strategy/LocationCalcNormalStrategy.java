@@ -6,20 +6,25 @@
 package io.github.jass2125.loca.games.strategy;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 /**
  * @author Anderson Souza
  * @since 14:56:26, 24-Feb-2016
  */
-public class LocationCalcNormalStrategy extends LocationCalcStrategy {
+public class LocationCalcNormalStrategy implements LocationCalcStrategy {
     private static final int TAXA = 1;
+    private LocalDate currentDate;
+
+    public LocationCalcNormalStrategy() {
+        currentDate = LocalDate.now();
+    }
 
     @Override
     public BigDecimal calculatePriceGame() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return null;
     }
     
     
-    
-    
+
 }

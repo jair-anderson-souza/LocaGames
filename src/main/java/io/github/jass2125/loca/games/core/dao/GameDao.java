@@ -39,30 +39,30 @@ public class GameDao implements IDao {
             Long idGame = resulSet.getLong("idGame");
             String name = resulSet.getString("nameGame");
             String gender = resulSet.getString("gender");
-            String situation = resulSet.getString("situation");
+            String situation = resulSet.getString("state");
             game = new Game(idGame, name, gender, situation);
             listGamers.add(game);
         }
         return listGamers;
     }
-    
-    public List<Game> listGamesById(String idGame) throws SQLException, ClassNotFoundException{
+
+    public List<Game> listGamesById(String idGame) throws SQLException, ClassNotFoundException {
         Class.forName("com.mysql.jdbc.Driver");
         Connection connection = DriverManager.getConnection(url, "root", "12345");
         String sql = "select game.idGame, game.nameGame, game.gender from game inner join location on game.idGame = location.idGame and location.idGame = ?;";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         ResultSet resulSet = preparedStatement.executeQuery();
-        List<Game> listGamers = new ArrayList<>();
+        List<Game> listGames = new ArrayList<>();
         Game game = null;
         while (resulSet.next()) {
-            Long idGame = resulSet.getLong("idGame");
+            Long id = resulSet.getLong("idGame");
             String name = resulSet.getString("nameGame");
             String gender = resulSet.getString("gender");
-            String situation = resulSet.getString("situation");
-            game = new Game(idGame, name, gender, situation);
-            listGamers.add(game);
+            String situation = resulSet.getString("state");
+            game = new Game(id, name, gender, situation);
+            listGames.add(game);
         }
-        return listGamers;
+        return listGames;
     }
 
     public Game findById(Long idGame) throws SQLException, ClassNotFoundException {
@@ -72,31 +72,26 @@ public class GameDao implements IDao {
         PreparedStatement ps = connection.prepareStatement(sql);
         ps.setLong(1, idGame);
         ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
+        if (rs.next()) {
             String nameGame = rs.getString("nameGame");
             String gender = rs.getString("gender");
-            String situation = rs.getString("situation");
+            String situation = rs.getString("state");
             return new Game(idGame, nameGame, gender, situation);
         }
         return null;
     }
-
-    public List<Game> listByUser(String cpf) throws SQLException, ClassNotFoundException{
+    
+    public String findByStatus(Long idGame) throws SQLException, ClassNotFoundException {
         Class.forName("com.mysql.jdbc.Driver");
         Connection connection = DriverManager.getConnection(url, "root", "12345");
-        String sql = "select * from game where id;";
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        ResultSet resulSet = preparedStatement.executeQuery();
-        List<Game> listGamers = new ArrayList<>();
-        Game game = null;
-        while (resulSet.next()) {
-            Long idGame = resulSet.getLong("idGame");
-            String name = resulSet.getString("nameGame");
-            String gender = resulSet.getString("gender");
-            String situation = resulSet.getString("situation");
-            game = new Game(idGame, name, gender, situation);
-            listGamers.add(game);
+        String sql = "select status from game where idGame = ?;";
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setLong(1, idGame);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            String status = rs.getString("nameGame");
+            return status;
         }
-        return listGamers;
+        return null;
     }
 }

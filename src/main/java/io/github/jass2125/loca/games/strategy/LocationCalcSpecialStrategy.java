@@ -12,7 +12,8 @@ import java.util.Date;
  * @author Anderson Souza
  * @since 14:56:26, 24-Feb-2016
  */
-public class LocationCalcSpecialStrategy extends LocationCalcStrategy {
+public class LocationCalcSpecialStrategy implements LocationCalcStrategy {
+
     private static final int TAXA = 3;
     private Date dateCurrently;
 
@@ -24,6 +25,4 @@ public class LocationCalcSpecialStrategy extends LocationCalcStrategy {
     public BigDecimal calculatePriceGame() {
         return new BigDecimal(20);
     }
-    
-    
 }

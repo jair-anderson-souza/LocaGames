@@ -11,7 +11,7 @@ package io.github.jass2125.loca.games.core.util;
  * @since 23:07:00, 23-Feb-2016 
  */
 public enum StateGameEnum {
-    ALUGADO("Alugado"), DISPONIVEL("Disponível");
+    ALUGADO("RENDED"), DISPONIVEL("AVAILABLE");
     private String state;
 
     private StateGameEnum(String state) {

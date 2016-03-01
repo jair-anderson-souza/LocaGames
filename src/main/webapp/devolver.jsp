@@ -49,7 +49,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:forEach items="${games}" var="game">
+                                <c:forEach items="${sessionScope.listGames}" var="game">
                                     <tr>
                                         <td>${game.id}</td>
                                         <td>${game.nome}</td>

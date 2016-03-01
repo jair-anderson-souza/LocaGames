@@ -7,7 +7,6 @@ package io.github.jass2125.loca.games.core.commands;
 
 import io.github.jass2125.loca.games.core.business.Game;
 import io.github.jass2125.loca.games.core.dao.GameDao;
-import io.github.jass2125.loca.games.core.dao.LocationDao;
 import io.github.jass2125.loca.games.core.factory.DaoFactory;
 import io.github.jass2125.loca.games.core.util.DaoEnum;
 import java.sql.SQLException;
@@ -28,40 +27,15 @@ public class GameAvailableCommand implements Command {
             String cpf = request.getParameter("cpf");
             String email = request.getParameter("email");
             
-            LocationDao dao = (LocationDao) DaoFactory.createDao(DaoEnum.GAME.getOption());
-            List<Long> listGames = dao.listLocationsByUser(cpf);
+            GameDao dao = (GameDao) DaoFactory.createDao(DaoEnum.GAME.getOption());
+            List<Game> listGames = dao.listGamesById(cpf);
             
-            GameDao daoGame = (GameDao) DaoFactory.createDao(DaoEnum.GAME.getOption());
-            daoGame.listGamesById(email);
-            
-            
-            
-//            Long idGame = Long.parseLong(request.getParameter("idGame"));
-//            GameDao daoGame = (GameDao) DaoFactory.createDao(DaoEnum.GAME.getOption());
-//            LocationDao daoLocation = (LocationDao) DaoFactory.createDao(DaoEnum.LOCATION.getOption());
-//            Game game = daoGame.findById(idGame);
-//            User user = (User) request.getSession().getAttribute("user");
-//            String si = game.getSituation();
-//            if (game.getSituation().equals(SituationEnum.AVAILABLE.getSituation())) {
-////                game.setState(new GameRenderState());
-//                Location location = new Location();
-//                location.setIdGame(game.getId());
-//                location.setIdUser(user.getCpf());
-//                daoLocation.save(location);
-//                request.getSession().setAttribute("success", "A locação foi efetuado com sucesso");
-//                //pagina a qual sera endereçada
-//                return "index.jsp";
-//            } else {
-//                request.getSession().setAttribute("error", "Occoreu um erro, tente novamente");
-//                return "index.js";
-//            }
+            request.getSession().setAttribute("listGames", listGames);
+            return "devolver.jsp";
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
+            return "index.jsp";
         }
     }
-
-
-return null;
-    }
-
 }
+

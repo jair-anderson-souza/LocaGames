@@ -54,7 +54,7 @@ public class RegisterUserCommand implements Command {
 //    idGame bigint AUTO_INCREMENT,
 //    nameGame varchar(50) not null,
 //    gender varchar(30) not null,
-//    situation varchar(40) not null,   
+//    state varchar(40) not null,   
 //    primary key(idGame)
 //);
 //
@@ -62,8 +62,9 @@ public class RegisterUserCommand implements Command {
 //    idLocation bigint AUTO_INCREMENT,
 //    idUser varchar(50),
 //    idGame bigint,
-//    dateLocation varchar(15) not null, 
-//    dateDevolution varchar(15) not null,
+//    dateLocation date not null, 
+//    dateDevolution date not null,
+//    strategy varchar(30) not null,
 //    foreign key(idGame) references game(idGame) on update cascade on delete restrict,
 //    foreign key(idUser) references user(cpf) on update cascade on delete restrict,
 //    primary key(idLocation)
@@ -71,11 +72,11 @@ public class RegisterUserCommand implements Command {
 //insert into user values('Anderson Souza', 'jair_anderson_bs@hotmail.com','98765445678');
 //insert into user values('Diogo Moreira', 'diogomoreira@hotmail.com','765678987');
 //insert into user values('Dijalma', 'dijalma@hotmail.com','9658');
-//insert into game values(1, 'Donkey Kong 3','Aventura', 'available');
-//insert into game values(2, 'Resident Evil','Suspense', 'available');
+//insert into game values(1, 'Donkey Kong 3','Aventura', 'AVAILABLE');
+//insert into game values(2, 'Resident Evil','Suspense', 'AVAILABLE');
 //insert into game values(3, 'Mario','Aventura', 'available');
-//insert into location values(1, '9658',1, '10/10/2016', '11/10/2016');
-//insert into location values(2, '98765445678', 2, '24/02/16', '25/02/16');
-//insert into location values(3, '765678987',3, '20/02/16', '21/02/16');
+//insert into location values(1, '9658',1, '2016/10/10', '11/10/2016', 'COMUM');
+//insert into location values(2, '98765445678', 2, '24/02/16', '25/02/16', 'SPECIAL');
+//insert into location values(3, '765678987',3, '20/02/16', '21/02/16', 'COMUM');
 //
 //

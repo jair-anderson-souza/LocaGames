@@ -62,12 +62,12 @@
                     <tbody id="table">
                         <c:forEach items="${sessionScope.listGames}" var="game">
                             <tr>
-                                <td>${game.id}</td>
+                                <td>${game.idGame}</td>
                                 <td>${game.name}</td>
                                 <td>${game.gender}</td>
                                 <c:choose>
                                     <c:when test="${sessionScope.user != null}">
-                                        <td><a href="front?command=renderGame&idGame=${game.id}">Alugar</a></td>
+                                        <td><a href="front?command=renderGame&idGame=${game.idGame}">Alugar</a></td>
                                     </c:when>
                                     <c:otherwise>
                                         <td>Operaçao nao permitida</td>

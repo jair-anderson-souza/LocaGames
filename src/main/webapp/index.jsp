@@ -20,7 +20,7 @@
                         <div class="alert alert-danger">
                             <strong>Sucesso</strong> ${sessionScope.success}
                         </div>
-                        <c:remove scope="session" var="success"></c:remove>
+                        
                     </c:when>
                     <c:when test="${sessionScope.error != null}">
                         <div class="alert alert-danger">
@@ -49,7 +49,7 @@
                     </li>
                     <li>
                         <img src="icons/return.png" class="dj-image__funcionalidade">
-                        <a data-toggle="modal" data-target="#modal">Devolver</a>
+                        <a href="front?command=loaderLocations">Devolver</a>
                     </li>
                     <li>
                         <img src="icons/observer.png" class="dj-image__funcionalidade">
@@ -74,5 +74,6 @@
             </div>
 
         </div>
+        <c:remove scope="session" var="success"></c:remove>
     </body>
 </html>

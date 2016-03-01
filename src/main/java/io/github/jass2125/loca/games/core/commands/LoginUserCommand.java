@@ -28,9 +28,11 @@ public class LoginUserCommand implements Command {
             User user = dao.findByCPFAndEmail(cpf, email);
             
             if(user != null){
+                request.getSession().setAttribute("sucess", "Autenticação feita com sucesso");
                 request.getSession().setAttribute("user", user);
-                return "alugar.jsp";
+                return "index.jsp";
             }else{
+                request.getSession().setAttribute("error", "Erro na autenticação");
                 return "index.jsp";
             }
         } catch (SQLException | ClassNotFoundException e) {

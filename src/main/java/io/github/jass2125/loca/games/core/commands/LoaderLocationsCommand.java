@@ -18,18 +18,19 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Anderson Souza
  */
-public class LoadLocations implements Command {
+public class LoaderLocationsCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         try {
+            
             LocationDao dao = (LocationDao) DaoFactory.createDao(DaoEnum.LOCATION.getOption());
             List<Location> listLocations = dao.listLocations();
             request.getSession().setAttribute("listLocations", listLocations);
-            return "devolvr.jsp";
+            return "devolver.jsp";
         } catch (SQLException | ClassNotFoundException e){
             e.printStackTrace();
-            return "";
+            return "index.jsp";
         }
             
         }
