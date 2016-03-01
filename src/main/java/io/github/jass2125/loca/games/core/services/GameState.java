@@ -6,14 +6,16 @@
 
 package io.github.jass2125.loca.games.core.services;
 
+import io.github.jass2125.loca.games.core.business.Game;
+
 /**
  * @author Anderson Souza 
  * @since 08:29:40, 24-Feb-2016
  */
 public interface GameState {
     
-    public GameState renderGame();
-    public GameState availableGame();
+    public GameState renderGame(Game game);
+    public GameState availableGame(Game game);
     
 
 }

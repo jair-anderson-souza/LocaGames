@@ -39,8 +39,8 @@ public class GameDao implements IDao {
             Long idGame = resulSet.getLong("idGame");
             String name = resulSet.getString("nameGame");
             String gender = resulSet.getString("gender");
-//            String state = resulSet.getString("state");
-            game = new Game(idGame, name, gender);
+            String situation = resulSet.getString("situation");
+            game = new Game(idGame, name, gender, situation);
             listGamers.add(game);
         }
         return listGamers;
@@ -56,8 +56,8 @@ public class GameDao implements IDao {
         while (rs.next()) {
             String nameGame = rs.getString("nameGame");
             String gender = rs.getString("gender");
-//            String state = rs.getString("state");
-            return new Game(idGame, nameGame, gender);
+            String situation = rs.getString("situation");
+            return new Game(idGame, nameGame, gender, situation);
         }
         return null;
     }

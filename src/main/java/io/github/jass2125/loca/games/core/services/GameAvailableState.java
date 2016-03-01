@@ -5,6 +5,9 @@
  */
 package io.github.jass2125.loca.games.core.services;
 
+import io.github.jass2125.loca.games.core.business.Game;
+import io.github.jass2125.loca.games.core.util.SituationEnum;
+
 /**
  * @author Anderson Souza
  * @since 08:30:18, 24-Feb-2016
@@ -12,12 +15,16 @@ package io.github.jass2125.loca.games.core.services;
 public class GameAvailableState implements GameState {
 
     @Override
-    public GameState renderGame() {
+    public GameState renderGame(Game game) {
+        
         return null;
     }
 
     @Override
-    public GameState availableGame() {
+    public GameState availableGame(Game game) {
+        if(game.getSituation().equals(SituationEnum.AVAILABLE)){
+            return new GameRenderState();
+        }
         return null;
     }
 

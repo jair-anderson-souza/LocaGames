@@ -5,7 +5,6 @@
  */
 package io.github.jass2125.loca.games.core.business;
 
-import io.github.jass2125.loca.games.core.util.SituationEnum;
 import java.io.Serializable;
 
 /**
@@ -25,14 +24,22 @@ public class Game implements Serializable {
     public Game(String name, String gender, String situation) {
         this.name = name;
         this.gender = gender;
-        this.situation = SituationEnum.AVAILABLE.getSituation();
-
+        this.situation = situation;
     }
 
-    public Game(Long idGame, String nameGame, String gender) {
+    public Game(Long idGame, String nameGame, String gender, String situation) {
         this.idGame = idGame;
         this.name = nameGame;
         this.gender = gender;
+        this.situation = situation;
+    }
+
+    public Long getIdGame() {
+        return idGame;
+    }
+
+    public void setIdGame(Long idGame) {
+        this.idGame = idGame;
     }
 
     public Long getId() {
@@ -63,11 +70,4 @@ public class Game implements Serializable {
         this.situation = situation;
     }
 
-//    public GameState getState() {
-//        return state;
-//    }
-//
-//    public void setState(GameState state) {
-//        this.state = state;
-//    }
 }

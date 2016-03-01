@@ -54,7 +54,7 @@ public class RegisterUserCommand implements Command {
 //    idGame bigint AUTO_INCREMENT,
 //    nameGame varchar(50) not null,
 //    gender varchar(30) not null,
-//    situation varchar(40) not null,
+//    situation varchar(40) not null,   
 //    primary key(idGame)
 //);
 //

@@ -11,7 +11,6 @@ import io.github.jass2125.loca.games.core.business.User;
 import io.github.jass2125.loca.games.core.dao.GameDao;
 import io.github.jass2125.loca.games.core.dao.LocationDao;
 import io.github.jass2125.loca.games.core.factory.DaoFactory;
-import io.github.jass2125.loca.games.core.services.GameAvailableState;
 import io.github.jass2125.loca.games.core.util.DaoEnum;
 import java.sql.SQLException;
 import java.util.Date;

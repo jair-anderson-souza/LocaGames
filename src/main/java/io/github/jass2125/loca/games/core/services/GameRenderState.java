@@ -6,6 +6,8 @@
 
 package io.github.jass2125.loca.games.core.services;
 
+import io.github.jass2125.loca.games.core.business.Game;
+
 /**
  * @author Anderson Souza 
  * @since 08:30:04, 24-Feb-2016
@@ -13,12 +15,12 @@ package io.github.jass2125.loca.games.core.services;
 public class GameRenderState implements GameState {
 
     @Override
-    public GameState renderGame() {
+    public GameState renderGame(Game game) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public GameState availableGame() {
+    public GameState availableGame(Game game) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

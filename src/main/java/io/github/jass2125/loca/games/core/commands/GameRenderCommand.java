@@ -7,6 +7,7 @@ package io.github.jass2125.loca.games.core.commands;
 
 import io.github.jass2125.loca.games.core.business.Game;
 import io.github.jass2125.loca.games.core.business.Location;
+import io.github.jass2125.loca.games.core.business.User;
 import io.github.jass2125.loca.games.core.dao.GameDao;
 import io.github.jass2125.loca.games.core.dao.LocationDao;
 import io.github.jass2125.loca.games.core.factory.DaoFactory;
@@ -29,10 +30,13 @@ public class GameRenderCommand implements Command {
             GameDao daoGame = (GameDao) DaoFactory.createDao(DaoEnum.GAME.getOption());
             LocationDao daoLocation = (LocationDao) DaoFactory.createDao(DaoEnum.LOCATION.getOption());
             Game game = daoGame.findById(idGame);
-            
+            User user = (User) request.getSession().getAttribute("user");
+            String si = game.getSituation();
             if (game.getSituation().equals(SituationEnum.AVAILABLE.getSituation())) {
 //                game.setState(new GameRenderState());
                 Location location = new Location();
+                location.setIdGame(game.getId());
+                location.setIdUser(user.getCpf());
                 daoLocation.save(location);
                 request.getSession().setAttribute("success", "A locação foi efetuado com sucesso");
                 //pagina a qual sera endereçada

@@ -6,40 +6,60 @@
 package io.github.jass2125.loca.games.core.business;
 
 import io.github.jass2125.loca.games.strategy.LocationCalcStrategy;
-import java.util.Date;
+import java.time.LocalDate;
+
+
 
 /**
  * @author Anderson Souza
  * @since 13:51:29, 24-Feb-2016
  */
 public class Location {
-
     private Long idLocation;
-    private Date dateLocation;
-    private Date dateDevolution;
+    private String idUser;
+    private Long idGame;
+    private LocalDate dateLocation;
+    private LocalDate dateDevolution;
     private LocationCalcStrategy strategyCalc;
 
     public Location() {
-        this.dateLocation = new Date();
+        this.dateLocation = LocalDate.now();
+        this.dateDevolution = dateLocation.plusDays(1);
     }
 
     public Long getIdLocation() {
         return idLocation;
     }
 
-    public Date getDateLocation() {
+    public String getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(String idUser) {
+        this.idUser = idUser;
+    }
+
+    public Long getIdGame() {
+        return idGame;
+    }
+
+    public void setIdGame(Long idGame) {
+        this.idGame = idGame;
+    }
+
+    public LocalDate getDateLocation() {
         return dateLocation;
     }
 
-    public void setDateLocation(Date dateLocation) {
+    public void setDateLocation(LocalDate dateLocation) {
         this.dateLocation = dateLocation;
     }
 
-    public Date getDateDevolution() {
+    public LocalDate getDateDevolution() {
         return dateDevolution;
     }
 
-    public void setDateDevolution(Date dateDevolution) {
+    public void setDateDevolution(LocalDate dateDevolution) {
         this.dateDevolution = dateDevolution;
     }
 
