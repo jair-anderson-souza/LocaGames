@@ -25,9 +25,14 @@ public class Location {
     }
 
     public Location(String idUser, Long idGame, String strategy) {
-        this.idLocation = idLocation;
         this.idUser = idUser;
         this.idGame = idGame;
+        this.strategy = strategy;
+    }
+
+    public Location(Long idLocation, String idUser, Long idGame, LocalDate dateLocation, LocalDate dateDevolution, String strategy) {
+        this.idLocation = idLocation;
+        this.idUser = idUser;
         this.dateLocation = dateLocation;
         this.dateDevolution = dateDevolution;
         this.strategy = strategy;
