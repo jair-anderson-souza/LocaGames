@@ -42,31 +42,41 @@ public class LocationDao implements IDao {
         preparedStatement.execute();
     }
 
-    public List<Location> listLocations() throws SQLException, ClassNotFoundException {
-        Class.forName("com.mysql.jdbc.Driver");
-        Connection connection = DriverManager.getConnection(url, "root", "12345");
-        String sql = "select * from location;";
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        ResultSet resulSet = preparedStatement.executeQuery();
-        List<Location> listGames = new ArrayList<>();
-        Location location = null;
-        //Criar implementação
-        while (resulSet.next()) {
-//            Long idGame = resulSet.getLong("idGame");
-//            String name = resulSet.getString("nameGame");
-//            String gender = resulSet.getString("gender");
-//            String state = resulSet.getString("state");
-//            location = new Game(idGame, name, gender, state);
-        }
-        return listGames;
-    }
+//    public List<Location> listLocations() throws SQLException, ClassNotFoundException {
+//        Class.forName("com.mysql.jdbc.Driver");
+//        Connection connection = DriverManager.getConnection(url, "root", "12345");
+//        String sql = "select * from location;";
+//        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+//        ResultSet resulSet = preparedStatement.executeQuery();
+//        List<Location> listGames = new ArrayList<>();
+//        Location location = null;
+//        //Criar implementação
+//        while (resulSet.next()) {
+////            Long idGame = resulSet.getLong("idGame");
+////            String name = resulSet.getString("nameGame");
+////            String gender = resulSet.getString("gender");
+////            String state = resulSet.getString("state");
+////            location = new Game(idGame, name, gender, state);
+//        }
+//        return listGames;
+//    }
 
-    public void delete(Game game) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    
 
-    public Location findByUserAndGame(Long idGame, Date date) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+//    public List<Long> listLocationsByUser(String cpf) throws SQLException, ClassNotFoundException{
+//        Class.forName("com.mysql.jdbc.Driver");
+//        Connection connection = DriverManager.getConnection(url, "root", "12345");
+//        String sql = "select idGame from location where idUser = ?;";
+//        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+//        preparedStatement.setString(1, cpf);
+//        ResultSet resultSet = preparedStatement.executeQuery();
+//        List<Long> listGames = new ArrayList<>();
+//        
+//        while (resultSet.next()) {
+//            Long idGame = resultSet.getLong("idGame");
+//            listGames.add(idGame);
+//        }
+//        return listGames;
+//    }
 
 }

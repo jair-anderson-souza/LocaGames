@@ -45,6 +45,25 @@ public class GameDao implements IDao {
         }
         return listGamers;
     }
+    
+    public List<Game> listGamesById(String idGame) throws SQLException, ClassNotFoundException{
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection connection = DriverManager.getConnection(url, "root", "12345");
+        String sql = "select game.idGame, game.nameGame, game.gender from game inner join location on game.idGame = location.idGame and location.idGame = ?;";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        ResultSet resulSet = preparedStatement.executeQuery();
+        List<Game> listGamers = new ArrayList<>();
+        Game game = null;
+        while (resulSet.next()) {
+            Long idGame = resulSet.getLong("idGame");
+            String name = resulSet.getString("nameGame");
+            String gender = resulSet.getString("gender");
+            String situation = resulSet.getString("situation");
+            game = new Game(idGame, name, gender, situation);
+            listGamers.add(game);
+        }
+        return listGamers;
+    }
 
     public Game findById(Long idGame) throws SQLException, ClassNotFoundException {
         Class.forName("com.mysql.jdbc.Driver");
@@ -60,5 +79,24 @@ public class GameDao implements IDao {
             return new Game(idGame, nameGame, gender, situation);
         }
         return null;
+    }
+
+    public List<Game> listByUser(String cpf) throws SQLException, ClassNotFoundException{
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection connection = DriverManager.getConnection(url, "root", "12345");
+        String sql = "select * from game where id;";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        ResultSet resulSet = preparedStatement.executeQuery();
+        List<Game> listGamers = new ArrayList<>();
+        Game game = null;
+        while (resulSet.next()) {
+            Long idGame = resulSet.getLong("idGame");
+            String name = resulSet.getString("nameGame");
+            String gender = resulSet.getString("gender");
+            String situation = resulSet.getString("situation");
+            game = new Game(idGame, name, gender, situation);
+            listGamers.add(game);
+        }
+        return listGamers;
     }
 }

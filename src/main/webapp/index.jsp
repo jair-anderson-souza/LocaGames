@@ -9,6 +9,7 @@
 <!DOCTYPE html>
 <html>
     <%@include file="head.jsp" %>
+    <%@include file="modalCliente.jsp" %>
     <body>
         <%@include file="header.jsp" %>
 
@@ -48,7 +49,7 @@
                     </li>
                     <li>
                         <img src="icons/return.png" class="dj-image__funcionalidade">
-                        <a href="devolver.jsp">Devolver</a>
+                        <a data-toggle="modal" data-target="#modal">Devolver</a>
                     </li>
                     <li>
                         <img src="icons/observer.png" class="dj-image__funcionalidade">
