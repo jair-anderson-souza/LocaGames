@@ -5,5 +5,5 @@
 --%>
 
 <header class="dj-header">
-    <h1>Pattern Games</h1>
+    <h1>SisGames</h1>
 </header>

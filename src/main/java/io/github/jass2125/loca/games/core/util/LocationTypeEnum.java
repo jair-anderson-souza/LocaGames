@@ -5,22 +5,31 @@
  */
 package io.github.jass2125.loca.games.core.util;
 
+import io.github.jass2125.loca.games.strategy.LocationCalcStrategy;
+import java.math.BigDecimal;
+
 /**
  *
  * @author Anderson Souza
  */
-public enum LocationTypeEnum {
+public enum LocationTypeEnum implements LocationCalcStrategy {
 
-    COMUM("COMUM"),SPECIAL("SPECIAL");
+    COMUM{
+        @Override
+        public BigDecimal calculatePriceGame() {
+            return null;
+        }
+        
+    },
+    SPECIAL{
+
+        @Override
+        public BigDecimal calculatePriceGame() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+        
+    }
     
-    private String type;
-    private LocationTypeEnum(String type){
-        this.type = type;
-    }
-
-    public String getType() {
-        return type;
-    }
     
     
      

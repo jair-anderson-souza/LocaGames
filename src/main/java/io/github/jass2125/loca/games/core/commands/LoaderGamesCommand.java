@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package io.github.jass2125.loca.games.core.commands;
 
 import io.github.jass2125.loca.games.core.business.Game;
@@ -12,6 +11,8 @@ import io.github.jass2125.loca.games.core.factory.DaoFactory;
 import io.github.jass2125.loca.games.core.util.DaoEnum;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -23,17 +24,15 @@ public class LoaderGamesCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        try{
+        try {
             GameDao dao = (GameDao) DaoFactory.createDao(DaoEnum.GAME.getOption());
             List<Game> listGames = dao.listGames();
             request.getSession().setAttribute("listGames", listGames);
             return "alugar.jsp";
-        }catch(SQLException | ClassNotFoundException e){
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
         return null;
     }
-    
-    
 
 }

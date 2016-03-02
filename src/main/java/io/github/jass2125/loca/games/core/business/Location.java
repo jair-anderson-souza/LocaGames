@@ -22,28 +22,15 @@ public class Location {
 
     public Location() {
         this.dateLocation = LocalDate.now();
+        this.dateDevolution = this.dateLocation.plusDays(1);
     }
 
-    public Location(String idUser, Long idGame, String strategy) {
-        this.idUser = idUser;
+    public void setIdGame(Long idGame) {
         this.idGame = idGame;
-        this.strategy = strategy;
-    }
-
-    public Location(Long idLocation, String idUser, Long idGame, LocalDate dateLocation, LocalDate dateDevolution, String strategy) {
-        this.idLocation = idLocation;
-        this.idUser = idUser;
-        this.dateLocation = dateLocation;
-        this.dateDevolution = dateDevolution;
-        this.strategy = strategy;
     }
 
     public Long getIdLocation() {
         return idLocation;
-    }
-
-    public void setIdLocation(Long idLocation) {
-        this.idLocation = idLocation;
     }
 
     public String getIdUser() {
@@ -56,10 +43,6 @@ public class Location {
 
     public Long getIdGame() {
         return idGame;
-    }
-
-    public void setIdGame(Long idGame) {
-        this.idGame = idGame;
     }
 
     public LocalDate getDateLocation() {
@@ -78,12 +61,12 @@ public class Location {
         this.dateDevolution = dateDevolution;
     }
 
-    public String getStrategy() {
-        return strategy;
-    }
-
     public void setStrategy(String strategy) {
         this.strategy = strategy;
+    }
+
+    public String getStrategy() {
+        return strategy;
     }
 
 }

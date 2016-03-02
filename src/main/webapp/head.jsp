@@ -13,5 +13,5 @@
     <script src="javascript/bootstrap.min.js" type="text/javascript"></script>
     <script src="javascript/js.js" type="text/javascript"></script>
 
-    <title>Pattern Games</title>
+    <title>SisGames</title>
 </head>

@@ -1,79 +1,49 @@
 <%-- 
     Document   : index
-    Created on : 23/02/2016, 19:47:54
-    Author     : Dijalma Silva <dijalmacz@gmail.com>
+    Created on : Mar 2, 2016, 5:45:33 PM
+    Author     : jairanderson
 --%>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
-    <%@include file="head.jsp" %>
-    <%@include file="modalCliente.jsp" %>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+        <%@include file="head.jsp" %>
+    </head>
     <body>
+        
         <%@include file="header.jsp" %>
-
-        <div class="dj-modal__section">
-            <div class="dj-titulo__left">
-                <c:choose>
-                    <c:when test="${sessionScope.success != null}">
-                        <div class="alert alert-danger">
-                            <strong>Sucesso</strong> ${sessionScope.success}
-                        </div>
-                        
-                    </c:when>
-                    <c:when test="${sessionScope.error != null}">
-                        <div class="alert alert-danger">
-                            <strong>Falha</strong> ${sessionScope.error}
-                        </div>
-                        <c:remove scope="session" var="error"></c:remove>
-                    </c:when>
-
-                </c:choose>
-
-            </div>
-            <br>
-
-            <div class="dj-titulo__left">
-                <h2>Funcionalidades do sistema</h2>
-            </div>
-            <div>
-                <div class="modal-header">
-                    <h3>Jogos</h3>
-                </div>
-                <br>
-                <ul>
-                    <li>
-                        <img src="icons/rent.png" class="dj-image__funcionalidade">
-                        <a href="front?command=loadGames">Alugar</a>
-                    </li>
-                    <li>
-                        <img src="icons/return.png" class="dj-image__funcionalidade">
-                        <a href="front?command=loaderLocations">Devolver</a>
-                    </li>
-                    <li>
-                        <img src="icons/observer.png" class="dj-image__funcionalidade">
-                        <a href="observar.jsp">Observar</a>
-                    </li>
-                    <li>
-                        <img src="  icons/newGame.png" class="dj-image__funcionalidade">
-                        <a href="novoJogo.jsp">Novo jogo</a>
-                    </li>
-                </ul>
-            </div>
-            <br><br>
-            <div>
-                <h3>Clientes</h3>
-                <br>
-                <ul>
-                    <li>
-                        <img src="icons/rent.png" class="dj-image__funcionalidade">
-                        <a href="novoCliente.jsp">Novo Cliente</a>
-                    </li>
-                </ul>
-            </div>
-
-        </div>
-        <c:remove scope="session" var="success"></c:remove>
+        
+        <!--<button data-toggle="modal" data-target="#modal" class="btn btn-info btn-sm">Identifique o cliente</button>-->
+        
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <c:if test="${sessionScope.error != null}">
+            <h2>${sessionScope.error}</h2>
+        </c:if>
+            <form action="front?command=loginUser" method="post" class="form-group">
+                    <div class="form-group dj-form__input">
+                        <label for="cpf">CPF:</label>
+                        <input class="dj-button form-control" id="cpf" name="cpf">
+                    </div>
+                    <br>
+                    <div class="form-group dj-form__input">
+                        <label for="email">Email:</label>
+                        <input class="dj-button form-control" id="email" name="email">
+                    </div>
+                    <br><br>
+                    <div class="text-center dj-button__submit">
+                        <input type="submit" class="btn btn-primary btn-lg" value="Login">
+                    </div>
+                </form>
+        
+        
     </body>
 </html>

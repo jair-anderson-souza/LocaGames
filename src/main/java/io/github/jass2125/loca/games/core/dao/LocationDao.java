@@ -5,8 +5,11 @@
  */
 package io.github.jass2125.loca.games.core.dao;
 
+import io.github.jass2125.loca.games.core.business.Game;
 import io.github.jass2125.loca.games.core.business.Location;
 import io.github.jass2125.loca.games.core.factory.IDao;
+import io.github.jass2125.loca.games.core.util.LocationTypeEnum;
+import io.github.jass2125.loca.games.strategy.LocationCalcStrategy;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -16,6 +19,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * @author Anderson Souza
@@ -32,20 +36,20 @@ public class LocationDao implements IDao {
     public void save(Location location) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.jdbc.Driver");
         Connection connection = DriverManager.getConnection(url, "root", "12345");
-        String sql = "insert into location(idUser, idGame, dateLocation, dateDevolution, strategy) values(?, ? ,? ,?);";
+        String sql = "insert into location(idUser, idGame, dateLocation, strategy) values(? ,? ,?, ?);";
+        LocationCalcStrategy locationCalc = LocationTypeEnum.values()[0];
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, location.getIdUser());
         preparedStatement.setLong(2, location.getIdGame());
         preparedStatement.setString(3, location.getDateLocation().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-        preparedStatement.setString(4, location.getDateDevolution().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-        preparedStatement.setString(5, location.getStrategy());
+        preparedStatement.setString(4, location.getStrategy());
         preparedStatement.execute();
     }
 
     public List<Location> listLocations() throws SQLException, ClassNotFoundException {
         Class.forName("com.mysql.jdbc.Driver");
         Connection connection = DriverManager.getConnection(url, "root", "12345");
-        String sql = "select * from location;";
+        String sql = "select * from location where location.idGame in();;";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         ResultSet resulSet = preparedStatement.executeQuery();
         List<Location> listGames = new ArrayList<>();
@@ -56,8 +60,8 @@ public class LocationDao implements IDao {
             Long idGame = resulSet.getLong("idGame");
             LocalDate dateLocation = resulSet.getDate("dateLocation").toLocalDate();
             LocalDate dateDevolution = resulSet.getDate("dateDevolution").toLocalDate();
-            String strategy = resulSet.getString("strategy");
-            location = new Location(idLocation, idUser, idGame, dateLocation, dateDevolution, strategy);
+            Object strategy = resulSet.getObject("strategy");
+//            location = new Location(idLocation, idUser, idGame, dateLocation, dateDevolution, (LocationCalcStrategy) strategy);
             listGames.add(location);
         }
         return listGames;
@@ -78,4 +82,6 @@ public class LocationDao implements IDao {
 //        }
 //        return listGames;
 //    }
+    
+     
 }

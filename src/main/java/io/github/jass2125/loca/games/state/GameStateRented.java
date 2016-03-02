@@ -5,22 +5,24 @@
  */
 package io.github.jass2125.loca.games.state;
 
-import io.github.jass2125.loca.games.core.business.Game;
+import io.github.jass2125.loca.games.core.dao.GameDao;
 import java.sql.SQLException;
 
 /**
  * @author Anderson Souza
- * @since 08:30:04, 24-Feb-2016
+ * @since 12:25:19, 24-Feb-2016
  */
-public class GameRenderState implements GameState {
+public class GameStateRented implements GameState {
+    private GameDao dao;
 
     @Override
-    public boolean renderGame(Game game, String cpf, String strategy) throws SQLException, ClassNotFoundException{
-        return false;
+    public GameState rentGame(String cpf, Long Idgame) throws SQLException, ClassNotFoundException {
+//        dao.edit(this);return
+        return new GameStateRented();
     }
 
     @Override
-    public boolean availableGame(Game game, String cpf, String strategy) throws SQLException, ClassNotFoundException{
+    public GameState availableGame(String cpf, Long Idgame) throws SQLException, ClassNotFoundException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

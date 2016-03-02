@@ -62,8 +62,8 @@ public class RegisterUserCommand implements Command {
 //    idLocation bigint AUTO_INCREMENT,
 //    idUser varchar(50),
 //    idGame bigint,
-//    dateLocation date not null, 
-//    dateDevolution date not null,
+//    dateLocation varchar(20) not null, 
+//    dateDevolution varchar(20),
 //    strategy varchar(30) not null,
 //    foreign key(idGame) references game(idGame) on update cascade on delete restrict,
 //    foreign key(idUser) references user(cpf) on update cascade on delete restrict,
@@ -75,8 +75,8 @@ public class RegisterUserCommand implements Command {
 //insert into game values(1, 'Donkey Kong 3','Aventura', 'AVAILABLE');
 //insert into game values(2, 'Resident Evil','Suspense', 'AVAILABLE');
 //insert into game values(3, 'Mario','Aventura', 'available');
-//insert into location values(1, '9658',1, '2016/10/10', '11/10/2016', 'COMUM');
-//insert into location values(2, '98765445678', 2, '24/02/16', '25/02/16', 'SPECIAL');
-//insert into location values(3, '765678987',3, '20/02/16', '21/02/16', 'COMUM');
-//
-//
+//insert into location(idLocation, idUser, idGame, dateLocation, strategy) values(1, '9658',1, '2016/10/10', 'COMUM');
+//insert into location(idLocation, idUser, idGame, dateLocation, strategy) values(2, '98765445678', 2, '24/02/16', 'SPECIAL');
+//insert into location(idLocation, idUser, idGame, dateLocation, strategy) values(3, '765678987',3, '20/02/16', 'COMUM');
+
+

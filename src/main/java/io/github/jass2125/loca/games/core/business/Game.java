@@ -7,6 +7,7 @@ package io.github.jass2125.loca.games.core.business;
 
 import io.github.jass2125.loca.games.state.GameState;
 import java.io.Serializable;
+import java.sql.SQLException;
 
 /**
  * @author Anderson Souza
@@ -17,31 +18,21 @@ public class Game implements Serializable {
     private Long idGame;
     private String name;
     private String gender;
-    private String status;
-    private transient GameState state;
+    private String state;
 
     public Game() {
+//        state = GameStateEnum.getAVAILABLE();
     }
 
-    public Game(String name, String gender, String status) {
+    public Game(Long idGame, String name, String gender, String state) {
+        this.idGame = idGame;
         this.name = name;
         this.gender = gender;
-        this.status = status;
-    }    
-
-    public Game(Long idGame, String nameGame, String gender, String status) {
-        this.idGame = idGame;
-        this.name = nameGame;
-        this.gender = gender;
-        this.status = status;
+        this.state = state;
     }
 
     public Long getIdGame() {
         return idGame;
-    }
-
-    public void setIdGame(Long idGame) {
-        this.idGame = idGame;
     }
 
     public String getName() {
@@ -60,19 +51,11 @@ public class Game implements Serializable {
         this.gender = gender;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public GameState getState() {
+    public String getState() {
         return state;
     }
 
-    public void setState(GameState state) {
+    public void setState(String state) {
         this.state = state;
     }
 
