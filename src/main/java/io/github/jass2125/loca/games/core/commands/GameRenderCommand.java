@@ -38,24 +38,25 @@ public class GameRenderCommand implements Command {
             String cpf = ((User) request.getSession().getAttribute("user")).getCpf();
             Game game = dao.findById(idGame);
             String state = game.getState();
+            
             Location location = new Location();
             location.setIdGame(idGame);
-//            location.setDateDevolution(LocalDate.MIN);
+            location.setDateDevolution(getDevolutionDay());
             location.setIdUser(cpf);
             location.setStrategy(verifyTypeOfLocation());
             
             
             if (state.equals("RENT")) {
                 request.getSession().setAttribute("error", "Jogo ja esta alugado");
-                game.setState("AVAILABLE");
-                dao.editState(idGame, "AVAILABLE");
-                return "index.jsp";
+//                game.setState("AVAILABLE");
+//                dao.editState(idGame, "AVAILABLE");
+                return "home.jsp";
             } else {
                 daoLocation.save(location);
                 request.getSession().setAttribute("success", "Jogo alugado com sucesso");
                 game.setState("RENT");
                 dao.editState(idGame, "RENT");
-                return "index.jsp";
+                return "home.jsp";
             }
 
 //            
@@ -73,6 +74,15 @@ public class GameRenderCommand implements Command {
             return "SPECIAL";
         }
         return "COMUM";
+    }
+    
+    public LocalDate getDevolutionDay(){
+        String verif = this.verifyTypeOfLocation();
+        if(verif.equals("SPECIAL")){
+            return LocalDate.now().plusDays(2);
+        }
+        return LocalDate.now().plusDays(1);
+        
     }
     
 

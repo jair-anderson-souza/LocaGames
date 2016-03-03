@@ -22,7 +22,23 @@ public class Location {
 
     public Location() {
         this.dateLocation = LocalDate.now();
-        this.dateDevolution = this.dateLocation.plusDays(1);
+//        this.dateDevolution = this.dateLocation.plusDays(1);
+    }
+    
+    public Location(Long idLocation, String idUser, Long idGame, LocalDate dateLocation, LocalDate dateDevolution, String strategy){
+        this.idLocation = idLocation;
+        this.idUser = idUser;
+        this.idGame = idGame;
+        this.dateLocation = dateLocation;
+        this.dateDevolution = dateDevolution;
+        this.strategy = strategy;
+    }
+    public Location(Long idLocation, String idUser, Long idGame, LocalDate dateLocation, String strategy) {
+        this.idLocation = idLocation;
+        this.idUser = idUser;
+        this.idGame = idGame;
+        this.dateLocation = dateLocation;
+        this.strategy = strategy;
     }
 
     public void setIdGame(Long idGame) {

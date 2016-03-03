@@ -5,7 +5,6 @@
  */
 package io.github.jass2125.loca.games.core.dao;
 
-import io.github.jass2125.loca.games.core.business.Game;
 import io.github.jass2125.loca.games.core.business.Location;
 import io.github.jass2125.loca.games.core.factory.IDao;
 import io.github.jass2125.loca.games.core.util.LocationTypeEnum;
@@ -16,8 +15,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -36,20 +36,20 @@ public class LocationDao implements IDao {
     public void save(Location location) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.jdbc.Driver");
         Connection connection = DriverManager.getConnection(url, "root", "12345");
-        String sql = "insert into location(idUser, idGame, dateLocation, strategy) values(? ,? ,?, ?);";
-        LocationCalcStrategy locationCalc = LocationTypeEnum.values()[0];
+        String sql = "insert into location(idUser, idGame, dateLocation, dateDevolution, strategy) values(?, ?, ? ,?, ?);";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, location.getIdUser());
         preparedStatement.setLong(2, location.getIdGame());
-        preparedStatement.setString(3, location.getDateLocation().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-        preparedStatement.setString(4, location.getStrategy());
+        preparedStatement.setString(3, location.getDateLocation().toString());
+        preparedStatement.setString(4, location.getDateDevolution().toString());
+        preparedStatement.setString(5, location.getStrategy());
         preparedStatement.execute();
     }
 
     public List<Location> listLocations() throws SQLException, ClassNotFoundException {
         Class.forName("com.mysql.jdbc.Driver");
         Connection connection = DriverManager.getConnection(url, "root", "12345");
-        String sql = "select * from location where location.idGame in();;";
+        String sql = "select * from location where location.idGame in();";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         ResultSet resulSet = preparedStatement.executeQuery();
         List<Location> listGames = new ArrayList<>();
@@ -66,6 +66,8 @@ public class LocationDao implements IDao {
         }
         return listGames;
     }
+    
+    
 
 //    public List<Long> listLocationsByUser(String cpf) throws SQLException, ClassNotFoundException{
 //        Class.forName("com.mysql.jdbc.Driver");
@@ -82,6 +84,46 @@ public class LocationDao implements IDao {
 //        }
 //        return listGames;
 //    }
+
+    public Location findById(Long idGame) throws SQLException, ClassNotFoundException {
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection connection = DriverManager.getConnection(url, "root", "12345");
+        String sql = "select * from location location where dateDevolution is Null and idGame = ?;";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setLong(1, idGame);
+        ResultSet rs = preparedStatement.executeQuery();
+        if(rs.next()){
+            Long idLocation = rs.getLong("idLocation");
+            String idUser = rs.getString("idUser");
+            Long idGame2 = rs.getLong("idGame");
+            LocalDate dateLocation = rs.getDate("dateLocation").toLocalDate();
+            String strategy = rs.getString("strategy");
+            return new Location(idLocation, idUser, idGame, dateLocation, strategy);
+        }
+        return null;
+    }
+
+    public Location findLocation(String cpf, Long idGame) throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection connection = DriverManager.getConnection(url, "root", "12345");
+        String sql = "select * from location where idUser = ? and idGame = ?;";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, cpf);
+        preparedStatement.setLong(2, idGame);
+        ResultSet rs=  preparedStatement.executeQuery();
+        
+        if(rs.next()){
+            Long idLocation = rs.getLong("idLocation");
+            String idUser = rs.getString("idUser");
+//            String idGame = rs.getString("idGame");
+            LocalDate dateLocation = rs.getDate("dateLocation").toLocalDate();
+            LocalDate dateDevolution = rs.getDate("dateDevolution").toLocalDate();
+            String strategy = rs.getString("strategy");
+            return new Location(idLocation, idUser, idGame, dateLocation, dateDevolution, strategy);
+        }
+        return null;
+        
+    }
     
      
 }

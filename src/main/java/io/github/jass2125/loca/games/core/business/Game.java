@@ -5,9 +5,7 @@
  */
 package io.github.jass2125.loca.games.core.business;
 
-import io.github.jass2125.loca.games.state.GameState;
 import java.io.Serializable;
-import java.sql.SQLException;
 
 /**
  * @author Anderson Souza
