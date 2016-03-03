@@ -18,7 +18,6 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -43,7 +42,7 @@ public class GameDevolutionCommand implements Command {
                 Location location = daoLocation.findLocation(user.getCpf(), idGame);
 //             //Strategy de calculo de aluguel 
                 BigDecimal price = this.calculatePrice(location);
-                JOptionPane.showMessageDialog(null, price);
+                request.getSession().setAttribute("price", price);
                 return "home.jsp";
 
             } else {
@@ -74,7 +73,7 @@ public class GameDevolutionCommand implements Command {
             }
             return new BigDecimal(3);
         } else {
-            long daysLate = ChronoUnit.DAYS.between(location.getDateLocation().plusDays(1), location.getDateLocation());
+            long daysLate = ChronoUnit.DAYS.between(location.getDateLocation().plusDays(2), location.getDateLocation());
             if(daysLate != 0){
                 return new BigDecimal(daysLate * 3 + 3);
             }

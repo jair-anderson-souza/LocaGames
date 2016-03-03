@@ -5,13 +5,14 @@
  */
 package io.github.jass2125.loca.games.core.business;
 
+import io.github.jass2125.loca.games.observer.Observer;
 import java.io.Serializable;
 
 /**
  * @author Anderson Souza
  * @since 14:06:27, 20-Feb-2016
  */
-public class User implements Serializable{
+public class User implements Serializable, Observer<Game> {
     private String name;
     private String cpf;
     private String email;
@@ -48,4 +49,11 @@ public class User implements Serializable{
     public void setEmail(String email) {
         this.email = email;
     }
+
+    @Override
+    public void update(Game game) {
+        //mandar o email pro individuo que quer saber sobre o game
+        
+    }
+
 }

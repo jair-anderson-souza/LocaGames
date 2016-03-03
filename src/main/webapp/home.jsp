@@ -20,7 +20,7 @@
                         <div class="alert alert-danger">
                             <strong>Sucesso</strong> ${sessionScope.success}
                         </div>
-                        
+
                     </c:when>
                     <c:when test="${sessionScope.error != null}">
                         <div class="alert alert-danger">
@@ -28,7 +28,12 @@
                         </div>
                         <c:remove scope="session" var="error"></c:remove>
                     </c:when>
-
+                    <c:when test="${sessionScope.price != null}">
+                        <div class="alert alert-danger">
+                            <strong>Preço do aluguel</strong> ${sessionScope.price}
+                        </div>
+                        <c:remove scope="session" var="price"></c:remove>
+                    </c:when>
                 </c:choose>
 
             </div>

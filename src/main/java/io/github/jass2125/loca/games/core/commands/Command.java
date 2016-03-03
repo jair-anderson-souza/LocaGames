@@ -10,12 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @author Anderson Souza <jair_anderson_bs@hotmail.com> <jair_anderson_bs@hotmail.com>
+ * @author Anderson Souza 
  * @since 15:32:48, 20-Feb-2016 
- * Package io.github.jass2125.loca.games.commands
- * Project Name loca-games
- * Encoding UTF-8
- * File Name Command.java
  */
 public interface Command {
     
