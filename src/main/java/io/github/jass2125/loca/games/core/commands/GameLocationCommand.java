@@ -76,12 +76,12 @@ private LocationDao daoLocation;
 //            
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
-            request.getSession().setAttribute("error", "Erro, retorne e tente novamente");
+            request.getSession().setAttribute("error", e.getMessage());
             return "index.jsp";
 
         } catch (RentException e) {
             e.printStackTrace();
-            request.getSession().setAttribute("error", "Erro, retorne e tente novamente");
+            request.getSession().setAttribute("error", e.getMessage());
             return "index.jsp";
         }
     }

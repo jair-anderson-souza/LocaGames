@@ -5,6 +5,7 @@
  */
 package io.github.jass2125.loca.games.strategy;
 
+import io.github.jass2125.loca.games.core.business.Location;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -21,9 +22,10 @@ public class LocationCalcNormalStrategy implements LocationCalcStrategy {
     }
 
     @Override
-    public BigDecimal calculatePriceGame() {
+    public BigDecimal calculatePriceGame(Location location) {
         return null;
     }
+
     
     
 

@@ -47,12 +47,7 @@ public class GameDevolutionCommand implements Command {
 //            game.getState().
             if (game.getState().equals(GameState.RENT)) {
                 game.devolution();
-                Location location = new Location();
-                location.setIdGame(idGame);
-                location.setDateDevolution(getDevolutionDay());
-                location.setIdUser(cpf);
-                location.setStrategy(verifyTypeOfLocation());
-                daoLocation.save(location);
+                
                 request.getSession().setAttribute("success", "Jogo devolvido com sucesso");
                 this.getDevolutionDay();
                 //Setará o preço do aluguel

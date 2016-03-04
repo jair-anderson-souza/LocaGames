@@ -6,6 +6,7 @@
 
 package io.github.jass2125.loca.games.strategy;
 
+import io.github.jass2125.loca.games.core.business.Location;
 import java.math.BigDecimal;
 
 /**
@@ -15,7 +16,7 @@ import java.math.BigDecimal;
 public interface LocationCalcStrategy {
     
     
-    public abstract BigDecimal calculatePriceGame();
+    public abstract BigDecimal calculatePriceGame(Location location);
     
 
 }
