@@ -21,19 +21,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
  * @author Anderson Souza
+ * @since 15:18:13, 24-Feb-2016
  */
-public class GameDevolutionCommand implements Command {
-
-    private LocationDao daoLocation;
+public class GameLocationCommand implements Command {
+private LocationDao daoLocation;
     private GameDao dao;
 
-    public GameDevolutionCommand() {
+    public GameLocationCommand() {
         dao = (GameDao) DaoFactory.createDao(DaoEnum.GAME.getOption());
         daoLocation = (LocationDao) DaoFactory.createDao(DaoEnum.LOCATION.getOption());
     }
-
+    
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         try {
@@ -45,24 +44,21 @@ public class GameDevolutionCommand implements Command {
 
 //            State state  = game.rent();
 //            game.getState().
-            if (game.getState().equals(GameState.RENT)) {
-                game.devolution();
+            if (game.getState().equals(GameState.AVAILABLE)) {
+                game.location();
                 Location location = new Location();
                 location.setIdGame(idGame);
                 location.setDateDevolution(getDevolutionDay());
                 location.setIdUser(cpf);
                 location.setStrategy(verifyTypeOfLocation());
                 daoLocation.save(location);
-                request.getSession().setAttribute("success", "Jogo devolvido com sucesso");
-                this.getDevolutionDay();
-                //Setará o preço do aluguel
-                //request.getSession().setAttribute("success", );
-                dao.editState(idGame, GameState.AVAILABLE.name());
+                request.getSession().setAttribute("success", "Jogo locado com sucesso");
+                dao.editState(idGame, GameState.RENT.name());
                 return "home.jsp";
 
             }
 
-            request.getSession().setAttribute("error", "Você não alugou este jogo!");
+            request.getSession().setAttribute("error", "Jogo já esta alugado");
             return "home.jsp";
 
 //            if (state.equals("RENT")) {
@@ -85,6 +81,7 @@ public class GameDevolutionCommand implements Command {
 
         } catch (RentException e) {
             e.printStackTrace();
+            request.getSession().setAttribute("error", "Erro, retorne e tente novamente");
             return "index.jsp";
         }
     }

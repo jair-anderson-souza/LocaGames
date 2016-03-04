@@ -5,9 +5,13 @@
  */
 package io.github.jass2125.loca.games.core.business;
 
+import io.github.jass2125.loca.games.exceptions.RentException;
 import io.github.jass2125.loca.games.observer.Observable;
 import io.github.jass2125.loca.games.observer.Observer;
+import io.github.jass2125.loca.games.state.GameState;
+import io.github.jass2125.loca.games.state.State;
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +24,7 @@ public class Game implements Serializable, Observable {
     private Long idGame;
     private String name;
     private String gender;
-    private String state;
+    private State state;
     private List<Observer> listObservers = new ArrayList<>();
 
     public Game() {
@@ -31,12 +35,13 @@ public class Game implements Serializable, Observable {
         this.idGame = idGame;
         this.name = name;
         this.gender = gender;
-        this.state = state;
+        this.state = GameState.valueOf(state);
     }
 
     public Long getIdGame() {
         return idGame;
     }
+
 
     public String getName() {
         return name;
@@ -54,13 +59,23 @@ public class Game implements Serializable, Observable {
         this.gender = gender;
     }
 
-    public String getState() {
+    public State getState() {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(State state) {
         this.state = state;
     }
+
+    public List<Observer> getListObservers() {
+        return listObservers;
+    }
+
+    public void setListObservers(List<Observer> listObservers) {
+        this.listObservers = listObservers;
+    }
+
+    
 
     @Override
     public void notifyObservers() {
@@ -75,6 +90,18 @@ public class Game implements Serializable, Observable {
 
     public void addObserver(Observer observer) {
         this.listObservers.add(observer);
+    }
+    
+    public State devolution() throws SQLException, ClassNotFoundException, RentException {
+        State state = this.state.availableGame();
+        this.setState(state);
+        return state;
+    }
+
+    public State location() throws SQLException, ClassNotFoundException, RentException {
+        State state = this.state.rentedGame();
+        this.setState(state);
+        return state;
     }
 
 }

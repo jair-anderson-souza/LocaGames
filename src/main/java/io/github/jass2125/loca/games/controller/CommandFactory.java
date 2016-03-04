@@ -6,9 +6,8 @@
 package io.github.jass2125.loca.games.controller;
 
 import io.github.jass2125.loca.games.core.commands.Command;
-import io.github.jass2125.loca.games.core.commands.GameAvailableCommand;
 import io.github.jass2125.loca.games.core.commands.GameDevolutionCommand;
-import io.github.jass2125.loca.games.core.commands.GameRenderCommand;
+import io.github.jass2125.loca.games.core.commands.GameLocationCommand;
 import io.github.jass2125.loca.games.core.commands.LoaderGameLocatedCommand;
 import io.github.jass2125.loca.games.core.commands.LoaderGamesCommand;
 import io.github.jass2125.loca.games.core.commands.LoginUserCommand;
@@ -33,14 +32,16 @@ public class CommandFactory {
     public static Command getCommand(HttpServletRequest request) {
         Map<String, Command> commands = new HashMap<>();
         commands.put("loginUser", new LoginUserCommand());
+        commands.put("devolutionGame", new GameDevolutionCommand());
+        commands.put("locationGame", new GameLocationCommand());
+        
+        
+        
         
         commands.put("loadGames", new LoaderGamesCommand());
-        commands.put("renderGame", new GameRenderCommand());
         commands.put("registerUser", new RegisterUserCommand());
-        commands.put("availableGame", new GameAvailableCommand());
         
         commands.put("loaderLocations", new LoaderGameLocatedCommand());
-        commands.put("devolutionGame", new GameDevolutionCommand());
 //        commands.put("render", new GameRenderCommand());
 //        commands.put("return", new GameRenderCommand());
 

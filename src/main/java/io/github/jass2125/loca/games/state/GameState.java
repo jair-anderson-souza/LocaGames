@@ -5,16 +5,42 @@
  */
 package io.github.jass2125.loca.games.state;
 
+import io.github.jass2125.loca.games.exceptions.RentException;
 import java.sql.SQLException;
+
 
 /**
  * @author Anderson Souza
- * @since 08:29:40, 24-Feb-2016
+ * @since 12:25:19, 24-Feb-2016
  */
-public interface GameState {
+public enum GameState implements State {
+    AVAILABLE{
 
-    public GameState rentGame(String cpf, Long Idgame) throws SQLException, ClassNotFoundException;
+        @Override
+        public State rentedGame() throws SQLException, ClassNotFoundException, RentException {
+            return RENT;
+        }
 
-    public GameState availableGame(String cpf, Long Idgame) throws SQLException, ClassNotFoundException;
+        @Override
+        public State availableGame() throws SQLException, ClassNotFoundException, RentException {
+            throw new RentException("O jogo está disponivel!!");
+        }
+
+        
+        
+    },
+    RENT{
+
+        @Override
+        public State rentedGame() throws SQLException, ClassNotFoundException, RentException {
+                throw new RentException("O jogo está alugado!!");
+        }
+
+        @Override
+        public State availableGame() throws SQLException, ClassNotFoundException, RentException {
+            return AVAILABLE;
+        }
+    }
+    
 
 }

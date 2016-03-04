@@ -13,6 +13,8 @@ import io.github.jass2125.loca.games.core.dao.GameDao;
 import io.github.jass2125.loca.games.core.dao.LocationDao;
 import io.github.jass2125.loca.games.core.factory.DaoFactory;
 import io.github.jass2125.loca.games.core.util.DaoEnum;
+import io.github.jass2125.loca.games.exceptions.RentException;
+import io.github.jass2125.loca.games.state.GameState;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
  * @since 22:42:32, 23-Feb-2016
  */
 public class GameRenderCommand implements Command {
+
     private LocationDao daoLocation;
     private GameDao dao;
 
@@ -37,35 +40,48 @@ public class GameRenderCommand implements Command {
             Long idGame = Long.parseLong(request.getParameter("idGame"));
             String cpf = ((User) request.getSession().getAttribute("user")).getCpf();
             Game game = dao.findById(idGame);
-            String state = game.getState();
-            
-            Location location = new Location();
-            location.setIdGame(idGame);
-            location.setDateDevolution(getDevolutionDay());
-            location.setIdUser(cpf);
-            location.setStrategy(verifyTypeOfLocation());
-            
-            
-            if (state.equals("RENT")) {
-                request.getSession().setAttribute("error", "Jogo ja esta alugado");
-//                game.setState("AVAILABLE");
-//                dao.editState(idGame, "AVAILABLE");
-                return "home.jsp";
-            } else {
+            //pega o valor do enum
+            //String state = game.getState();
+
+//            State state  = game.rent();
+//            game.getState().
+            if (game.getState().equals(GameState.AVAILABLE)) {
+                game.devolution();
+                Location location = new Location();
+                location.setIdGame(idGame);
+                location.setDateDevolution(getDevolutionDay());
+                location.setIdUser(cpf);
+                location.setStrategy(verifyTypeOfLocation());
                 daoLocation.save(location);
                 request.getSession().setAttribute("success", "Jogo alugado com sucesso");
-                game.setState("RENT");
-                dao.editState(idGame, "RENT");
+                dao.editState(idGame, GameState.AVAILABLE.name());
                 return "home.jsp";
+
             }
 
+//            if (state.equals("RENT")) {
+//                request.getSession().setAttribute("error", "Jogo ja esta alugado");
+////                game.setState("AVAILABLE");
+////                dao.editState(idGame, "AVAILABLE");
+//                return "home.jsp";
+//            } else {
+//                daoLocation.save(location);
+//                request.getSession().setAttribute("success", "Jogo alugado com sucesso");
+//                game.setState("RENT");
+//                dao.editState(idGame, "RENT");
+//                return "home.jsp";
+//            }
 //            
+            return null;
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
             request.getSession().setAttribute("error", "Erro, retorne e tente novamente");
             return "index.jsp";
 
+        } catch (RentException e) {
+            e.printStackTrace();
         }
+        return null;
     }
 
     private String verifyTypeOfLocation() {
@@ -75,15 +91,14 @@ public class GameRenderCommand implements Command {
         }
         return "COMUM";
     }
-    
-    public LocalDate getDevolutionDay(){
+
+    public LocalDate getDevolutionDay() {
         String verif = this.verifyTypeOfLocation();
-        if(verif.equals("SPECIAL")){
+        if (verif.equals("SPECIAL")) {
             return LocalDate.now().plusDays(2);
         }
         return LocalDate.now().plusDays(1);
-        
+
     }
-    
 
 }

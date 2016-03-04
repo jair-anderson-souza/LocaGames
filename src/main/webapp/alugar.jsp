@@ -67,7 +67,7 @@
                                 <td>${game.gender}</td>
                                 <c:choose>
                                     <c:when test="${sessionScope.user != null}">
-                                        <td><a href="front?command=renderGame&idGame=${game.idGame}">Alugar</a></td>
+                                        <td><a href="front?command=locationGame&idGame=${game.idGame}">Alugar</a></td>
                                     </c:when>
                                     <c:otherwise>
                                         <td>Operaçao nao permitida</td>
