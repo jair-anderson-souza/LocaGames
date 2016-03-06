@@ -22,9 +22,10 @@
                         </div>
 
                     </c:when>
-                    <c:when test="${sessionScope.error != null}">
+                    <c:when test="${sessionScope.error != null && sessionScope.info != null}">
                         <div class="alert alert-danger">
                             <strong>Falha</strong> ${sessionScope.error}
+                             ${sessionScope.info}
                         </div>
                         <c:remove scope="session" var="error"></c:remove>
                     </c:when>

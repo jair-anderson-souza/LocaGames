@@ -53,12 +53,14 @@ private LocationDao daoLocation;
                 location.setIdUser(cpf);
                 location.setStrategy(LocationCalcStrategyEnum.valueOf(verifyTypeOfLocation()));
                 daoLocation.save(location);
+                
                 request.getSession().setAttribute("success", "Jogo locado com sucesso");
                 dao.editState(idGame, GameState.RENT.name());
                 return "home.jsp";
 
             }
-
+            Location location = daoLocation.findLocationById(idGame);
+            request.getSession().setAttribute("info", location.getDateDevolution());
             request.getSession().setAttribute("error", "Jogo já esta alugado");
             return "home.jsp";
 

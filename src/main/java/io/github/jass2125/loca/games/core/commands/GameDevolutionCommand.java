@@ -63,7 +63,7 @@ public class GameDevolutionCommand implements Command {
                 return "home.jsp";
 
             }
-
+//            daoLocation
             request.getSession().setAttribute("error", "Você não alugou este jogo!");
             return "home.jsp";
 

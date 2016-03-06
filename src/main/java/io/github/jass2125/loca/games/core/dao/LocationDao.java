@@ -81,23 +81,23 @@ public class LocationDao implements IDao {
 //        return listGames;
 //    }
 
-    public Location findById(Long idGame) throws SQLException, ClassNotFoundException {
-        Class.forName("com.mysql.jdbc.Driver");
-        Connection connection = DriverManager.getConnection(url, "root", "12345");
-        String sql = "select * from location location where dateDevolution is Null and idGame = ?;";
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setLong(1, idGame);
-        ResultSet rs = preparedStatement.executeQuery();
-        if(rs.next()){
-            Long idLocation = rs.getLong("idLocation");
-            String idUser = rs.getString("idUser");
-            Long idGame2 = rs.getLong("idGame");
-            LocalDate dateLocation = rs.getDate("dateLocation").toLocalDate();
-            String strategy = rs.getString("strategy");
-            return new Location(idLocation, idUser, idGame, dateLocation, strategy);
-        }
-        return null;
-    }
+//    public Location findById(Long idGame) throws SQLException, ClassNotFoundException {
+//        Class.forName("com.mysql.jdbc.Driver");
+//        Connection connection = DriverManager.getConnection(url, "root", "12345");
+//        String sql = "select * from location location where dateDevolution is Null and idGame = ?;";
+//        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+//        preparedStatement.setLong(1, idGame);
+//        ResultSet rs = preparedStatement.executeQuery();
+//        if(rs.next()){
+//            Long idLocation = rs.getLong("idLocation");
+//            String idUser = rs.getString("idUser");
+//            Long idGame2 = rs.getLong("idGame");
+//            LocalDate dateLocation = rs.getDate("dateLocation").toLocalDate();
+//            String strategy = rs.getString("strategy");
+//            return new Location(idLocation, idUser, idGame, dateLocation, strategy);
+//        }
+//        return null;
+//    }
 
     public Location findLocation(String cpf, Long idGame) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.jdbc.Driver");
@@ -108,7 +108,27 @@ public class LocationDao implements IDao {
         preparedStatement.setLong(2, idGame);
         ResultSet rs=  preparedStatement.executeQuery();
         
-        if(rs.next()){
+        if(rs.next()) {
+            Long idLocation = rs.getLong("idLocation");
+            String idUser = rs.getString("idUser");
+//            String idGame = rs.getString("idGame");
+            LocalDate dateLocation = rs.getDate("dateLocation").toLocalDate();
+            LocalDate dateDevolution = rs.getDate("dateDevolution").toLocalDate();
+            String strategy = rs.getString("strategy");
+            return new Location(idLocation, idUser, idGame, dateLocation, dateDevolution, strategy);
+        }
+        return null;
+        
+    }
+    public Location findLocationById(Long idGame) throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection connection = DriverManager.getConnection(url, "root", "12345");
+        String sql = "select * from location inner join game where game.state = 'RENT' and location.idGame = ?;";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setLong(1, idGame);
+        ResultSet rs=  preparedStatement.executeQuery();
+        
+        if(rs.next()) {
             Long idLocation = rs.getLong("idLocation");
             String idUser = rs.getString("idUser");
 //            String idGame = rs.getString("idGame");
