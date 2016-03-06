@@ -121,7 +121,7 @@ public class GameDao implements IDao {
     public List<Game> listGamesLocated() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.jdbc.Driver");
         Connection connection = DriverManager.getConnection(url, "root", "12345");
-        String sql = "select * from game where state = 'RENT'";
+        String sql = "select * from game inner join location where location.idGame = game.idGame and game.state = 'RENT'";
         PreparedStatement ps = connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
         List<Game> listGames = new ArrayList<>();

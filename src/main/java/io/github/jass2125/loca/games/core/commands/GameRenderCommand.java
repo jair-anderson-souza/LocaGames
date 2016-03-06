@@ -51,7 +51,7 @@ public class GameRenderCommand implements Command {
                 location.setIdGame(idGame);
                 location.setDateDevolution(getDevolutionDay());
                 location.setIdUser(cpf);
-                location.setStrategy(verifyTypeOfLocation());
+//                location.setStrategy(verifyTypeOfLocation());
                 daoLocation.save(location);
                 request.getSession().setAttribute("success", "Jogo alugado com sucesso");
                 dao.editState(idGame, GameState.AVAILABLE.name());

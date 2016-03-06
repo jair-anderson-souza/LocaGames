@@ -14,6 +14,7 @@ import io.github.jass2125.loca.games.core.factory.DaoFactory;
 import io.github.jass2125.loca.games.core.util.DaoEnum;
 import io.github.jass2125.loca.games.exceptions.RentException;
 import io.github.jass2125.loca.games.state.GameState;
+import io.github.jass2125.loca.games.strategy.LocationCalcStrategyEnum;
 import java.sql.SQLException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -50,7 +51,7 @@ private LocationDao daoLocation;
                 location.setIdGame(idGame);
                 location.setDateDevolution(getDevolutionDay());
                 location.setIdUser(cpf);
-                location.setStrategy(verifyTypeOfLocation());
+                location.setStrategy(LocationCalcStrategyEnum.valueOf(verifyTypeOfLocation()));
                 daoLocation.save(location);
                 request.getSession().setAttribute("success", "Jogo locado com sucesso");
                 dao.editState(idGame, GameState.RENT.name());
@@ -87,7 +88,7 @@ private LocationDao daoLocation;
     }
 
     private String verifyTypeOfLocation() {
-        String currentdate = LocalDate.now().getDayOfWeek().name();
+        DayOfWeek currentdate = LocalDate.now().getDayOfWeek();
         if (currentdate.equals(DayOfWeek.SUNDAY) || currentdate.equals(DayOfWeek.SATURDAY)) {
             return "SPECIAL";
         }

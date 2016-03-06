@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 public interface LocationCalcStrategy {
     
     
-    public abstract BigDecimal calculatePriceGame(Location location);
+    public BigDecimal calculatePriceGame(Location location);
     
 
 }

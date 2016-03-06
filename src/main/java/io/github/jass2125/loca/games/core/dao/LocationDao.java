@@ -7,17 +7,13 @@ package io.github.jass2125.loca.games.core.dao;
 
 import io.github.jass2125.loca.games.core.business.Location;
 import io.github.jass2125.loca.games.core.factory.IDao;
-import io.github.jass2125.loca.games.core.util.LocationTypeEnum;
-import io.github.jass2125.loca.games.strategy.LocationCalcStrategy;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
@@ -42,7 +38,7 @@ public class LocationDao implements IDao {
         preparedStatement.setLong(2, location.getIdGame());
         preparedStatement.setString(3, location.getDateLocation().toString());
         preparedStatement.setString(4, location.getDateDevolution().toString());
-        preparedStatement.setString(5, location.getStrategy());
+        preparedStatement.setString(5, location.getStrategy().toString());
         preparedStatement.execute();
     }
 
@@ -106,7 +102,7 @@ public class LocationDao implements IDao {
     public Location findLocation(String cpf, Long idGame) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.jdbc.Driver");
         Connection connection = DriverManager.getConnection(url, "root", "12345");
-        String sql = "select * from location where idUser = ? and idGame = ?;";
+        String sql = "select * from location inner join game where location.idUser = ? and game.idGame = ? and location.idGame = game.idGame and game.state = 'RENT';";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, cpf);
         preparedStatement.setLong(2, idGame);

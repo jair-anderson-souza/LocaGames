@@ -14,6 +14,8 @@ import io.github.jass2125.loca.games.core.factory.DaoFactory;
 import io.github.jass2125.loca.games.core.util.DaoEnum;
 import io.github.jass2125.loca.games.exceptions.RentException;
 import io.github.jass2125.loca.games.state.GameState;
+import io.github.jass2125.loca.games.strategy.LocationCalcStrategy;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -27,7 +29,9 @@ import javax.servlet.http.HttpServletResponse;
 public class GameDevolutionCommand implements Command {
 
     private LocationDao daoLocation;
+    private LocationCalcStrategy strategy;
     private GameDao dao;
+    private LocationCalcStrategy strategyCalc;
 
     public GameDevolutionCommand() {
         dao = (GameDao) DaoFactory.createDao(DaoEnum.GAME.getOption());
@@ -47,11 +51,14 @@ public class GameDevolutionCommand implements Command {
 //            game.getState().
             if (game.getState().equals(GameState.RENT)) {
                 game.devolution();
-                
+                Location location = daoLocation.findLocation(cpf, idGame);
                 request.getSession().setAttribute("success", "Jogo devolvido com sucesso");
-                this.getDevolutionDay();
+//                daoLocation.findLocation(cpf, idGame);
+                LocalDate devolutionDay = this.getDevolutionDay();
+                BigDecimal price = location.calculateValueLocation();
                 //Setará o preço do aluguel
                 //request.getSession().setAttribute("success", );
+                request.getSession().setAttribute("price", price);
                 dao.editState(idGame, GameState.AVAILABLE.name());
                 return "home.jsp";
 
@@ -84,6 +91,8 @@ public class GameDevolutionCommand implements Command {
         }
     }
 
+//    public LocalDate
+
     private String verifyTypeOfLocation() {
         String currentdate = LocalDate.now().getDayOfWeek().name();
         if (currentdate.equals(DayOfWeek.SUNDAY) || currentdate.equals(DayOfWeek.SATURDAY)) {
@@ -100,5 +109,9 @@ public class GameDevolutionCommand implements Command {
         return LocalDate.now().plusDays(1);
 
     }
+//    
+//    public Location getLocation(){
+//        
+//    }
 
 }

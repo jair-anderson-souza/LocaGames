@@ -84,10 +84,12 @@ public class Game implements Serializable, Observable {
         }
     }
 
+    @Override
     public void deleteObserver(Observer observer) {
         this.listObservers.remove(this);
     }
 
+    @Override
     public void addObserver(Observer observer) {
         this.listObservers.add(observer);
     }

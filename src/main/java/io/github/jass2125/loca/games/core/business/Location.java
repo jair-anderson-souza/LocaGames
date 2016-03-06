@@ -5,6 +5,9 @@
  */
 package io.github.jass2125.loca.games.core.business;
 
+import io.github.jass2125.loca.games.strategy.LocationCalcStrategy;
+import io.github.jass2125.loca.games.strategy.LocationCalcStrategyEnum;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 /**
@@ -18,7 +21,7 @@ public class Location {
     private Long idGame;
     private LocalDate dateLocation;
     private LocalDate dateDevolution;
-    private String strategy;
+    private LocationCalcStrategy strategy;
 
     public Location() {
         this.dateLocation = LocalDate.now();
@@ -31,14 +34,14 @@ public class Location {
         this.idGame = idGame;
         this.dateLocation = dateLocation;
         this.dateDevolution = dateDevolution;
-        this.strategy = strategy;
+        this.strategy = LocationCalcStrategyEnum.valueOf(strategy);
     }
     public Location(Long idLocation, String idUser, Long idGame, LocalDate dateLocation, String strategy) {
         this.idLocation = idLocation;
         this.idUser = idUser;
         this.idGame = idGame;
         this.dateLocation = dateLocation;
-        this.strategy = strategy;
+        this.strategy = LocationCalcStrategyEnum.valueOf(strategy);
     }
 
     public void setIdGame(Long idGame) {
@@ -77,12 +80,16 @@ public class Location {
         this.dateDevolution = dateDevolution;
     }
 
-    public void setStrategy(String strategy) {
+    public void setStrategy(LocationCalcStrategy strategy) {
         this.strategy = strategy;
     }
 
-    public String getStrategy() {
+    public LocationCalcStrategy getStrategy() {
         return strategy;
+    }
+    
+    public BigDecimal calculateValueLocation(){
+        return this.strategy.calculatePriceGame(this);
     }
 
 }

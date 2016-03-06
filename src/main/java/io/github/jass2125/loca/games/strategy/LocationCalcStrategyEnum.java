@@ -7,24 +7,34 @@ package io.github.jass2125.loca.games.strategy;
 
 import io.github.jass2125.loca.games.core.business.Location;
 import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 /**
  * @author Anderson Souza
  * @since 14:56:26, 24-Feb-2016
  */
-public enum LocationCalcSpecialStrategyEnum implements LocationCalcStrategy {
+public enum LocationCalcStrategyEnum implements LocationCalcStrategy {
     
     COMUM{
         @Override
         public BigDecimal calculatePriceGame(Location location) {
-            return null;
+            long days  = ChronoUnit.DAYS.between(location.getDateLocation().plusDays(1), LocalDate.now());
+            if (days != 0) {     
+                return new BigDecimal(1 + days * 3);
+            }
+            return new BigDecimal(3);
         }
-    
         },
         SPECIAL{
             @Override
             public BigDecimal calculatePriceGame(Location location) {
-                return null;
+            long days  = ChronoUnit.DAYS.between(location.getDateLocation().plusDays(1), LocalDate.now());
+            if (days != 0) {     
+                return new BigDecimal(3 + days * 3);
+            }
+            return new BigDecimal(5);
             }
         }
 }
@@ -41,4 +51,4 @@ public enum LocationCalcSpecialStrategyEnum implements LocationCalcStrategy {
 //    public BigDecimal calculatePriceGame(Location location) {
 //        return new BigDecimal(20);
 //    }
-}
+//}
