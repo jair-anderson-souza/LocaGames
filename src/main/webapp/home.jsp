@@ -17,7 +17,7 @@
             <div class="dj-titulo__left">
                 <c:choose>
                     <c:when test="${sessionScope.success != null}">
-                        <div class="alert alert-danger">
+                        <div class="alert alert-success">
                             <strong>Sucesso</strong> ${sessionScope.success}
                         </div>
 
@@ -28,13 +28,14 @@
                         </div>
                         <c:remove scope="session" var="error"></c:remove>
                     </c:when>
-                    <c:when test="${sessionScope.price != null}">
-                        <div class="alert alert-danger">
-                            <strong>Preço do aluguel</strong> ${sessionScope.price}
-                        </div>
-                        <c:remove scope="session" var="price"></c:remove>
-                    </c:when>
+
                 </c:choose>
+                <c:if test="${sessionScope.price != null}">
+                    <div class="alert alert-info">
+                        <strong>Preço do aluguel</strong> ${sessionScope.price}
+                    </div>
+                    <c:remove scope="session" var="price"></c:remove>
+                </c:if>
 
             </div>
             <br>
