@@ -89,6 +89,14 @@ public class RegisterUserCommand implements Command {
 //    foreign key(idUser) references user(cpf) on update cascade on delete restrict,
 //    primary key(idLocation)
 //);
+
+//create table observers(
+//    idGame bigint,
+//    idUser varchar(50),
+//    foreign key(idGame) references game(idGame) on update cascade on delete restrict,
+//    foreign key(idUser) references user(cpf) on update cascade on delete restrict,
+//    primary key(idGame, IdUser)
+//);
 //insert into user values('Anderson Souza', 'jair_anderson_bs@hotmail.com','98765445678');
 //insert into user values('Diogo Moreira', 'diogomoreira@hotmail.com','765678987');
 //insert into user values('Dijalma', 'dijalma@hotmail.com','9658');

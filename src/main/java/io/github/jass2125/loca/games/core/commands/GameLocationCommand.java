@@ -10,17 +10,16 @@ import io.github.jass2125.loca.games.core.business.Location;
 import io.github.jass2125.loca.games.core.business.User;
 import io.github.jass2125.loca.games.core.dao.GameDao;
 import io.github.jass2125.loca.games.core.dao.LocationDao;
+import io.github.jass2125.loca.games.core.dao.ObserverDao;
 import io.github.jass2125.loca.games.core.factory.DaoFactory;
 import io.github.jass2125.loca.games.core.util.DaoEnum;
 import io.github.jass2125.loca.games.exceptions.GameException;
-import io.github.jass2125.loca.games.observer.Observer;
 import io.github.jass2125.loca.games.state.GameState;
 import io.github.jass2125.loca.games.strategy.LocationCalcStrategyEnum;
 import java.sql.SQLException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -30,6 +29,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class GameLocationCommand implements Command {
     private LocationDao daoLocation;
+    private ObserverDao daoObserver;
     private GameDao dao;
     private String day;
     private LocalDate devolutionDate;
@@ -62,6 +62,8 @@ public class GameLocationCommand implements Command {
                 return "home.jsp";
             }
             
+            daoObserver = (ObserverDao) DaoFactory.createDao(DaoEnum.OBSERVER.getOption());
+            daoObserver.addObserver(user.getCpf(), idGame);
             game.addObserver(user);
             Location location = daoLocation.findLocationById(idGame);
             String date = ConvertDate(location.getDateDevolution());

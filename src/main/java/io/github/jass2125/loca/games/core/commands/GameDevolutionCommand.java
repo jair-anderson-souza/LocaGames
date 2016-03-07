@@ -54,6 +54,7 @@ public class GameDevolutionCommand implements Command {
                 return "home.jsp";
 
             }
+            
             game.notifyObservers();
             request.getSession().setAttribute("error", "Você não alugou este jogo!");
             return "home.jsp";

@@ -8,6 +8,7 @@ package io.github.jass2125.loca.games.core.factory;
 
 import io.github.jass2125.loca.games.core.dao.GameDao;
 import io.github.jass2125.loca.games.core.dao.LocationDao;
+import io.github.jass2125.loca.games.core.dao.ObserverDao;
 import io.github.jass2125.loca.games.core.dao.UserDao;
 
 /**
@@ -24,6 +25,8 @@ public class DaoFactory {
                 return new UserDao();
             case 3:
                 return new LocationDao();
+            case 4:
+                return new ObserverDao();
         }
         return null;
     }        

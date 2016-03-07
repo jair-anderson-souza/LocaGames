@@ -11,7 +11,7 @@ package io.github.jass2125.loca.games.core.util;
  * @since 16:15:50, 24-Feb-2016
  */
 public enum DaoEnum {
-    GAME(1), USER(2), LOCATION(3);
+    GAME(1), USER(2), LOCATION(3), OBSERVER(4);
     
     private int option;
 
