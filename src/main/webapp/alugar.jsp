@@ -85,7 +85,7 @@
             </form>
 
             <br>
-            <h4><a href="index.jsp">Voltar ao início</a></h4>
+            <h4><a href="home.jsp">Voltar ao início</a></h4>
         </div>
     </body>
 </html>

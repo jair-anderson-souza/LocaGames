@@ -18,6 +18,7 @@ import io.github.jass2125.loca.games.strategy.LocationCalcStrategyEnum;
 import java.sql.SQLException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -26,14 +27,15 @@ import javax.servlet.http.HttpServletResponse;
  * @since 15:18:13, 24-Feb-2016
  */
 public class GameLocationCommand implements Command {
-private LocationDao daoLocation;
+
+    private LocationDao daoLocation;
     private GameDao dao;
 
     public GameLocationCommand() {
         dao = (GameDao) DaoFactory.createDao(DaoEnum.GAME.getOption());
         daoLocation = (LocationDao) DaoFactory.createDao(DaoEnum.LOCATION.getOption());
     }
-    
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         try {
@@ -53,14 +55,15 @@ private LocationDao daoLocation;
                 location.setIdUser(cpf);
                 location.setStrategy(LocationCalcStrategyEnum.valueOf(verifyTypeOfLocation()));
                 daoLocation.save(location);
-                
+
                 request.getSession().setAttribute("success", "Jogo locado com sucesso");
                 dao.editState(idGame, GameState.RENT.name());
                 return "home.jsp";
 
             }
             Location location = daoLocation.findLocationById(idGame);
-            request.getSession().setAttribute("info", location.getDateDevolution());
+            String date = ConvertDate(location.getDateDevolution());
+            request.getSession().setAttribute("info", date);
             request.getSession().setAttribute("error", "Jogo já esta alugado");
             return "home.jsp";
 
@@ -104,6 +107,14 @@ private LocationDao daoLocation;
         }
         return LocalDate.now().plusDays(1);
 
+    }
+
+    private String ConvertDate(LocalDate dateDevolution) {
+//        DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+//        DateTimeFormatter formatter = Date
+        return dateDevolution.plusDays(1).format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+//        return null;
     }
 
 }

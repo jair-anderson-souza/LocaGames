@@ -29,18 +29,18 @@ public class LoginUserCommand implements Command {
             String email = request.getParameter("email");
             UserDao dao = (UserDao) DaoFactory.createDao(DaoEnum.USER.getOption());
             User user = dao.findByCPFAndEmail(cpf, email);
-            GameDao dag = (GameDao) DaoFactory.createDao(DaoEnum.GAME.getOption());
+            GameDao daoGame = (GameDao) DaoFactory.createDao(DaoEnum.GAME.getOption());
             
             
             if(user != null){
-                List<Game> listGames = dag.listGamesLocatedByUser(cpf);
+                List<Game> listGames = daoGame.listGamesLocatedByUser(cpf);
                 request.getSession().setAttribute("sucess", "Autenticação feita com sucesso");
                 request.getSession().setAttribute("user", user);
                 request.getSession().setAttribute("listGames", listGames);
                 return "home.jsp";
             }else{
                 request.getSession().setAttribute("error", "Erro na autenticação");
-                return "index.jsp";
+                return "home.jsp";
             }
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();

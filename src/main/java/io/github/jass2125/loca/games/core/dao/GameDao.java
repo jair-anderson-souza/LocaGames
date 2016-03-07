@@ -141,7 +141,7 @@ public class GameDao implements IDao {
         Class.forName("com.mysql.jdbc.Driver");
         Connection connection = DriverManager.getConnection(url, "root", "12345");
 //        String sql = "select * from game inner join location on game.state = 'RENT' and idUser = ? and game.idGame = location.idGame;";
-        String sql = "select * from game as g inner join location as l on g.state = 'RENT' and l.idUser = ? and g.idGame = l.idGame;";
+        String sql = "select distinct g.idGame, g.nameGame, g.gender, g.state from game as g inner join location as l on g.state = 'RENT' and l.idUser = ? and g.idGame = l.idGame;";
         PreparedStatement ps = connection.prepareStatement(sql);
         ps.setString(1, cpf);
         ResultSet rs = ps.executeQuery();

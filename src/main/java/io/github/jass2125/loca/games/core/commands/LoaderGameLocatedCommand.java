@@ -24,10 +24,16 @@ public class LoaderGameLocatedCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         try {
-            GameDao dao = (GameDao) DaoFactory.createDao(DaoEnum.GAME.getOption());
-            List<Game> listLocations = dao.listGamesLocated();
-            request.getSession().setAttribute("listLocations", listLocations);
-            return "devolver.jsp";
+            User user = (User) request.getSession().getAttribute("user");
+            if (user != null) {
+                GameDao dao = (GameDao) DaoFactory.createDao(DaoEnum.GAME.getOption());
+                List<Game> listGames = dao.listGamesLocatedByUser(user.getCpf());
+                request.getSession().setAttribute("listLocations", listGames);
+                return "devolver.jsp";
+            }
+            request.getSession().setAttribute("error", "Realize o login do cliente");
+            return "home.jsp";
+
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
             return "index.jsp";

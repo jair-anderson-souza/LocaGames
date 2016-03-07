@@ -36,7 +36,7 @@ public class RegisterUserCommand implements Command {
             User user = new User(name, cpf, email);
             dao.persist(user);
             request.getSession().setAttribute("user", user);
-            return "index.jsp";
+            return "home.jsp";
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }

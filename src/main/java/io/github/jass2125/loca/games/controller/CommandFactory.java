@@ -34,6 +34,7 @@ public class CommandFactory {
         commands.put("loginUser", new LoginUserCommand());
         commands.put("devolutionGame", new GameDevolutionCommand());
         commands.put("locationGame", new GameLocationCommand());
+        commands.put("loadGamesLocated", new LoaderGameLocatedCommand());
         
         
         

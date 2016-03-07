@@ -54,7 +54,7 @@ public class GameDevolutionCommand implements Command {
                 Location location = daoLocation.findLocation(cpf, idGame);
                 request.getSession().setAttribute("success", "Jogo devolvido com sucesso");
 //                daoLocation.findLocation(cpf, idGame);
-                LocalDate devolutionDay = this.getDevolutionDay();
+//                LocalDate devolutionDay = this.getDevolutionDay();
                 BigDecimal price = location.calculateValueLocation();
                 //Setará o preço do aluguel
                 //request.getSession().setAttribute("success", );

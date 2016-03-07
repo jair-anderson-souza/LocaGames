@@ -22,10 +22,16 @@
                         </div>
 
                     </c:when>
-                    <c:when test="${sessionScope.error != null && sessionScope.info != null}">
+                    <c:when test="${sessionScope.info != null}">
+                        <div class="alert alert-danger">
+                            <strong>Falha</strong> ${sessionScope.info}
+                            ${sessionScope.info}
+                        </div>
+                        <c:remove scope="session" var="info"></c:remove>
+                    </c:when>
+                    <c:when test="${sessionScope.error != null}">
                         <div class="alert alert-danger">
                             <strong>Falha</strong> ${sessionScope.error}
-                             ${sessionScope.info}
                         </div>
                         <c:remove scope="session" var="error"></c:remove>
                     </c:when>
@@ -39,6 +45,14 @@
                 </c:if>
 
             </div>
+            <c:if test="${sessionScope.user == null}">
+                <button data-toggle="modal" data-target="#modal" class="btn btn-info btn-sm">Identifique o cliente</button>
+                <div class="text-right">
+
+                </div>
+                <%@include file="modalCliente.jsp" %>
+            </c:if>
+
             <br>
 
             <div class="dj-titulo__left">
@@ -56,7 +70,7 @@
                     </li>
                     <li>
                         <img src="icons/return.png" class="dj-image__funcionalidade">
-                        <a href="devolver.jsp">Devolver</a> 
+                        <a href="front?command=loadGamesLocated">Devolver</a> 
                     </li>
                     <li>
                         <img src="icons/observer.png" class="dj-image__funcionalidade">
