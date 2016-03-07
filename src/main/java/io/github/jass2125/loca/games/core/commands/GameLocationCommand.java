@@ -70,6 +70,7 @@ public class GameLocationCommand implements Command {
             request.getSession().setAttribute("info", date);
             request.getSession().setAttribute("error", "Jogo já esta alugado");
             return "home.jsp";
+            
         } catch (NumberFormatException | SQLException | ClassNotFoundException | GameException e) {
             e.printStackTrace();
             request.getSession().setAttribute("error", "Ocorreu um erro, retorne e tente novamente");

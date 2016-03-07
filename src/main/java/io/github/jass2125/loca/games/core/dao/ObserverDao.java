@@ -7,10 +7,14 @@ package io.github.jass2125.loca.games.core.dao;
 
 import io.github.jass2125.loca.games.core.business.User;
 import io.github.jass2125.loca.games.core.factory.IDao;
+import io.github.jass2125.loca.games.observer.Observer;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -32,5 +36,24 @@ public class ObserverDao implements IDao {
         preparedStatement.setString(1, cpf);
         preparedStatement.setLong(2, idGame);
         preparedStatement.execute();
+    }
+    
+    public List<Observer> getListObservers(Long idGame) throws SQLException, ClassNotFoundException {
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection connection = DriverManager.getConnection(url, "root", "12345");
+        String sql = "select distinct user.name, user.email, user.cpf from user inner join game inner join observers where user.cpf = observers.idUser and ? = observers.idGame;";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setLong(1, idGame);
+        ResultSet rs = preparedStatement.executeQuery();
+        List<Observer> listObservers = new ArrayList<>();
+        User user = new User();
+        while(rs.next()){
+            String name = rs.getString("name");
+            String email = rs.getString("email");
+            String cpf = rs.getString("cpf");
+            user = new User(name, cpf, email);
+            listObservers.add(user);
+        }
+        return listObservers;
     }
 }

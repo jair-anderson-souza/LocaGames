@@ -10,26 +10,30 @@ import io.github.jass2125.loca.games.core.business.Location;
 import io.github.jass2125.loca.games.core.business.User;
 import io.github.jass2125.loca.games.core.dao.GameDao;
 import io.github.jass2125.loca.games.core.dao.LocationDao;
+import io.github.jass2125.loca.games.core.dao.ObserverDao;
 import io.github.jass2125.loca.games.core.factory.DaoFactory;
 import io.github.jass2125.loca.games.core.util.DaoEnum;
 import io.github.jass2125.loca.games.exceptions.GameException;
+import io.github.jass2125.loca.games.observer.Observer;
 import io.github.jass2125.loca.games.state.GameState;
 import io.github.jass2125.loca.games.strategy.LocationCalcStrategy;
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.mail.EmailException;
-
 
 /**
  *
  * @author Anderson Souza
  */
 public class GameDevolutionCommand implements Command {
+
     private LocationDao daoLocation;
     private LocationCalcStrategy strategy;
     private GameDao dao;
+    private ObserverDao daoObserver;
     private LocationCalcStrategy strategyCalc;
 
     public GameDevolutionCommand() {
@@ -51,12 +55,16 @@ public class GameDevolutionCommand implements Command {
                 BigDecimal price = location.calculateValueLocation();
                 request.getSession().setAttribute("price", price);
                 dao.editState(idGame, GameState.AVAILABLE.name());
+                daoObserver = (ObserverDao) DaoFactory.createDao(DaoEnum.OBSERVER.getOption());
+                List<Observer> listObservers = daoObserver.getListObservers(idGame);
+                game.setListObservers(listObservers);
+                game.notifyObservers();
                 return "home.jsp";
 
             }
-            
-            game.notifyObservers();
+
             request.getSession().setAttribute("error", "Você não alugou este jogo!");
+
             return "home.jsp";
 
         } catch (SQLException | ClassNotFoundException | GameException | EmailException e) {
@@ -64,7 +72,7 @@ public class GameDevolutionCommand implements Command {
             request.getSession().setAttribute("error", "Erro, retorne e tente novamente");
             return "home.jsp";
 
-        } 
+        }
     }
 
 }

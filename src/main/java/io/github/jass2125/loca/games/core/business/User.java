@@ -56,7 +56,7 @@ public class User implements Serializable, Observer<Game> {
     @Override
     public void update(Game game) throws EmailException {
         EmailUtil emailSender = new EmailUtil();
-        emailSender.sendEmail(this.cpf);
+        emailSender.sendEmail(this.email);
     }
 
 }

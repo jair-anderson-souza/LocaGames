@@ -43,7 +43,6 @@ public class Game implements Serializable, Observable {
         return idGame;
     }
 
-
     public String getName() {
         return name;
     }
@@ -76,10 +75,8 @@ public class Game implements Serializable, Observable {
         this.listObservers = listObservers;
     }
 
-    
-
     @Override
-    public void notifyObservers() throws EmailException{
+    public void notifyObservers() throws EmailException {
         for (Observer it : listObservers) {
             it.update(this);
         }
@@ -94,7 +91,7 @@ public class Game implements Serializable, Observable {
     public void addObserver(Observer observer) {
         this.listObservers.add(observer);
     }
-    
+
     public State devolution() throws SQLException, ClassNotFoundException, GameException {
         State state = this.state.availableGame();
         this.setState(state);

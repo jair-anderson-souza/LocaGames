@@ -15,7 +15,7 @@ import org.apache.commons.mail.SimpleEmail;
  * @author Anderson Souza
  */
 public class EmailUtil {
-    private String myEmail;
+    private String myEmai;
     private String myPass;
     
 
