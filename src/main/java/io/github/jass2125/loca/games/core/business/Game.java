@@ -5,7 +5,7 @@
  */
 package io.github.jass2125.loca.games.core.business;
 
-import io.github.jass2125.loca.games.exceptions.RentException;
+import io.github.jass2125.loca.games.exceptions.GameException;
 import io.github.jass2125.loca.games.observer.Observable;
 import io.github.jass2125.loca.games.observer.Observer;
 import io.github.jass2125.loca.games.state.GameState;
@@ -14,6 +14,7 @@ import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.mail.EmailException;
 
 /**
  * @author Anderson Souza
@@ -78,7 +79,7 @@ public class Game implements Serializable, Observable {
     
 
     @Override
-    public void notifyObservers() {
+    public void notifyObservers() throws EmailException{
         for (Observer it : listObservers) {
             it.update(this);
         }
@@ -94,13 +95,13 @@ public class Game implements Serializable, Observable {
         this.listObservers.add(observer);
     }
     
-    public State devolution() throws SQLException, ClassNotFoundException, RentException {
+    public State devolution() throws SQLException, ClassNotFoundException, GameException {
         State state = this.state.availableGame();
         this.setState(state);
         return state;
     }
 
-    public State location() throws SQLException, ClassNotFoundException, RentException {
+    public State location() throws SQLException, ClassNotFoundException, GameException {
         State state = this.state.rentedGame();
         this.setState(state);
         return state;

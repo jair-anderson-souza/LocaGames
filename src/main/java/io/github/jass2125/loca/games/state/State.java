@@ -5,7 +5,7 @@
  */
 package io.github.jass2125.loca.games.state;
 
-import io.github.jass2125.loca.games.exceptions.RentException;
+import io.github.jass2125.loca.games.exceptions.GameException;
 import java.sql.SQLException;
 
 /**
@@ -14,8 +14,8 @@ import java.sql.SQLException;
  */
 public interface State {
 
-    public State rentedGame() throws SQLException, ClassNotFoundException, RentException;
+    public State rentedGame() throws SQLException, ClassNotFoundException, GameException;
 
-    public State availableGame()throws SQLException, ClassNotFoundException, RentException;
+    public State availableGame()throws SQLException, ClassNotFoundException, GameException;
 
 }

@@ -6,13 +6,15 @@
 
 package io.github.jass2125.loca.games.observer;
 
+import org.apache.commons.mail.EmailException;
+
 /**
  *
  * @author Anderson Souza
  */
 public interface Observable {
     
-    public void notifyObservers();
+    public void notifyObservers() throws EmailException;
     public void deleteObserver(Observer observer);
     public void addObserver(Observer observer);
 

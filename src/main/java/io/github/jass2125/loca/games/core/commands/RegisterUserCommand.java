@@ -5,6 +5,8 @@
  */
 package io.github.jass2125.loca.games.core.commands;
 
+import br.com.caelum.stella.validation.CPFValidator;
+import br.com.caelum.stella.validation.InvalidStateException;
 import io.github.jass2125.loca.games.core.business.User;
 import io.github.jass2125.loca.games.core.dao.UserDao;
 import io.github.jass2125.loca.games.core.factory.DaoFactory;
@@ -18,7 +20,13 @@ import javax.servlet.http.HttpServletResponse;
  * @since 15:33:48, 20-Feb-2016
  */
 public class RegisterUserCommand implements Command {
+    private UserDao dao;
 
+    public RegisterUserCommand() {
+        dao = (UserDao) DaoFactory.createDao(DaoEnum.USER.getOption());
+    }
+    
+    
     /**
      *
      * @param request
@@ -31,16 +39,28 @@ public class RegisterUserCommand implements Command {
             String name = request.getParameter("name");
             String cpf = request.getParameter("cpf");
             String email = request.getParameter("email");
-
-            UserDao dao = (UserDao) DaoFactory.createDao(DaoEnum.USER.getOption());
+//            validaCpf(cpf);
             User user = new User(name, cpf, email);
             dao.persist(user);
             request.getSession().setAttribute("user", user);
             return "home.jsp";
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException | InvalidStateException e) {
             e.printStackTrace();
+            request.getSession().setAttribute("user", e.getMessage());
+            return "home.jsp";
         }
-        return null;
+//        return null;
+    }
+    
+    public void validaCpf(String cpf) throws InvalidStateException {
+            try{
+                CPFValidator validator = new CPFValidator();
+                validator.assertValid(cpf);
+                
+            }catch(InvalidStateException e){
+                e.printStackTrace();
+                e.getMessage();
+            }
     }
 }
 

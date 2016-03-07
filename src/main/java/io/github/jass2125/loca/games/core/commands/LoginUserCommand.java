@@ -44,8 +44,10 @@ public class LoginUserCommand implements Command {
             }
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
+            request.getSession().setAttribute("error", "Ocorreu um erro, retorne e tente novamente");
+            return "home.jsp";
         }
-        return null;
+        
     }
 
 }

@@ -13,11 +13,11 @@
         <div class="dj-modal__section">
             <h2 class="dj-titulo__left">Novo cliente</h2>
             <br>
-            <form action="addCliente" method="post" class="form-group">
+            <form action="front?command=registerUser" method="post" class="form-group">
                 
                 <div class="form-group dj-form__input">
-                    <label for="nome">Nome:</label>
-                    <input class="dj-button form-control" id="nome" name="nome" autofocus="">
+                    <label for="name">Nome:</label>
+                    <input class="dj-button form-control" id="nome" name="name" autofocus="">
                 </div>
                 <br>
                 <div class="form-group dj-form__input">

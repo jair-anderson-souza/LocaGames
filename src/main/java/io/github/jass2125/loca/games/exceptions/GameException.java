@@ -10,9 +10,9 @@ package io.github.jass2125.loca.games.exceptions;
  *
  * @author Anderson Souza
  */
-public class RentException extends Exception {
+public class GameException extends Exception {
 
-    public RentException(String msg) {
+    public GameException(String msg) {
         super(msg);
     }
 
@@ -26,14 +26,14 @@ public class RentException extends Exception {
         return super.getMessage(); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public RentException() {
+    public GameException() {
     }
 
-    public RentException(Throwable cause) {
+    public GameException(Throwable cause) {
         super(cause);
     }
 
-    public RentException(String message, Throwable cause) {
+    public GameException(String message, Throwable cause) {
         super(message, cause);
     }
     

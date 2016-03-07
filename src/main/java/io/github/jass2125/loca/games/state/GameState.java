@@ -5,7 +5,7 @@
  */
 package io.github.jass2125.loca.games.state;
 
-import io.github.jass2125.loca.games.exceptions.RentException;
+import io.github.jass2125.loca.games.exceptions.GameException;
 import java.sql.SQLException;
 
 
@@ -17,13 +17,13 @@ public enum GameState implements State {
     AVAILABLE{
 
         @Override
-        public State rentedGame() throws SQLException, ClassNotFoundException, RentException {
+        public State rentedGame() throws SQLException, ClassNotFoundException, GameException {
             return RENT;
         }
 
         @Override
-        public State availableGame() throws SQLException, ClassNotFoundException, RentException {
-            throw new RentException("O jogo está disponivel!!");
+        public State availableGame() throws SQLException, ClassNotFoundException, GameException {
+            throw new GameException("O jogo está disponivel!!");
         }
 
         
@@ -32,12 +32,12 @@ public enum GameState implements State {
     RENT{
 
         @Override
-        public State rentedGame() throws SQLException, ClassNotFoundException, RentException {
-                throw new RentException("O jogo está alugado!!");
+        public State rentedGame() throws SQLException, ClassNotFoundException, GameException {
+                throw new GameException("O jogo está alugado!!");
         }
 
         @Override
-        public State availableGame() throws SQLException, ClassNotFoundException, RentException {
+        public State availableGame() throws SQLException, ClassNotFoundException, GameException {
             return AVAILABLE;
         }
     }

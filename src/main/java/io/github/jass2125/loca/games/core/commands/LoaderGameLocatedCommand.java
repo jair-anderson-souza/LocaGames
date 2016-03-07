@@ -36,7 +36,7 @@ public class LoaderGameLocatedCommand implements Command {
 
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
-            return "index.jsp";
+            return "home.jsp";
         }
 
     }

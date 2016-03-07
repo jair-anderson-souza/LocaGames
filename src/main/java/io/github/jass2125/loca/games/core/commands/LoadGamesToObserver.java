@@ -15,10 +15,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ *
  * @author Anderson Souza
- * @since 16:55:23, 24-Feb-2016
  */
-public class LoaderGamesCommand implements Command {
+public class LoadGamesToObserver implements Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -26,13 +26,13 @@ public class LoaderGamesCommand implements Command {
             GameDao dao = (GameDao) DaoFactory.createDao(DaoEnum.GAME.getOption());
             List<Game> listGames = dao.listGames();
             request.getSession().setAttribute("listGames", listGames);
-            return "alugar.jsp";
+            return "observar.jsp";
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
             request.getSession().setAttribute("error", "Ocorreu um erro, retorne e tente novamente");
             return "home.jsp";
         }
-        
+
     }
 
 }

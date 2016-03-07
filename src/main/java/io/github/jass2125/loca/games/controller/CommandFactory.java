@@ -35,18 +35,9 @@ public class CommandFactory {
         commands.put("devolutionGame", new GameDevolutionCommand());
         commands.put("locationGame", new GameLocationCommand());
         commands.put("loadGamesLocated", new LoaderGameLocatedCommand());
-        
-        
-        
-        
-        commands.put("loadGames", new LoaderGamesCommand());
         commands.put("registerUser", new RegisterUserCommand());
+        commands.put("loadGames", new LoaderGamesCommand());
         
-        commands.put("loaderLocations", new LoaderGameLocatedCommand());
-//        commands.put("render", new GameRenderCommand());
-//        commands.put("return", new GameRenderCommand());
-
-//        commands.put("login", new LoginCommand());
         return commands.get(request.getParameter("command"));
     }
 

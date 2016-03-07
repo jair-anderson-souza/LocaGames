@@ -12,13 +12,15 @@ import io.github.jass2125.loca.games.core.dao.GameDao;
 import io.github.jass2125.loca.games.core.dao.LocationDao;
 import io.github.jass2125.loca.games.core.factory.DaoFactory;
 import io.github.jass2125.loca.games.core.util.DaoEnum;
-import io.github.jass2125.loca.games.exceptions.RentException;
+import io.github.jass2125.loca.games.exceptions.GameException;
+import io.github.jass2125.loca.games.observer.Observer;
 import io.github.jass2125.loca.games.state.GameState;
 import io.github.jass2125.loca.games.strategy.LocationCalcStrategyEnum;
 import java.sql.SQLException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,69 +29,50 @@ import javax.servlet.http.HttpServletResponse;
  * @since 15:18:13, 24-Feb-2016
  */
 public class GameLocationCommand implements Command {
-
     private LocationDao daoLocation;
     private GameDao dao;
-
+    private String day;
+    private LocalDate devolutionDate;
+    
     public GameLocationCommand() {
         dao = (GameDao) DaoFactory.createDao(DaoEnum.GAME.getOption());
         daoLocation = (LocationDao) DaoFactory.createDao(DaoEnum.LOCATION.getOption());
+        day = this.verifyTypeOfLocation();
+        devolutionDate = this.getNumberDayLocation();
     }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         try {
+            
             Long idGame = Long.parseLong(request.getParameter("idGame"));
-            String cpf = ((User) request.getSession().getAttribute("user")).getCpf();
+            User user = (User) request.getSession().getAttribute("user");
             Game game = dao.findById(idGame);
-            //pega o valor do enum
-            //String state = game.getState();
-
-//            State state  = game.rent();
-//            game.getState().
+            
             if (game.getState().equals(GameState.AVAILABLE)) {
                 game.location();
                 Location location = new Location();
                 location.setIdGame(idGame);
-                location.setDateDevolution(getDevolutionDay());
-                location.setIdUser(cpf);
-                location.setStrategy(LocationCalcStrategyEnum.valueOf(verifyTypeOfLocation()));
+                location.setDateDevolution(devolutionDate);
+                location.setIdUser(user.getCpf());
+                location.setStrategy(LocationCalcStrategyEnum.valueOf(day));
                 daoLocation.save(location);
-
                 request.getSession().setAttribute("success", "Jogo locado com sucesso");
                 dao.editState(idGame, GameState.RENT.name());
                 return "home.jsp";
-
             }
+            
+            game.addObserver(user);
             Location location = daoLocation.findLocationById(idGame);
             String date = ConvertDate(location.getDateDevolution());
             request.getSession().setAttribute("info", date);
             request.getSession().setAttribute("error", "Jogo já esta alugado");
             return "home.jsp";
-
-//            if (state.equals("RENT")) {
-//                request.getSession().setAttribute("error", "Jogo ja esta alugado");
-////                game.setState("AVAILABLE");
-////                dao.editState(idGame, "AVAILABLE");
-//                return "home.jsp";
-//            } else {
-//                daoLocation.save(location);
-//                request.getSession().setAttribute("success", "Jogo alugado com sucesso");
-//                game.setState("RENT");
-//                dao.editState(idGame, "RENT");
-//                return "home.jsp";
-//            }
-//            
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (NumberFormatException | SQLException | ClassNotFoundException | GameException e) {
             e.printStackTrace();
-            request.getSession().setAttribute("error", e.getMessage());
-            return "index.jsp";
-
-        } catch (RentException e) {
-            e.printStackTrace();
-            request.getSession().setAttribute("error", e.getMessage());
-            return "index.jsp";
-        }
+            request.getSession().setAttribute("error", "Ocorreu um erro, retorne e tente novamente");
+            return "home.jsp";
+        } 
     }
 
     private String verifyTypeOfLocation() {
@@ -100,9 +83,8 @@ public class GameLocationCommand implements Command {
         return "COMUM";
     }
 
-    public LocalDate getDevolutionDay() {
-        String verif = this.verifyTypeOfLocation();
-        if (verif.equals("SPECIAL")) {
+    private LocalDate getNumberDayLocation() {
+        if (this.day.equals("SPECIAL")) {
             return LocalDate.now().plusDays(2);
         }
         return LocalDate.now().plusDays(1);
@@ -110,11 +92,7 @@ public class GameLocationCommand implements Command {
     }
 
     private String ConvertDate(LocalDate dateDevolution) {
-//        DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-//        DateTimeFormatter formatter = Date
         return dateDevolution.plusDays(1).format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-//        return null;
     }
 
 }
