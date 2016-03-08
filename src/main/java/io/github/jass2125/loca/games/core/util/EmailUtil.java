@@ -16,30 +16,38 @@ import org.apache.commons.mail.SimpleEmail;
  *
  * @author Anderson Souza
  */
-public class EmailUtil {
+public class EmailUtil implements Runnable {
+
     private String myEmail = "petedoherty2009@gmail.com";
     private String myPass = "seeyousoon";
-    
+    private User user;
+    private Game game;
 
-    public void sendEmail(User user, Game game) throws EmailException {
-        
-        String emailU = user.getEmail();
-        String gameU = game.getName();
-        
-        
-        Email email = new SimpleEmail();
-
-        email.setHostName("smtp.googlemail.com");
-        email.setSmtpPort(465);
-        email.setAuthenticator(new DefaultAuthenticator(myEmail, myPass));
-        email.setSSLOnConnect(true);
-        email.setFrom(myEmail);
-        email.setSubject("Loca-Games");
-        email.setMsg("Caro Sr. " + user.getName() +", o jogo " + game.getName() + " esta disponivel para locaçao! Corra agora para a Pattern Games para garantir");
-        email.addTo(emailU);
-        email.send();
-
+    public EmailUtil(User user, Game game) {
+        this.user = user;
+        this.game = game;
     }
 
+    @Override
+    public void run() {
+        try {
+            String emailU = user.getEmail();
+            String gameU = game.getName();
+
+            Email email = new SimpleEmail();
+
+            email.setHostName("smtp.googlemail.com");
+            email.setSmtpPort(465);
+            email.setAuthenticator(new DefaultAuthenticator(myEmail, myPass));
+            email.setSSLOnConnect(true);
+            email.setFrom(myEmail);
+            email.setSubject("Loca-Games");
+            email.setMsg("Caro Sr. " + user.getName() + ", o jogo " + game.getName() + " esta disponivel para locaçao! Corra agora para a Pattern Games para garantir");
+            email.addTo(emailU);
+            email.send();
+        } catch (EmailException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

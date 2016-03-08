@@ -44,7 +44,7 @@ public class User implements Serializable, Observer<Game> {
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
-
+    
     public String getEmail() {
         return this.email;
     }
@@ -55,8 +55,10 @@ public class User implements Serializable, Observer<Game> {
 
     @Override
     public void update(Game game) throws EmailException {
-        EmailUtil emailSender = new EmailUtil();
-        emailSender.sendEmail(this, game);
+        EmailUtil emailSender = new EmailUtil(this, game);
+        Thread thread = new Thread(emailSender);
+        thread.start();
+//        thread.se
     }
 
 }
