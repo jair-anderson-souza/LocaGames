@@ -22,14 +22,13 @@ public class LoaderGamesAction implements Action {
     private GameRepository dao;
 
     public LoaderGamesAction() {
-        dao = new GameDao();
+        
     }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         try {
-//            GameRepository dao = new GameDao();
-            List<Game> listGames = dao.listGames();
+            List<Game> listGames = getListaGames();
             request.getSession().setAttribute("listGames", listGames);
             return "funcionario/alugar.jsp";
         } catch (ClassNotFoundException | SQLException e) {
@@ -38,6 +37,12 @@ public class LoaderGamesAction implements Action {
             return "home.jsp";
         }
 
+    }
+    
+    public List<Game> getListaGames() throws SQLException, ClassNotFoundException{
+        dao = new GameDao();
+        List<Game> listGames = dao.listGames();
+        return listGames;
     }
 
 }

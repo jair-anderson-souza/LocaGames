@@ -6,12 +6,12 @@
 package io.github.jass2125.loca.games.controller;
 
 import io.github.jass2125.loca.games.core.actions.Action;
-import io.github.jass2125.loca.games.core.actions.GameDevolutionCommand;
-import io.github.jass2125.loca.games.core.actions.GameLocationBean;
+import io.github.jass2125.loca.games.core.actions.GameDevolutionAction;
+import io.github.jass2125.loca.games.core.actions.GameLocationAction;
 import io.github.jass2125.loca.games.core.actions.LoaderGameLocatedAction;
 import io.github.jass2125.loca.games.core.actions.LoaderGamesAction;
 import io.github.jass2125.loca.games.core.actions.LoginUserAction;
-import io.github.jass2125.loca.games.core.actions.RegisterUserCommand;
+import io.github.jass2125.loca.games.core.actions.RegisterUserAction;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -32,10 +32,10 @@ public class ActionFactory {
         commands.put("loadGames", new LoaderGamesAction());
         commands.put("loadGamesLocated", new LoaderGameLocatedAction());
         commands.put("loginUser", new LoginUserAction());
+        commands.put("registerUser", new RegisterUserAction());
+        commands.put("devolutionGame", new GameDevolutionAction());
         
-        commands.put("devolutionGame", new GameDevolutionCommand());
-        commands.put("locationGame", new GameLocationBean());
-        commands.put("registerUser", new RegisterUserCommand());
+        commands.put("locationGame", new GameLocationAction());
 
         return commands.get(request.getParameter("action"));
     }

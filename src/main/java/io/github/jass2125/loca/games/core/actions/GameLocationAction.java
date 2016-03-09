@@ -9,6 +9,7 @@ import io.github.jass2125.loca.games.core.business.Game;
 import io.github.jass2125.loca.games.core.business.Location;
 import io.github.jass2125.loca.games.core.business.User;
 import io.github.jass2125.loca.games.core.repository.GameDao;
+import io.github.jass2125.loca.games.core.repository.GameRepository;
 import io.github.jass2125.loca.games.core.repository.LocationDao;
 import io.github.jass2125.loca.games.core.repository.ObserverDao;
 import io.github.jass2125.loca.games.core.util.ConvertDate;
@@ -26,46 +27,29 @@ import javax.servlet.http.HttpServletResponse;
  * @author Anderson Souza
  * @since 15:18:13, 24-Feb-2016
  */
-public class GameLocationBean implements Action, GameLocation {
-    @EJB
+public class GameLocationAction implements Action {
+
     private LocationDao daoLocation;
-    @EJB
     private ObserverDao daoObserver;
-    @EJB
-    private GameDao dao;
-    @EJB
+    private GameRepository dao;
     private String day;
-    @EJB
     private LocalDate devolutionDate;
-    
-    public GameLocationBean() {
-//        dao = (GameDao) DaoFactory.createDao(DaoEnum.GAME.getOption());
-//        daoLocation = (LocationDao) DaoFactory.createDao(DaoEnum.LOCATION.getOption());
-//        day = this.verifyTypeOfLocation();
-//        devolutionDate = this.getNumberDayLocation();
-    }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         try {
-            
+
             Long idGame = Long.parseLong(request.getParameter("idGame"));
-            User user = (User) request.getSession().getAttribute("user");
-            Game game = dao.findById(idGame);
-            
-            if (game.getState().equals(GameState.AVAILABLE)) {
-                game.location();
-                Location location = new Location();
-                location.setIdGame(idGame);
-                location.setDateDevolution(devolutionDate);
-                location.setIdUser(user.getCpf());
-                location.setStrategy(LocationCalcStrategyEnum.valueOf(day));
-                daoLocation.save(location);
+            String cpf = ((User) request.getSession().getAttribute("user")).getCpf();
+            Game game = getGameLocated(idGame);
+
+            if (game != null) {
+                saveLocation(idGame, cpf);
                 request.getSession().setAttribute("success", "Jogo locado com sucesso");
                 dao.editState(idGame, GameState.RENT.name());
                 return "home.jsp";
             }
-            
+
 //            daoObserver = (ObserverDao) DaoFactory.createDao(DaoEnum.OBSERVER.getOption());
             daoObserver.addObserver(user.getCpf(), idGame);
             game.addObserver(user);
@@ -74,12 +58,28 @@ public class GameLocationBean implements Action, GameLocation {
             request.getSession().setAttribute("info", date);
             request.getSession().setAttribute("error", "Jogo já esta alugado");
             return "home.jsp";
-            
-        } catch (NumberFormatException | SQLException | ClassNotFoundException | GameException e) {
+
+        } catch (NumberFormatException | SQLException | ClassNotFoundException e) {
             e.printStackTrace();
             request.getSession().setAttribute("error", "Ocorreu um erro, retorne e tente novamente");
             return "home.jsp";
-        } 
+        }
+    }
+
+    private void saveLocation(Long idGame, String cpf) throws ClassNotFoundException, SQLException {
+        daoLocation = new LocationDao();
+        Location location = new Location();
+        location.setIdGame(idGame);
+        location.setDateDevolution(devolutionDate);
+        location.setIdUser(cpf);
+        location.setStrategy(LocationCalcStrategyEnum.valueOf(day));
+        daoLocation.save(location);
+    }
+
+    private Game getGameLocated(Long idGame) throws SQLException, ClassNotFoundException {
+        dao = new GameDao();
+        Game game = dao.findById(idGame);
+        return (game.getState().equals(GameState.AVAILABLE) ? game : null);
     }
 
     private String verifyTypeOfLocation() {
@@ -98,5 +98,4 @@ public class GameLocationBean implements Action, GameLocation {
 
     }
 
-   
 }

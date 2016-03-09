@@ -45,16 +45,7 @@
                 </c:if>
 
             </div>
-            <c:if test="${sessionScope.user == null}">
-                <button data-toggle="modal" data-target="#modal" class="btn btn-info btn-sm">Identifique o cliente</button>
-                <div class="text-right">
-
-                </div>
-                <%@include file="modalCliente.jsp" %>
-            </c:if>
-
             <br>
-
             <div class="dj-titulo__left">
                 <h2>Funcionalidades do sistema</h2>
             </div>
@@ -65,32 +56,25 @@
                 <br>
                 <ul>
                     <li>
-                        <img src="icons/rent.png" class="dj-image__funcionalidade">
-                        <a href="front?action=loadGames">Alugar</a>
+                        <img src="../icons/rent.png" class="dj-image__funcionalidade">
+                        <a href="../front?action=loadGames">Alugar</a>
                     </li>
                     <li>
-                        <img src="icons/return.png" class="dj-image__funcionalidade">
-                        <a href="front?action=loadGamesLocated">Devolver</a> 
+                        <img src="../icons/return.png" class="dj-image__funcionalidade">
+                        <a href="../front?action=loadGamesLocated">Devolver</a> 
                     </li>
                     <li>
-                        <img src="icons/newGame.png" class="dj-image__funcionalidade">
-                        <a href="novoJogo.jsp">Novo jogo</a>
+                        <img src="../icons/newGame.png" class="dj-image__funcionalidade">
+                        <a href="../funcionario/novoJogo.jsp">Novo jogo</a>
+                    </li>
+                    <li>
+                        <img src="../icons/newGame.png" class="dj-image__funcionalidade">
+                        <a href="../funcionario/novoJogo.jsp">Sair</a>
                     </li>
                 </ul>
             </div>
             <br><br>
-            <div>
-                <h3>Clientes</h3>
-                <br>
-                <ul>
-                    <li>
-                        <img src="icons/rent.png" class="dj-image__funcionalidade">
-                        <a href="novoCliente.jsp">Novo Cliente</a>
-                    </li>
-                </ul>
-            </div>
 
         </div>
-        <c:remove scope="session" var="success"></c:remove>
     </body>
 </html>

@@ -5,14 +5,11 @@
  */
 package io.github.jass2125.loca.games.core.actions;
 
-import br.com.caelum.stella.validation.CPFValidator;
 import br.com.caelum.stella.validation.InvalidStateException;
 import io.github.jass2125.loca.games.core.business.User;
 import io.github.jass2125.loca.games.core.repository.UserDao;
-import io.github.jass2125.loca.games.core.factory.DaoFactory;
-import io.github.jass2125.loca.games.core.util.DaoEnum;
+import io.github.jass2125.loca.games.core.repository.UserRepository;
 import java.sql.SQLException;
-import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,49 +17,44 @@ import javax.servlet.http.HttpServletResponse;
  * @author Anderson Souza
  * @since 15:33:48, 20-Feb-2016
  */
-public class RegisterUserCommand implements Action {
-    @EJB
-    private UserDao dao;
+public class RegisterUserAction implements Action {
 
-    public RegisterUserCommand() {
-//        dao = (UserDao) DaoFactory.createDao(DaoEnum.USER.getOption());
+    private UserRepository repository;
+
+    public RegisterUserAction() {
     }
-    
-    
-    /**
-     *
-     * @param request
-     * @param response
-     * @return
-     */
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         try {
             String name = request.getParameter("name");
             String cpf = request.getParameter("cpf");
             String email = request.getParameter("email");
-//            validaCpf(cpf);
-            User user = new User(name, cpf, email);
-            dao.save(user);
-            request.getSession().setAttribute("user", user);
+            boolean verification = validaCpf(cpf);
+            if (verification) {
+                User user = new User(name, cpf, email);
+                saveUser(user);
+                request.getSession().setAttribute("user", user);
+                return "funcionario/home.jsp";
+            }
+            request.getSession().setAttribute("error", "Padrao de CPF: 000.000.000-00");
             return "home.jsp";
-        } catch (SQLException | ClassNotFoundException | InvalidStateException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
-            request.getSession().setAttribute("user", e.getMessage());
+            request.getSession().setAttribute("error", "Número de CPF já existe");
             return "home.jsp";
         }
-//        return null;
     }
-    
-    public void validaCpf(String cpf) throws InvalidStateException {
-            try{
-                CPFValidator validator = new CPFValidator();
-                validator.assertValid(cpf);
-                
-            }catch(InvalidStateException e){
-                e.printStackTrace();
-                e.getMessage();
-            }
+
+    public boolean validaCpf(String cpf) {
+        String regex = "(\\d{3})[.](\\d{3})[.](\\d{3})-(\\d{2})";
+        boolean verification = cpf.matches(regex);
+        return verification;
+    }
+
+    private void saveUser(User user) throws ClassNotFoundException, SQLException {
+        repository = new UserDao();
+        repository.save(user);
     }
 }
 
@@ -91,7 +83,6 @@ public class RegisterUserCommand implements Action {
 //    foreign key(idUser) references user(cpf) on update cascade on delete restrict,
 //    primary key(idLocation)
 //);
-
 //create table observers(
 //    idGame bigint,
 //    idUser varchar(50),
@@ -108,5 +99,4 @@ public class RegisterUserCommand implements Action {
 //insert into location(idLocation, idUser, idGame, dateLocation, strategy) values(1, '9658',1, '2016/10/10', 'COMUM');
 //insert into location(idLocation, idUser, idGame, dateLocation, strategy) values(2, '98765445678', 2, '24/02/16', 'SPECIAL');
 //insert into location(idLocation, idUser, idGame, dateLocation, strategy) values(3, '765678987',3, '20/02/16', 'COMUM');
-
 

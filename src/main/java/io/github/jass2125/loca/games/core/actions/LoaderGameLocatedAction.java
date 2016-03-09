@@ -31,6 +31,7 @@ public class LoaderGameLocatedAction implements Action {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         try {
             User user = this.getSessionUser(request);
+            
             if (user != null) {
                 String cpf = user.getCpf();
                 List<Game> listGames = dao.listGamesLocatedByUser(cpf);
