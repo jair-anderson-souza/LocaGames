@@ -8,10 +8,11 @@ package io.github.jass2125.loca.games.core.commands;
 import io.github.jass2125.loca.games.core.business.Game;
 import io.github.jass2125.loca.games.core.business.Location;
 import io.github.jass2125.loca.games.core.business.User;
-import io.github.jass2125.loca.games.core.dao.GameDao;
-import io.github.jass2125.loca.games.core.dao.LocationDao;
-import io.github.jass2125.loca.games.core.dao.ObserverDao;
+import io.github.jass2125.loca.games.core.repository.GameDao;
+import io.github.jass2125.loca.games.core.repository.LocationDao;
+import io.github.jass2125.loca.games.core.repository.ObserverDao;
 import io.github.jass2125.loca.games.core.factory.DaoFactory;
+import io.github.jass2125.loca.games.core.util.ConvertDate;
 import io.github.jass2125.loca.games.core.util.DaoEnum;
 import io.github.jass2125.loca.games.exceptions.GameException;
 import io.github.jass2125.loca.games.state.GameState;
@@ -19,7 +20,6 @@ import io.github.jass2125.loca.games.strategy.LocationCalcStrategyEnum;
 import java.sql.SQLException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -66,7 +66,7 @@ public class GameLocationCommand implements Command {
             daoObserver.addObserver(user.getCpf(), idGame);
             game.addObserver(user);
             Location location = daoLocation.findLocationById(idGame);
-            String date = ConvertDate(location.getDateDevolution());
+            String date = ConvertDate.converte(location.getDateDevolution());
             request.getSession().setAttribute("info", date);
             request.getSession().setAttribute("error", "Jogo já esta alugado");
             return "home.jsp";
@@ -94,8 +94,5 @@ public class GameLocationCommand implements Command {
 
     }
 
-    private String ConvertDate(LocalDate dateDevolution) {
-        return dateDevolution.plusDays(1).format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-    }
-
+   
 }

@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package io.github.jass2125.loca.games.core.dao;
+package io.github.jass2125.loca.games.core.repository;
 
 import io.github.jass2125.loca.games.core.business.User;
-import io.github.jass2125.loca.games.core.factory.IDao;
 import io.github.jass2125.loca.games.observer.Observer;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -20,7 +19,7 @@ import java.util.List;
  *
  * @author Anderson Souza
  */
-public class ObserverDao implements IDao {
+public class ObserverDao implements ObserverRepository<Observer> {
 
     private String url;
 
@@ -28,6 +27,7 @@ public class ObserverDao implements IDao {
         this.url = "jdbc:mysql://localhost:3306/locagames";
     }
 
+    @Override
     public void addObserver(String cpf, Long idGame) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.jdbc.Driver");
         Connection connection = DriverManager.getConnection(url, "root", "12345");
@@ -38,6 +38,7 @@ public class ObserverDao implements IDao {
         preparedStatement.execute();
     }
     
+    @Override
     public List<Observer> getListObservers(Long idGame) throws SQLException, ClassNotFoundException {
         Class.forName("com.mysql.jdbc.Driver");
         Connection connection = DriverManager.getConnection(url, "root", "12345");
@@ -56,4 +57,11 @@ public class ObserverDao implements IDao {
         }
         return listObservers;
     }
+
+    @Override
+    public void delete(Observer observer) throws SQLException, ClassNotFoundException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    
 }

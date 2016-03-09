@@ -8,9 +8,9 @@ package io.github.jass2125.loca.games.core.commands;
 import io.github.jass2125.loca.games.core.business.Game;
 import io.github.jass2125.loca.games.core.business.Location;
 import io.github.jass2125.loca.games.core.business.User;
-import io.github.jass2125.loca.games.core.dao.GameDao;
-import io.github.jass2125.loca.games.core.dao.LocationDao;
-import io.github.jass2125.loca.games.core.dao.ObserverDao;
+import io.github.jass2125.loca.games.core.repository.GameDao;
+import io.github.jass2125.loca.games.core.repository.LocationDao;
+import io.github.jass2125.loca.games.core.repository.ObserverDao;
 import io.github.jass2125.loca.games.core.factory.DaoFactory;
 import io.github.jass2125.loca.games.core.util.DaoEnum;
 import io.github.jass2125.loca.games.exceptions.GameException;
@@ -20,6 +20,7 @@ import io.github.jass2125.loca.games.strategy.LocationCalcStrategy;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.mail.EmailException;
@@ -30,16 +31,16 @@ import org.apache.commons.mail.EmailException;
  */
 public class GameDevolutionCommand implements Command {
 
+    @EJB
     private LocationDao daoLocation;
+    @EJB
     private LocationCalcStrategy strategy;
+    @EJB
     private GameDao dao;
+    @EJB
     private ObserverDao daoObserver;
+    @EJB
     private LocationCalcStrategy strategyCalc;
-
-    public GameDevolutionCommand() {
-        dao = (GameDao) DaoFactory.createDao(DaoEnum.GAME.getOption());
-        daoLocation = (LocationDao) DaoFactory.createDao(DaoEnum.LOCATION.getOption());
-    }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -55,7 +56,7 @@ public class GameDevolutionCommand implements Command {
                 BigDecimal price = location.calculateValueLocation();
                 request.getSession().setAttribute("price", price);
                 dao.editState(idGame, GameState.AVAILABLE.name());
-                daoObserver = (ObserverDao) DaoFactory.createDao(DaoEnum.OBSERVER.getOption());
+
                 List<Observer> listObservers = daoObserver.getListObservers(idGame);
                 game.setListObservers(listObservers);
                 game.notifyObservers();

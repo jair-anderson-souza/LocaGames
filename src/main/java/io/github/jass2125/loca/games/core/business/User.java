@@ -58,6 +58,8 @@ public class User implements Serializable, Observer<Game> {
         EmailUtil emailSender = new EmailUtil(this, game);
         Thread thread = new Thread(emailSender);
         thread.start();
+//        thread
+        
 //        thread.se
     }
 

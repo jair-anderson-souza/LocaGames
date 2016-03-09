@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package io.github.jass2125.loca.games.core.dao;
+package io.github.jass2125.loca.games.core.repository;
 
 import io.github.jass2125.loca.games.core.business.Game;
-import io.github.jass2125.loca.games.core.factory.IDao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -15,11 +14,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 /**
  * @author Anderson Souza
  * @since 21:17:49, 23-Feb-2016
  */
-public class GameDao implements IDao {
+public class GameDao implements GameRepository<Game> {
 
     private String url;
 
@@ -27,6 +28,7 @@ public class GameDao implements IDao {
         this.url = "jdbc:mysql://localhost:3306/locagames";
     }
 
+    @Override
     public List<Game> listGames() throws SQLException, ClassNotFoundException {
         Class.forName("com.mysql.jdbc.Driver");
         Connection connection = DriverManager.getConnection(url, "root", "12345");
@@ -46,27 +48,7 @@ public class GameDao implements IDao {
         }
         return listGamers;
     }
-//
-//    public List<Game> listGamesById(String idGame) throws SQLException, ClassNotFoundException {
-//        Class.forName("com.mysql.jdbc.Driver");
-//        Connection connection = DriverManager.getConnection(url, "root", "12345");
-//        String sql = "select game.idGame, game.nameGame, game.gender from game inner join location on game.idGame = location.idGame and location.idGame = ?;";
-//        PreparedStatement preparedStatement = connection.prepareStatement(sql);
-//        ResultSet resulSet = preparedStatement.executeQuery();
-//        List<Game> listGames = new ArrayList<>();
-//        Game game = null;
-////        GameStateEnum gameState = null;
-//        while (resulSet.next()) {
-//            Long id = resulSet.getLong("idGame");
-//            String name = resulSet.getString("nameGame");
-//            String gender = resulSet.getString("gender");
-//            String state = resulSet.getString("state");
-//            gameState = GameStateEnum.valueOf(state);
-//            game = new Game(id, name, gender, gameState);
-//            listGames.add(game);
-//        }
-//        return listGames;
-//    }
+    @Override
     public Game findById(Long idGame) throws SQLException, ClassNotFoundException {
         Class.forName("com.mysql.jdbc.Driver");
         Connection connection = DriverManager.getConnection(url, "root", "12345");
@@ -83,32 +65,8 @@ public class GameDao implements IDao {
         }
         return null;
     }
-//    public String findByStatus(Long idGame) throws SQLException, ClassNotFoundException {
-//        Class.forName("com.mysql.jdbc.Driver");
-//        Connection connection = DriverManager.getConnection(url, "root", "12345");
-//        String sql = "select status from game where idGame = ?;";
-//        PreparedStatement ps = connection.prepareStatement(sql);
-//        ps.setLong(1, idGame);
-//        ResultSet rs = ps.executeQuery();
-//        if (rs.next()) {
-//            String status = rs.getString("nameGame");
-//            return status;
-//        }
-//        return null;
-//    }
-//    public void edit(String state) {
-//        Class.forName("com.mysql.jdbc.Driver");
-//        Connection connection = DriverManager.getConnection(url, "root", "12345");
-//        String sql = "select status from game where idGame = ?;";
-//        PreparedStatement ps = connection.prepareStatement(sql);
-//        ps.setLong(1, idGame);
-//        ResultSet rs = ps.executeQuery();
-//        if (rs.next()) {
-//            String status = rs.getString("nameGame");
-//            return status;
-//        }
-//        return null;
-//    }
+    
+    @Override
     public void editState(Long idGame, String state) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.jdbc.Driver");
         Connection connection = DriverManager.getConnection(url, "root", "12345");
@@ -137,6 +95,7 @@ public class GameDao implements IDao {
         }
         return listGames;
     }
+    @Override
     public List<Game> listGamesLocatedByUser(String cpf) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.jdbc.Driver");
         Connection connection = DriverManager.getConnection(url, "root", "12345");
@@ -157,7 +116,9 @@ public class GameDao implements IDao {
         }
         return listGames;
     }
+
+       
 }
 
    
-//}
+

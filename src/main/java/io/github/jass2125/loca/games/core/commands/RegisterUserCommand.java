@@ -8,7 +8,7 @@ package io.github.jass2125.loca.games.core.commands;
 import br.com.caelum.stella.validation.CPFValidator;
 import br.com.caelum.stella.validation.InvalidStateException;
 import io.github.jass2125.loca.games.core.business.User;
-import io.github.jass2125.loca.games.core.dao.UserDao;
+import io.github.jass2125.loca.games.core.repository.UserDao;
 import io.github.jass2125.loca.games.core.factory.DaoFactory;
 import io.github.jass2125.loca.games.core.util.DaoEnum;
 import java.sql.SQLException;
