@@ -20,7 +20,7 @@
                         <div class="alert alert-success">
                             <strong>Sucesso</strong> ${sessionScope.success}
                         </div>
-
+                            <c:remove var="success" scope="session" />
                     </c:when>
                     <c:when test="${sessionScope.info != null}">
                         <div class="alert alert-danger">
@@ -66,11 +66,11 @@
                 <ul>
                     <li>
                         <img src="icons/rent.png" class="dj-image__funcionalidade">
-                        <a href="front?command=loadGames">Alugar</a>
+                        <a href="front?action=loadGames">Alugar</a>
                     </li>
                     <li>
                         <img src="icons/return.png" class="dj-image__funcionalidade">
-                        <a href="front?command=loadGamesLocated">Devolver</a> 
+                        <a href="front?action=loadGamesLocated">Devolver</a> 
                     </li>
                     <li>
                         <img src="icons/observer.png" class="dj-image__funcionalidade">

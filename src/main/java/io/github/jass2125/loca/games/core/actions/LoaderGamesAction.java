@@ -3,12 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package io.github.jass2125.loca.games.core.commands;
+package io.github.jass2125.loca.games.core.actions;
 
 import io.github.jass2125.loca.games.core.business.Game;
 import io.github.jass2125.loca.games.core.repository.GameDao;
-import io.github.jass2125.loca.games.core.factory.DaoFactory;
-import io.github.jass2125.loca.games.core.util.DaoEnum;
+import io.github.jass2125.loca.games.core.repository.GameRepository;
 import java.sql.SQLException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -18,21 +17,27 @@ import javax.servlet.http.HttpServletResponse;
  * @author Anderson Souza
  * @since 16:55:23, 24-Feb-2016
  */
-public class LoaderGamesCommand implements Command {
+public class LoaderGamesAction implements Action {
+
+    private GameRepository dao;
+
+    public LoaderGamesAction() {
+        dao = new GameDao();
+    }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         try {
-            GameDao dao = (GameDao) DaoFactory.createDao(DaoEnum.GAME.getOption());
+//            GameRepository dao = new GameDao();
             List<Game> listGames = dao.listGames();
             request.getSession().setAttribute("listGames", listGames);
-            return "alugar.jsp";
+            return "funcionario/alugar.jsp";
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
             request.getSession().setAttribute("error", "Ocorreu um erro, retorne e tente novamente");
             return "home.jsp";
         }
-        
+
     }
 
 }

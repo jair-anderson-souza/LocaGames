@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package io.github.jass2125.loca.games.core.commands;
+package io.github.jass2125.loca.games.core.actions;
 
 import io.github.jass2125.loca.games.core.business.Game;
 import io.github.jass2125.loca.games.core.business.Location;
@@ -11,15 +11,14 @@ import io.github.jass2125.loca.games.core.business.User;
 import io.github.jass2125.loca.games.core.repository.GameDao;
 import io.github.jass2125.loca.games.core.repository.LocationDao;
 import io.github.jass2125.loca.games.core.repository.ObserverDao;
-import io.github.jass2125.loca.games.core.factory.DaoFactory;
 import io.github.jass2125.loca.games.core.util.ConvertDate;
-import io.github.jass2125.loca.games.core.util.DaoEnum;
 import io.github.jass2125.loca.games.exceptions.GameException;
 import io.github.jass2125.loca.games.state.GameState;
 import io.github.jass2125.loca.games.strategy.LocationCalcStrategyEnum;
 import java.sql.SQLException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,18 +26,23 @@ import javax.servlet.http.HttpServletResponse;
  * @author Anderson Souza
  * @since 15:18:13, 24-Feb-2016
  */
-public class GameLocationCommand implements Command {
+public class GameLocationBean implements Action, GameLocation {
+    @EJB
     private LocationDao daoLocation;
+    @EJB
     private ObserverDao daoObserver;
+    @EJB
     private GameDao dao;
+    @EJB
     private String day;
+    @EJB
     private LocalDate devolutionDate;
     
-    public GameLocationCommand() {
-        dao = (GameDao) DaoFactory.createDao(DaoEnum.GAME.getOption());
-        daoLocation = (LocationDao) DaoFactory.createDao(DaoEnum.LOCATION.getOption());
-        day = this.verifyTypeOfLocation();
-        devolutionDate = this.getNumberDayLocation();
+    public GameLocationBean() {
+//        dao = (GameDao) DaoFactory.createDao(DaoEnum.GAME.getOption());
+//        daoLocation = (LocationDao) DaoFactory.createDao(DaoEnum.LOCATION.getOption());
+//        day = this.verifyTypeOfLocation();
+//        devolutionDate = this.getNumberDayLocation();
     }
 
     @Override
@@ -62,7 +66,7 @@ public class GameLocationCommand implements Command {
                 return "home.jsp";
             }
             
-            daoObserver = (ObserverDao) DaoFactory.createDao(DaoEnum.OBSERVER.getOption());
+//            daoObserver = (ObserverDao) DaoFactory.createDao(DaoEnum.OBSERVER.getOption());
             daoObserver.addObserver(user.getCpf(), idGame);
             game.addObserver(user);
             Location location = daoLocation.findLocationById(idGame);

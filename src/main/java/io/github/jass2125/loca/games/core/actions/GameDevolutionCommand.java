@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package io.github.jass2125.loca.games.core.commands;
+package io.github.jass2125.loca.games.core.actions;
 
 import io.github.jass2125.loca.games.core.business.Game;
 import io.github.jass2125.loca.games.core.business.Location;
@@ -11,8 +11,6 @@ import io.github.jass2125.loca.games.core.business.User;
 import io.github.jass2125.loca.games.core.repository.GameDao;
 import io.github.jass2125.loca.games.core.repository.LocationDao;
 import io.github.jass2125.loca.games.core.repository.ObserverDao;
-import io.github.jass2125.loca.games.core.factory.DaoFactory;
-import io.github.jass2125.loca.games.core.util.DaoEnum;
 import io.github.jass2125.loca.games.exceptions.GameException;
 import io.github.jass2125.loca.games.observer.Observer;
 import io.github.jass2125.loca.games.state.GameState;
@@ -29,7 +27,7 @@ import org.apache.commons.mail.EmailException;
  *
  * @author Anderson Souza
  */
-public class GameDevolutionCommand implements Command {
+public class GameDevolutionCommand implements Action {
 
     @EJB
     private LocationDao daoLocation;

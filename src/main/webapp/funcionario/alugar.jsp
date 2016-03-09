@@ -38,9 +38,10 @@
             <c:if test="${sessionScope.user == null}">
                 <button data-toggle="modal" data-target="#modal" class="btn btn-info btn-sm">Identifique o cliente</button>
                 <div class="text-right">
-                    
+
                 </div>
-                <%@include file="modalCliente.jsp" %>
+                <%--<%@include file="../modalCliente.jsp" %>--%> 
+                <%@include file="modalCliente.jsp" %> 
             </c:if>
 
             <br><br>
@@ -67,7 +68,7 @@
                                 <td>${game.gender}</td>
                                 <c:choose>
                                     <c:when test="${sessionScope.user != null}">
-                                        <td><a href="front?command=locationGame&idGame=${game.idGame}">Alugar</a></td>
+                                        <td><a href="front?action=locationGame&idGame=${game.idGame}">Alugar</a></td>
                                     </c:when>
                                     <c:otherwise>
                                         <td>Operaçao nao permitida</td>
@@ -85,7 +86,7 @@
             </form>
 
             <br>
-            <h4><a href="home.jsp">Voltar ao início</a></h4>
+            <h4><a href="../home.jsp">Voltar ao início</a></h4>
         </div>
     </body>
 </html>

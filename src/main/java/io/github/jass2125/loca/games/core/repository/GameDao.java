@@ -37,7 +37,6 @@ public class GameDao implements GameRepository<Game> {
         ResultSet resulSet = preparedStatement.executeQuery();
         List<Game> listGamers = new ArrayList<>();
         Game game = null;
-//        GameStateEnum gameState = null;
         while (resulSet.next()) {
             Long idGame = resulSet.getLong("idGame");
             String name = resulSet.getString("nameGame");

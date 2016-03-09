@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package io.github.jass2125.loca.games.core.commands;
+package io.github.jass2125.loca.games.core.actions;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Anderson Souza 
  * @since 15:32:48, 20-Feb-2016 
  */
-public interface Command {
+public interface Action {
     
     public String execute(HttpServletRequest request, HttpServletResponse response);
 

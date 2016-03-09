@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package io.github.jass2125.loca.games.core.commands;
+package io.github.jass2125.loca.games.core.actions;
 
 import br.com.caelum.stella.validation.CPFValidator;
 import br.com.caelum.stella.validation.InvalidStateException;
@@ -12,6 +12,7 @@ import io.github.jass2125.loca.games.core.repository.UserDao;
 import io.github.jass2125.loca.games.core.factory.DaoFactory;
 import io.github.jass2125.loca.games.core.util.DaoEnum;
 import java.sql.SQLException;
+import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,11 +20,12 @@ import javax.servlet.http.HttpServletResponse;
  * @author Anderson Souza
  * @since 15:33:48, 20-Feb-2016
  */
-public class RegisterUserCommand implements Command {
+public class RegisterUserCommand implements Action {
+    @EJB
     private UserDao dao;
 
     public RegisterUserCommand() {
-        dao = (UserDao) DaoFactory.createDao(DaoEnum.USER.getOption());
+//        dao = (UserDao) DaoFactory.createDao(DaoEnum.USER.getOption());
     }
     
     
@@ -41,7 +43,7 @@ public class RegisterUserCommand implements Command {
             String email = request.getParameter("email");
 //            validaCpf(cpf);
             User user = new User(name, cpf, email);
-            dao.persist(user);
+            dao.save(user);
             request.getSession().setAttribute("user", user);
             return "home.jsp";
         } catch (SQLException | ClassNotFoundException | InvalidStateException e) {
