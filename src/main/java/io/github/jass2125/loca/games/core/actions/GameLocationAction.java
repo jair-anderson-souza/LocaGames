@@ -40,19 +40,17 @@ public class GameLocationAction implements Action {
         try {
 
             Long idGame = Long.parseLong(request.getParameter("idGame"));
-            String cpf = ((User) request.getSession().getAttribute("user")).getCpf();
+            User user = ((User) request.getSession().getAttribute("user"));
             Game game = getGameLocated(idGame);
 
             if (game != null) {
-                saveLocation(idGame, cpf);
+                saveLocation(idGame, user.getCpf());
                 request.getSession().setAttribute("success", "Jogo locado com sucesso");
                 dao.editState(idGame, GameState.RENT.name());
                 return "home.jsp";
             }
 
-//            daoObserver = (ObserverDao) DaoFactory.createDao(DaoEnum.OBSERVER.getOption());
-            daoObserver.addObserver(user.getCpf(), idGame);
-            game.addObserver(user);
+            //Caso o game esteja alugado, retorne a data qe ele estará disponível
             Location location = daoLocation.findLocationById(idGame);
             String date = ConvertDate.converte(location.getDateDevolution());
             request.getSession().setAttribute("info", date);
@@ -64,6 +62,10 @@ public class GameLocationAction implements Action {
             request.getSession().setAttribute("error", "Ocorreu um erro, retorne e tente novamente");
             return "home.jsp";
         }
+    }
+
+    private void save(User user, Long idGame) throws ClassNotFoundException, SQLException {
+        daoObserver.addObserver(user.getCpf(), idGame);
     }
 
     private void saveLocation(Long idGame, String cpf) throws ClassNotFoundException, SQLException {

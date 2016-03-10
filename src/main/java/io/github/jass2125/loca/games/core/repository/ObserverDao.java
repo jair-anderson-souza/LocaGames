@@ -47,8 +47,9 @@ public class ObserverDao implements ObserverRepository<Observer> {
         preparedStatement.setLong(1, idGame);
         ResultSet rs = preparedStatement.executeQuery();
         List<Observer> listObservers = new ArrayList<>();
-        User user = new User();
+        User user = null;
         while(rs.next()){
+            user = new User();
             String name = rs.getString("name");
             String email = rs.getString("email");
             String cpf = rs.getString("cpf");

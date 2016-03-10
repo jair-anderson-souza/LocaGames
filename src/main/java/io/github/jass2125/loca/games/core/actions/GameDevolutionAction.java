@@ -49,13 +49,15 @@ public class GameDevolutionAction implements Action {
                 BigDecimal price = this.getPriceLocation(location);
                 request.getSession().setAttribute("price", price);
                 this.editGameState(idGame, GameState.AVAILABLE.name());
-                this.addObservers(game, idGame);
+                game.setListObservers(loadObservers(idGame));
+                game.notifyObservers();
+
                 return "funcionario/home.jsp";
             }
-        
+
             request.getSession().setAttribute("error", "Você não alugou este jogo!");
             return "funcionario/home.jsp";
-        
+
         } catch (SQLException | ClassNotFoundException | EmailException e) {
             e.printStackTrace();
             request.getSession().setAttribute("error", "Erro, retorne e tente novamente");
@@ -69,11 +71,9 @@ public class GameDevolutionAction implements Action {
         return (game.getState().equals(GameState.RENT) ? game : null);
     }
 
-    private void addObservers(Game game, Long idGame) throws SQLException, ClassNotFoundException, EmailException {
+    private List<Observer> loadObservers(Long idGame) throws SQLException, ClassNotFoundException, EmailException {
         daoObserver = new ObserverDao();
-        List<Observer> listObservers = daoObserver.getListObservers(idGame);
-        game.setListObservers(listObservers);
-        game.notifyObservers();
+        return daoObserver.getListObservers(idGame);
     }
 
     private void editGameState(Long idGame, String state) throws ClassNotFoundException, SQLException {
