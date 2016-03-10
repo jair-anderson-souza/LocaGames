@@ -14,8 +14,13 @@ import java.time.format.DateTimeFormatter;
  * @author Anderson Souza
  */
 public class ConvertDate {
+    private String pattern;
+
+    public ConvertDate() {
+        this.pattern = "dd/MM/yyyy";
+    }
     
-     public static String converte(LocalDate dateDevolution) {
+     public String converte(LocalDate dateDevolution) {
         return dateDevolution.plusDays(1).format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 

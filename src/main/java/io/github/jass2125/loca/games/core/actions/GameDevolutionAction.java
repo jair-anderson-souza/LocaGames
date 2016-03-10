@@ -51,6 +51,8 @@ public class GameDevolutionAction implements Action {
                 this.editGameState(idGame, GameState.AVAILABLE.name());
                 game.setListObservers(loadObservers(idGame));
                 game.notifyObservers();
+                //game.deleteObserver(idGame);
+                //remorever os observadores
 
                 return "funcionario/home.jsp";
             }
