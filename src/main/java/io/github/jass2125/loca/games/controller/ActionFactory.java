@@ -11,6 +11,7 @@ import io.github.jass2125.loca.games.core.actions.GameLocationAction;
 import io.github.jass2125.loca.games.core.actions.LoaderGameLocatedAction;
 import io.github.jass2125.loca.games.core.actions.LoaderGamesAction;
 import io.github.jass2125.loca.games.core.actions.LoginUserAction;
+import io.github.jass2125.loca.games.core.actions.LogoutAction;
 import io.github.jass2125.loca.games.core.actions.RegisterUserAction;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,8 +35,9 @@ public class ActionFactory {
         commands.put("loginUser", new LoginUserAction());
         commands.put("registerUser", new RegisterUserAction());
         commands.put("devolutionGame", new GameDevolutionAction());
-        
+        commands.put("logout", new LogoutAction());
         commands.put("locationGame", new GameLocationAction());
+        
 
         return commands.get(request.getParameter("action"));
     }

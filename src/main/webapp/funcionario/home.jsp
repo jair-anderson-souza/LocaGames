@@ -22,13 +22,14 @@
                         </div>
                         <c:remove var="success" scope="session" />
                     </c:when>
+                    
                     <c:when test="${sessionScope.info != null}">
                         <div class="alert alert-danger">
-                            <strong>Falha</strong> ${sessionScope.info}
-                            ${sessionScope.info}
+                            <strong>Falha</strong> Jogo estará disponível no dia ${sessionScope.info}
                         </div>
                         <c:remove scope="session" var="info"></c:remove>
                     </c:when>
+                    
                     <c:when test="${sessionScope.error != null}">
                         <div class="alert alert-danger">
                             <strong>Falha</strong> ${sessionScope.error}
@@ -39,7 +40,7 @@
                 </c:choose>
                 <c:if test="${sessionScope.price != null}">
                     <div class="alert alert-info">
-                        <strong>Preço do aluguel</strong> ${sessionScope.price}
+                        <strong>Preço do aluguel</strong> R$ ${sessionScope.price}
                     </div>
                     <c:remove scope="session" var="price"></c:remove>
                 </c:if>
@@ -64,11 +65,7 @@
                         <a href="../front?action=loadGamesLocated">Devolver</a> 
                     </li>
                     <li>
-                        <img src="../icons/newGame.png" class="dj-image__funcionalidade">
-                        <a href="../funcionario/novoJogo.jsp">Novo jogo</a>
-                    </li>
-                    <li>
-                        <img src="../icons/newGame.png" class="dj-image__funcionalidade">
+                        <img src="../front?action=logout" class="dj-image__funcionalidade">
                         <a href="../funcionario/novoJogo.jsp">Sair</a>
                     </li>
                 </ul>

@@ -44,7 +44,7 @@
                                 <td>${game.gender}</td>
                                 <c:choose>
                                     <c:when test="${sessionScope.user != null}">
-                                        <td><a href="front?command=devolutionGame&idGame=${game.idGame}">Devolver</a></td>
+                                        <td><a href="../front?action=devolutionGame&idGame=${game.idGame}">Devolver</a></td>
                                     </c:when>
                                     <c:otherwise>
                                         <td>Operaçao nao permitida</td>

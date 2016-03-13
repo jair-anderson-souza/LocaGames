@@ -72,10 +72,6 @@
                         <img src="icons/return.png" class="dj-image__funcionalidade">
                         <a href="front?action=loadGamesLocated">Devolver</a> 
                     </li>
-                    <li>
-                        <img src="icons/newGame.png" class="dj-image__funcionalidade">
-                        <a href="novoJogo.jsp">Novo jogo</a>
-                    </li>
                 </ul>
             </div>
             <br><br>
