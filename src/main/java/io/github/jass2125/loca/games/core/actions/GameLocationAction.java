@@ -109,8 +109,9 @@ public class GameLocationAction implements Action {
     }
 
     private String getDateDevolution(Location location) {
+        LocalDate dataAvailable = location.getDateDevolution().plusDays(1);
         ConvertDate converter = new ConvertDate();
-        return converter.converte(location.getDateDevolution());
+        return converter.converteToString(dataAvailable);
     }
 
     private void addObserver(Long idGame, String cpf) throws ClassNotFoundException, SQLException {

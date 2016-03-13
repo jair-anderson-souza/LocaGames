@@ -84,11 +84,12 @@ public class RegisterUserAction implements Action {
 //    primary key(idLocation)
 //);
 //create table observers(
+//    idObserver bigint AUTO_INCREMENT,
 //    idGame bigint,
 //    idUser varchar(50),
 //    foreign key(idGame) references game(idGame) on update cascade on delete restrict,
 //    foreign key(idUser) references user(cpf) on update cascade on delete restrict,
-//    primary key(idGame, IdUser)
+//    primary key(idObserver)
 //);
 //insert into user values('Anderson Souza', 'jair_anderson_bs@hotmail.com','98765445678');
 //insert into user values('Diogo Moreira', 'diogomoreira@hotmail.com','765678987');

@@ -18,7 +18,7 @@ import io.github.jass2125.loca.games.state.GameState;
 import io.github.jass2125.loca.games.strategy.LocationCalcStrategy;
 import java.math.BigDecimal;
 import java.sql.SQLException;
-import java.util.List;
+import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.mail.EmailException;
@@ -51,8 +51,8 @@ public class GameDevolutionAction implements Action {
                 this.editGameState(idGame, GameState.AVAILABLE.name());
                 game.setListObservers(loadObservers(idGame));
                 game.notifyObservers();
-                //game.deleteObserver(idGame);
-                //remorever os observadores
+                removeObservers(idGame);
+//                remorever os observadores
 
                 return "funcionario/home.jsp";
             }
@@ -72,8 +72,13 @@ public class GameDevolutionAction implements Action {
         Game game = dao.findById(idGame);
         return (game.getState().equals(GameState.RENT) ? game : null);
     }
-
-    private List<Observer> loadObservers(Long idGame) throws SQLException, ClassNotFoundException, EmailException {
+    
+    public void removeObservers(Long idGame) throws SQLException, ClassNotFoundException{
+        daoObserver = new ObserverDao();
+        daoObserver.delete(idGame);
+    }
+    
+    private Set<Observer> loadObservers(Long idGame) throws SQLException, ClassNotFoundException, EmailException {
         daoObserver = new ObserverDao();
         return daoObserver.getListObservers(idGame);
     }

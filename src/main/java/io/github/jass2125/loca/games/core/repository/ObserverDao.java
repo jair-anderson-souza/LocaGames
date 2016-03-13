@@ -6,14 +6,15 @@
 package io.github.jass2125.loca.games.core.repository;
 
 import io.github.jass2125.loca.games.core.business.User;
+import io.github.jass2125.loca.games.core.factory.ConnectionFactory;
 import io.github.jass2125.loca.games.observer.Observer;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  *
@@ -21,34 +22,34 @@ import java.util.List;
  */
 public class ObserverDao implements ObserverRepository<Observer> {
 
-    private String url;
+    private ConnectionFactory factoryConnect;
 
     public ObserverDao() {
-        this.url = "jdbc:mysql://localhost:3306/locagames";
+        factoryConnect = new ConnectionFactory();
     }
 
     @Override
     public void addObserver(String cpf, Long idGame) throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.jdbc.Driver");
-        Connection connection = DriverManager.getConnection(url, "root", "12345");
+        Connection connection = factoryConnect.getConnection();
         String sql = "insert into observers(idUser, idGame) values(?, ?);";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, cpf);
         preparedStatement.setLong(2, idGame);
         preparedStatement.execute();
+        preparedStatement.close();
+        connection.close();
     }
-    
+
     @Override
-    public List<Observer> getListObservers(Long idGame) throws SQLException, ClassNotFoundException {
-        Class.forName("com.mysql.jdbc.Driver");
-        Connection connection = DriverManager.getConnection(url, "root", "12345");
+    public Set<Observer> getListObservers(Long idGame) throws SQLException, ClassNotFoundException {
+        Connection connection = factoryConnect.getConnection();
         String sql = "select distinct user.name, user.email, user.cpf from user inner join game inner join observers where user.cpf = observers.idUser and ? = observers.idGame;";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setLong(1, idGame);
         ResultSet rs = preparedStatement.executeQuery();
-        List<Observer> listObservers = new ArrayList<>();
+        Set<Observer> listObservers = new HashSet<>();
         User user = null;
-        while(rs.next()){
+        while (rs.next()) {
             user = new User();
             String name = rs.getString("name");
             String email = rs.getString("email");
@@ -56,13 +57,21 @@ public class ObserverDao implements ObserverRepository<Observer> {
             user = new User(name, cpf, email);
             listObservers.add(user);
         }
+        rs.close();
+        preparedStatement.close();
+        connection.close();
         return listObservers;
     }
 
     @Override
-    public void delete(Observer observer) throws SQLException, ClassNotFoundException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void delete(Long idGame) throws SQLException, ClassNotFoundException {
+        Connection connection = factoryConnect.getConnection();
+        String sql = "delete from observers where idGame = ?;";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setLong(1, idGame);
+        preparedStatement.execute();
+        preparedStatement.close();
+        connection.close();
     }
 
-    
 }

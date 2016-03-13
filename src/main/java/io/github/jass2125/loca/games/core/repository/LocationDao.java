@@ -6,6 +6,7 @@
 package io.github.jass2125.loca.games.core.repository;
 
 import io.github.jass2125.loca.games.core.business.Location;
+import io.github.jass2125.loca.games.core.factory.ConnectionFactory;
 import io.github.jass2125.loca.games.core.factory.GenericRepository;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -23,15 +24,14 @@ import java.util.List;
 
 public class LocationDao implements LocationRepository {
 
-    private String url;
+    private ConnectionFactory factoryConnect;
 
     public LocationDao() {
-        this.url = "jdbc:mysql://localhost:3306/locagames";
+        factoryConnect = new ConnectionFactory();
     }
 
     public void save(Location location) throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.jdbc.Driver");
-        Connection connection = DriverManager.getConnection(url, "root", "12345");
+        Connection connection = factoryConnect.getConnection();
         String sql = "insert into location(idUser, idGame, dateLocation, dateDevolution, strategy) values(?, ?, ? ,?, ?);";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, location.getIdUser());
@@ -40,11 +40,12 @@ public class LocationDao implements LocationRepository {
         preparedStatement.setString(4, location.getDateDevolution().toString());
         preparedStatement.setString(5, location.getStrategy().toString());
         preparedStatement.execute();
+        preparedStatement.close();
+        connection.close();
     }
 
     public List<Location> listLocations() throws SQLException, ClassNotFoundException {
-        Class.forName("com.mysql.jdbc.Driver");
-        Connection connection = DriverManager.getConnection(url, "root", "12345");
+        Connection connection = factoryConnect.getConnection();
         String sql = "select * from location where location.idGame in();";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         ResultSet resulSet = preparedStatement.executeQuery();
@@ -60,12 +61,14 @@ public class LocationDao implements LocationRepository {
 //            location = new Location(idLocation, idUser, idGame, dateLocation, dateDevolution, (LocationCalcStrategy) strategy);
             listGames.add(location);
         }
+        resulSet.close();
+        preparedStatement.close();
+        connection.close();
         return listGames;
     }
 
     public Location findLocation(String cpf, Long idGame) throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.jdbc.Driver");
-        Connection connection = DriverManager.getConnection(url, "root", "12345");
+        Connection connection = factoryConnect.getConnection();
         String sql = "select * from location inner join game where location.idUser = ? and game.idGame = ? and location.idGame = game.idGame and game.state = 'RENT';";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, cpf);
@@ -81,13 +84,15 @@ public class LocationDao implements LocationRepository {
             String strategy = rs.getString("strategy");
             return new Location(idLocation, idUser, idGame, dateLocation, dateDevolution, strategy);
         }
+        rs.close();
+        preparedStatement.close();
+        connection.close();
         return null;
 
     }
 
     public Location findLocationById(Long idGame) throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.jdbc.Driver");
-        Connection connection = DriverManager.getConnection(url, "root", "12345");
+        Connection connection = factoryConnect.getConnection();
         String sql = "select * from location inner join game where game.state = 'RENT' and location.idGame = ?;";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setLong(1, idGame);
@@ -102,6 +107,9 @@ public class LocationDao implements LocationRepository {
             String strategy = rs.getString("strategy");
             return new Location(idLocation, idUser, idGame, dateLocation, dateDevolution, strategy);
         }
+        rs.close();
+        preparedStatement.close();
+        connection.close();
         return null;
 
     }

@@ -12,9 +12,10 @@ import io.github.jass2125.loca.games.state.GameState;
 import io.github.jass2125.loca.games.state.State;
 import java.io.Serializable;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import org.apache.commons.mail.EmailException;
+
 
 /**
  * @author Anderson Souza
@@ -26,7 +27,7 @@ public class Game implements Serializable, Observable {
     private String name;
     private String gender;
     private State state;
-    private List<Observer> listObservers = new ArrayList<>();
+    private Set<Observer> listObservers = new HashSet<>();
 
     public Game() {
 //        state = GameStateEnum.getAVAILABLE();
@@ -67,11 +68,11 @@ public class Game implements Serializable, Observable {
         this.state = state;
     }
 
-    public List<Observer> getListObservers() {
+    public Set<Observer> getListObservers() {
         return listObservers;
     }
 
-    public void setListObservers(List<Observer> listObservers) {
+    public void setListObservers(Set<Observer> listObservers) {
         this.listObservers = listObservers;
     }
 

@@ -20,8 +20,8 @@ public class ConvertDate {
         this.pattern = "dd/MM/yyyy";
     }
     
-     public String converte(LocalDate dateDevolution) {
-        return dateDevolution.plusDays(1).format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+     public String converteToString(LocalDate dateDevolution) {
+        return dateDevolution.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
 

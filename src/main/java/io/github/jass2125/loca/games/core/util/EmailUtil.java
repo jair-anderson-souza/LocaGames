@@ -7,9 +7,6 @@ package io.github.jass2125.loca.games.core.util;
 
 import io.github.jass2125.loca.games.core.business.Game;
 import io.github.jass2125.loca.games.core.business.User;
-import static java.lang.Thread.sleep;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
@@ -31,22 +28,13 @@ public class EmailUtil implements Runnable {
         this.game = game;
     }
 
+    public EmailUtil() {
+    }
+
     @Override
     public void run() {
-        
-//        boolean f;
-//        
-//        while(f){
-//            sdiojasoidj
-//                    asoidjasd
-//                    oaisjdoiasd
-//                            sleep(1000);
-//                            while
-//        }
-        
+
         try {
-//            sleep(1000);
-           
             String emailU = user.getEmail();
             String gameU = game.getName();
 
@@ -61,11 +49,8 @@ public class EmailUtil implements Runnable {
             email.setMsg("Caro Sr. " + user.getName() + ", o jogo " + game.getName() + " esta disponivel para locaçao! Corra agora para a Pattern Games para garantir");
             email.addTo(emailU);
             email.send();
-//            true
         } catch (EmailException e) {
             e.printStackTrace();
-//        } catch (InterruptedException ex) {
-//            Logger.getLogger(EmailUtil.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

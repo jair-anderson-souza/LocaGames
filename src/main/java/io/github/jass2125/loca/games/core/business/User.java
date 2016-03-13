@@ -6,6 +6,7 @@
 package io.github.jass2125.loca.games.core.business;
 
 import io.github.jass2125.loca.games.core.util.EmailUtil;
+import io.github.jass2125.loca.games.core.util.NotificationEmail;
 import io.github.jass2125.loca.games.observer.Observer;
 import java.io.Serializable;
 import org.apache.commons.mail.EmailException;
@@ -54,13 +55,9 @@ public class User implements Serializable, Observer<Game> {
     }
 
     @Override
-    public void update(Game game) throws EmailException {
-        EmailUtil emailSender = new EmailUtil(this, game);
-        Thread thread = new Thread(emailSender);
-        thread.start();
-//        thread
-        
-//        thread.se
+    public void update(Game game) {
+        NotificationEmail not  = new NotificationEmail();
+        not.notifyUser(game, this);
     }
 
 }

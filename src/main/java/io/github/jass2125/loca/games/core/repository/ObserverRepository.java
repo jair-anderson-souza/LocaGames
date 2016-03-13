@@ -7,7 +7,7 @@ package io.github.jass2125.loca.games.core.repository;
 
 import io.github.jass2125.loca.games.observer.Observer;
 import java.sql.SQLException;
-import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface ObserverRepository<T> {
     public void addObserver(String cpf, Long idGame) throws ClassNotFoundException, SQLException;
-    public List<Observer> getListObservers(Long idGame) throws SQLException, ClassNotFoundException;
-    public void delete(Observer observer) throws SQLException, ClassNotFoundException;
+    public Set<Observer> getListObservers(Long idGame) throws SQLException, ClassNotFoundException;
+    public void delete(Long idGame) throws SQLException, ClassNotFoundException;
     
 }
