@@ -5,6 +5,7 @@
  */
 package io.github.jass2125.loca.games.core.repository;
 
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import io.github.jass2125.loca.games.core.business.User;
 import io.github.jass2125.loca.games.core.factory.ConnectionFactory;
 import java.sql.Connection;
@@ -19,6 +20,7 @@ import java.util.List;
  * @since 14:23:27, 20-Feb-2016
  */
 public class UserDao implements UserRepository {
+
     private ConnectionFactory factoryConnect;
 
     public UserDao() {
@@ -27,15 +29,23 @@ public class UserDao implements UserRepository {
 
     @Override
     public void save(User user) throws ClassNotFoundException, SQLException {
-        Connection connection = factoryConnect.getConnection();
-        String sql = "insert into user(name, cpf, email) values(?, ?, ?);";
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setString(1, user.getName());
-        preparedStatement.setString(2, user.getCpf());
-        preparedStatement.setString(3, user.getEmail());
-        preparedStatement.execute();
-        preparedStatement.close();
-        connection.close();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = factoryConnect.getConnection();
+            String sql = "insert into user(name, cpf, email) values(?, ?, ?);";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, user.getName());
+            preparedStatement.setString(2, user.getCpf());
+            preparedStatement.setString(3, user.getEmail());
+            preparedStatement.execute();
+        } catch (MySQLIntegrityConstraintViolationException e) {
+            throw new SQLException("Número de CPF já existe", e);
+        } finally {
+            preparedStatement.close();
+            connection.close();
+        }
+
     }
 
     public List<User> search(String cpf) throws SQLException, ClassNotFoundException {

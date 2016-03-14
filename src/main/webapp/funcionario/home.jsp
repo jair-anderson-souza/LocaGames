@@ -71,7 +71,6 @@
                 </ul>
             </div>
             <br><br>
-            <div>${sessionScope.user.name}</div>
         </div>
     </body>
 </html>

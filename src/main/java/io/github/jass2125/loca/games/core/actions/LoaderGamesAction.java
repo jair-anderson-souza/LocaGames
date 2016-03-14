@@ -35,7 +35,6 @@ public class LoaderGamesAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         try {
-            User user = (User) request.getSession().getAttribute("user");
             List<Game> listGames = getListaGames();
             request.getSession().setAttribute("listGames", listGames);
             return "funcionario/alugar.jsp";

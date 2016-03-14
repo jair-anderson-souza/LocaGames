@@ -34,7 +34,7 @@ public class FrontController extends HttpServlet {
         Action action = ActionFactory.getAction(request);
         String view = action.execute(request, response);
         response.sendRedirect(view);
-        service(request, response);
+//        service(request, response);
     }
 
 }

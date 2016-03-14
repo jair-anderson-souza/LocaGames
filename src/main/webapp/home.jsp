@@ -35,15 +35,7 @@
                         </div>
                         <c:remove scope="session" var="error"></c:remove>
                     </c:when>
-
                 </c:choose>
-                <c:if test="${sessionScope.price != null}">
-                    <div class="alert alert-info">
-                        <strong>Preço do aluguel</strong> ${sessionScope.price}
-                    </div>
-                    <c:remove scope="session" var="price"></c:remove>
-                </c:if>
-
             </div>
             <c:if test="${sessionScope.user == null}">
                 <button data-toggle="modal" data-target="#modal" class="btn btn-info btn-sm">Identifique o cliente</button>
@@ -66,11 +58,11 @@
                 <ul>
                     <li>
                         <img src="icons/rent.png" class="dj-image__funcionalidade">
-                        <a href="front?action=loadGames">Alugar</a>
+                        <a href="funcionario/alugar.jsp">Alugar</a>
                     </li>
                     <li>
                         <img src="icons/return.png" class="dj-image__funcionalidade">
-                        <a href="front?action=loadGamesLocated">Devolver</a> 
+                        <a href="funcionario/devolver.jsp">Devolver</a> 
                     </li>
                 </ul>
             </div>
@@ -82,14 +74,6 @@
                     <li>
                         <img src="icons/rent.png" class="dj-image__funcionalidade">
                         <a href="novoCliente.jsp">Novo Cliente</a>
-                    </li>
-                    <li>
-                        <img src="icons/rent.png" class="dj-image__funcionalidade">
-                        <a href="novoCliente.jsp">${sessionScope.user.name}</a>
-                    </li>
-                    <li>
-                        <img src="../front?action=logout" class="dj-image__funcionalidade">
-                        <a href="../funcionario/novoJogo.jsp">${sessionScope.user.cpf} </a>
                     </li>
                 </ul>
             </div>

@@ -23,12 +23,13 @@ public class RegisterUserAction implements Action {
 
     public RegisterUserAction() {
     }
-    
+
     /**
      * Executa a ação de cadastrar um usuario
+     *
      * @param request Requisição do cliente
      * @param response Reposta do cliente
-     * @return URL da página 
+     * @return URL da página
      */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -45,13 +46,17 @@ public class RegisterUserAction implements Action {
             }
             request.getSession().setAttribute("error", "Padrao de CPF: 000.000.000-00");
             return "home.jsp";
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
-            request.getSession().setAttribute("error", "Número de CPF já existe");
+            request.getSession().setAttribute("error", "Erro, retorne e tente novamente");
+            return "home.jsp";
+        } catch (SQLException e) {
+            e.printStackTrace();
+            request.getSession().setAttribute("error", e.getMessage());
             return "home.jsp";
         }
     }
-    
+
     public boolean validaCpf(String cpf) {
         String regex = "(\\d{3})[.](\\d{3})[.](\\d{3})-(\\d{2})";
         boolean verification = cpf.matches(regex);
