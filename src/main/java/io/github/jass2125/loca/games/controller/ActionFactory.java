@@ -30,6 +30,7 @@ public class ActionFactory {
      */
     public static Action getAction(HttpServletRequest request) {
         Map<String, Action> commands = new HashMap<>();
+        
         commands.put("loadGames", new LoaderGamesAction());
         commands.put("loadGamesLocated", new LoaderGameLocatedAction());
         commands.put("loginUser", new LoginUserAction());

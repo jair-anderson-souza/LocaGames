@@ -22,7 +22,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Anderson Souza
  */
-@WebFilter(urlPatterns = {"/funcionario/*"})
+@WebFilter(filterName = "filterUserLogon", urlPatterns = {"/funcionario/*"})
 public class AuthorizationFilter implements Filter {
 
     @Override
@@ -31,34 +31,19 @@ public class AuthorizationFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        System.out.println("Teste");
         chain.doFilter(request, response);
-        HttpSession session = ((HttpSession)((HttpServletRequest) request).getSession());
-        HttpServletResponse resp = ((HttpServletResponse) response);
-        
         HttpServletRequest req = ((HttpServletRequest) request);
+        HttpSession session = req.getSession();
+        HttpServletResponse resp = ((HttpServletResponse) response);
+
         String path = req.getContextPath();
-        
-        
+
         User user = (User) session.getAttribute("user");
-        if(user == null){
+        //System.out.println(user.toString());
+        if (user == null) {
             resp.sendRedirect(path + "/home.jsp");
         }
-//        chain.doFilter(request, response);
-        //chain.doFilter(request, response);
-//        HttpServletRequest req = ((HttpServletRequest) request);
-//        User user = (User) req.getSession().getAttribute("user");
-//
-//        if (user != null) {
-//            chain.doFilter(request, response);
-////            request.getRequestDispatcher("home.jsp").forward(request, response);
-//        } else {
-//            request.getRequestDispatcher("home.jsp").forward(request, response);
-//        }
-//        else {
-////            chain.doFilter(request, response);
-//        }
-//        chain.doFilter(request, response);
-
     }
 
     @Override

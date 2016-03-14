@@ -5,7 +5,7 @@
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
     <%@include file="head.jsp" %>
@@ -82,6 +82,14 @@
                     <li>
                         <img src="icons/rent.png" class="dj-image__funcionalidade">
                         <a href="novoCliente.jsp">Novo Cliente</a>
+                    </li>
+                    <li>
+                        <img src="icons/rent.png" class="dj-image__funcionalidade">
+                        <a href="novoCliente.jsp">${sessionScope.user.name}</a>
+                    </li>
+                    <li>
+                        <img src="../front?action=logout" class="dj-image__funcionalidade">
+                        <a href="../funcionario/novoJogo.jsp">${sessionScope.user.cpf} </a>
                     </li>
                 </ul>
             </div>

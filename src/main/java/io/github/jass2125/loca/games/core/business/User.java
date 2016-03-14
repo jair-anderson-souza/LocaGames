@@ -5,11 +5,9 @@
  */
 package io.github.jass2125.loca.games.core.business;
 
-import io.github.jass2125.loca.games.core.util.EmailUtil;
 import io.github.jass2125.loca.games.core.util.NotificationEmail;
 import io.github.jass2125.loca.games.observer.Observer;
 import java.io.Serializable;
-import org.apache.commons.mail.EmailException;
 
 /**
  * @author Anderson Souza

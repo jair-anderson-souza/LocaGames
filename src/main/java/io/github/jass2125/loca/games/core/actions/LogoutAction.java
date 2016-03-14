@@ -18,7 +18,14 @@ public class LogoutAction implements Action{
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
+        session.removeAttribute("user");
+        session.removeAttribute("success");
+        session.removeAttribute("listGames");
+        session.removeAttribute("listLocations");
+        session.removeAttribute("price");
+        session.removeAttribute("info");
+        session.removeAttribute("error");
         session.invalidate();
         return "home.jsp";
     }

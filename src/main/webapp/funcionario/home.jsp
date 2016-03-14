@@ -5,7 +5,7 @@
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
     <%@include file="head.jsp" %>
@@ -65,13 +65,13 @@
                         <a href="../front?action=loadGamesLocated">Devolver</a> 
                     </li>
                     <li>
-                        <img src="../front?action=logout" class="dj-image__funcionalidade">
-                        <a href="../funcionario/novoJogo.jsp">Sair</a>
+                        <img src="" class="dj-image__funcionalidade">
+                        <a href="../front?action=logout">Sair</a>
                     </li>
                 </ul>
             </div>
             <br><br>
-
+            <div>${sessionScope.user.name}</div>
         </div>
     </body>
 </html>

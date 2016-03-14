@@ -6,6 +6,7 @@
 package io.github.jass2125.loca.games.core.actions;
 
 import io.github.jass2125.loca.games.core.business.Game;
+import io.github.jass2125.loca.games.core.business.User;
 import io.github.jass2125.loca.games.core.repository.GameDao;
 import io.github.jass2125.loca.games.core.repository.GameRepository;
 import java.sql.SQLException;
@@ -28,6 +29,7 @@ public class LoaderGamesAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         try {
+            User user = (User) request.getSession().getAttribute("user");
             List<Game> listGames = getListaGames();
             request.getSession().setAttribute("listGames", listGames);
             return "funcionario/alugar.jsp";

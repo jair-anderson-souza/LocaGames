@@ -5,7 +5,6 @@
  */
 package io.github.jass2125.loca.games.core.actions;
 
-import br.com.caelum.stella.validation.InvalidStateException;
 import io.github.jass2125.loca.games.core.business.User;
 import io.github.jass2125.loca.games.core.repository.UserDao;
 import io.github.jass2125.loca.games.core.repository.UserRepository;

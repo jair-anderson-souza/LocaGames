@@ -15,6 +15,7 @@ import java.sql.SQLException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -34,16 +35,17 @@ public class LoginUserAction implements Action {
             String cpf = request.getParameter("cpf");
             String email = request.getParameter("email");
             User user = this.findUserByCredentials(cpf, email);
+            HttpSession session = session = request.getSession();
 
             if (user != null) {
-                request.getSession().setAttribute("sucess", "Autenticação feita com sucesso");
-                request.getSession().setAttribute("user", user);
+                session.setMaxInactiveInterval(60 * 60);
+                session.setAttribute("success", "Autenticação feita com sucesso");
+                session.setAttribute("user", user);
                 return "funcionario/home.jsp";
+            } else {
+                request.getSession().setAttribute("error", "Erro na autenticação");
+                return "home.jsp";
             }
-
-            request.getSession().setAttribute("error", "Erro na autenticação");
-            return "home.jsp";
-
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
             request.getSession().setAttribute("error", "Ocorreu um erro, retorne e tente novamente");
