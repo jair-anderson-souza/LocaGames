@@ -20,22 +20,20 @@
                         <div class="alert alert-success">
                             <strong>Sucesso</strong> ${sessionScope.success}
                         </div>
-                        <c:remove var="success" scope="session" />
                     </c:when>
                     <c:when test="${sessionScope.info != null}">
                         <div class="alert alert-danger">
                             <strong>Falha</strong> ${sessionScope.info}
                             ${sessionScope.info}
                         </div>
-                        <c:remove scope="session" var="info"></c:remove>
                     </c:when>
                     <c:when test="${sessionScope.error != null}">
                         <div class="alert alert-danger">
                             <strong>Falha</strong> ${sessionScope.error}
                         </div>
-                        <c:remove scope="session" var="error"></c:remove>
                     </c:when>
                 </c:choose>
+
             </div>
             <c:if test="${sessionScope.user == null}">
                 <button data-toggle="modal" data-target="#modal" class="btn btn-info btn-sm">Identifique o cliente</button>
@@ -80,5 +78,8 @@
 
         </div>
         <c:remove scope="session" var="success"></c:remove>
+        <c:remove scope="session" var="error"></c:remove>
+        <c:remove var="success" scope="session" />
+        <c:remove scope="session" var="info"></c:remove>
     </body>
 </html>
