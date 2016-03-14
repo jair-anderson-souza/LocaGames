@@ -18,8 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
  * @author Anderson Souza
+ * @since 15:40:48, 20-Feb-2016
  */
 public class LoginUserAction implements Action {
 
@@ -28,7 +28,13 @@ public class LoginUserAction implements Action {
 
     public LoginUserAction() {
     }
-
+    
+    /**
+     * Executa o ação de login do cliente
+     * @param request Requisiçao do cliente
+     * @param response Reposta do cliente
+     * @return URL da pagina de resposta
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         try {
@@ -53,13 +59,26 @@ public class LoginUserAction implements Action {
         }
 
     }
-
+    /**
+     * Retorna o usuario cadastrado na aplicação
+     * @param cpf CPF do cliente passado na requisição
+     * @param email Email do cliente passado na requisição
+     * @return User Usuario cadastrado 
+     * @throws SQLException Retorna caso ele não consiga recuperar essa informação
+     * @throws ClassNotFoundException Classe do Driver MySQL não está disponivel
+     */
     private User findUserByCredentials(String cpf, String email) throws SQLException, ClassNotFoundException {
         daoUser = new UserDao();
         User user = daoUser.findByCPFAndEmail(cpf, email);
         return user;
     }
-
+    /**
+     * Retorna a lista preenchida com todos os games alugados pelo cliente
+     * @param cpf CPF do cliente passado na requisição
+     * @return List<Game> Lista com todos os jogos alugados pelo cliente
+     * @throws SQLException Retorna caso ele não consiga recuperar essas informaçãoes
+     * @throws ClassNotFoundException A classe do Driver MySQL não está disponivel
+     */
     private List<Game> findGamesLocatedByUser(String cpf) throws SQLException, ClassNotFoundException {
         daoGame = new GameDao();
         List<Game> listGames = daoGame.listGamesLocatedByUser(cpf);

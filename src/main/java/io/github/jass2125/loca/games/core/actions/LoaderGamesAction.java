@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @author Anderson Souza
  * @since 16:55:23, 24-Feb-2016
+ * @version 1.0
  */
 public class LoaderGamesAction implements Action {
 
@@ -25,7 +26,12 @@ public class LoaderGamesAction implements Action {
     public LoaderGamesAction() {
         
     }
-
+    /**
+     * Executa a ação de setar na sessão todos os games
+     * @param request Requisiçao do cliente
+     * @param response Reposta do cliente
+     * @return URL da pagina de resposta
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         try {
@@ -41,6 +47,12 @@ public class LoaderGamesAction implements Action {
 
     }
     
+    /**
+     * Recupera a lista com todos os games cadastrados
+     * @return List LIsta com todos jogos da aplicação
+     * @throws SQLException Retorna caso ele não consiga recuperar essas informações
+     * @throws ClassNotFoundException Classe do Driver MySQL não está disponivel
+     */
     public List<Game> getListaGames() throws SQLException, ClassNotFoundException{
         dao = new GameDao();
         List<Game> listGames = dao.listGames();

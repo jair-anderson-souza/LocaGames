@@ -16,8 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
  * @author Anderson Souza
+ * @version 1.0
  */
 public class LoaderGameLocatedAction implements Action {
 

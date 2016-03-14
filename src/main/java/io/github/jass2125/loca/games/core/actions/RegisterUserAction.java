@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @author Anderson Souza
  * @since 15:33:48, 20-Feb-2016
+ * @version 1.0
  */
 public class RegisterUserAction implements Action {
 
@@ -22,7 +23,13 @@ public class RegisterUserAction implements Action {
 
     public RegisterUserAction() {
     }
-
+    
+    /**
+     * Executa a ação de cadastrar um usuario
+     * @param request Requisição do cliente
+     * @param response Reposta do cliente
+     * @return URL da página 
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         try {
@@ -44,7 +51,7 @@ public class RegisterUserAction implements Action {
             return "home.jsp";
         }
     }
-
+    
     public boolean validaCpf(String cpf) {
         String regex = "(\\d{3})[.](\\d{3})[.](\\d{3})-(\\d{2})";
         boolean verification = cpf.matches(regex);

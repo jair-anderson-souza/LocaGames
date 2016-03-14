@@ -11,11 +11,17 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
  * @author Anderson Souza
+ * 
  */
 public class LogoutAction implements Action{
-
+    
+    /**
+     * Finaliza a sessão do cliente
+     * @param request Requisiçao do cliente
+     * @param response Reposta do cliente
+     * @return URL da pagina de resposta
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession(false);

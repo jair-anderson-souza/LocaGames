@@ -17,16 +17,17 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
-/**
+/** 
  * @author Anderson Souza
  * @since 15:32:23, 20-Feb-2016
+ * @version 1.0
  */
 public class ActionFactory {
 
     /**
-     *
-     * @param request
-     * @return
+     * Retorna a operaçao a ser executada
+     * @param request Requisiçao Http do cliente
+     * @return Açao a ser executada
      */
     public static Action getAction(HttpServletRequest request) {
         Map<String, Action> commands = new HashMap<>();

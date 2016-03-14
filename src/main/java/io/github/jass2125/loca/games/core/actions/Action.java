@@ -12,9 +12,15 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @author Anderson Souza 
  * @since 15:32:48, 20-Feb-2016 
+ * @version 1.0
  */
 public interface Action {
-    
+    /**
+     * 
+     * @param request Requisiçao do cliente
+     * @param response Reposta do cliente
+     * @return URL da pagina de resposta
+     */
     public String execute(HttpServletRequest request, HttpServletResponse response);
 
 }

@@ -24,8 +24,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.mail.EmailException;
 
 /**
- *
  * @author Anderson Souza
+ * @version 1.0
  */
 public class GameDevolutionAction implements Action {
 
@@ -34,7 +34,13 @@ public class GameDevolutionAction implements Action {
     private GameRepository dao;
     private ObserverRepository daoObserver;
     private LocationCalcStrategy strategyCalc;
-
+    
+    /**
+     * Executa a ação geral de devolver game
+     * @param request Requisiçao do cliente
+     * @param response Reposta do cliente
+     * @return URL da pagina de resposta
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
@@ -52,7 +58,6 @@ public class GameDevolutionAction implements Action {
                 game.setListObservers(loadObservers(idGame));
                 game.notifyObservers();
                 removeObservers(idGame);
-//                remorever os observadores
 
                 return "funcionario/home.jsp";
             }
@@ -66,32 +71,72 @@ public class GameDevolutionAction implements Action {
             return "funcionario/home.jsp";
         }
     }
-
+    
+    /**
+     * Recupera o game locado
+     * @param idGame Id do game que está sendo pesquisado
+     * @return Game Game pra ser devolvido
+     * @throws SQLException Retorna caso ele não consiga recuperar essa informação
+     * @throws ClassNotFoundException Classe do Driver MySQL não está disponivel
+     */
     private Game getGameLocated(Long idGame) throws SQLException, ClassNotFoundException {
         dao = new GameDao();
         Game game = dao.findById(idGame);
         return (game.getState().equals(GameState.RENT) ? game : null);
     }
     
-    public void removeObservers(Long idGame) throws SQLException, ClassNotFoundException{
+    /**
+     * Deleta o observadores de um game
+     * @param idGame Id do game que está sendo pesquisado
+     * @throws SQLException Retorna caso ele não consiga recuperar essa informação
+     * @throws ClassNotFoundException Classe do Driver MySQL não está disponivel
+     */
+    public void removeObservers(Long idGame) throws SQLException, ClassNotFoundException {
         daoObserver = new ObserverDao();
         daoObserver.delete(idGame);
-    }
+    }   
     
+    /**
+     * Pesquisa os observadores de um game
+     * @param idGame Id do Game que está pesquisado
+     * @return Set<Game> Set com todos os observadores de um game
+     * @throws SQLException Retorna caso ele não consiga recuperar essa informação
+     * @throws ClassNotFoundException Classe do Driver MySQL não está disponivel
+     */
     private Set<Observer> loadObservers(Long idGame) throws SQLException, ClassNotFoundException, EmailException {
         daoObserver = new ObserverDao();
         return daoObserver.getListObservers(idGame);
     }
-
+    
+    /**
+     * Edita o estado do Game
+     * @param idGame Id do game que será editado 
+     * @param state Estado do Game
+     * @throws SQLException Retorna caso ele não consiga recuperar essa informação
+     * @throws ClassNotFoundException Classe do Driver MySQL não está disponivel
+     */
     private void editGameState(Long idGame, String state) throws ClassNotFoundException, SQLException {
         dao = new GameDao();
         dao.editState(idGame, GameState.AVAILABLE.name());
     }
-
+    
+    /**
+     * Retorna o preço do aluguel
+     * @param location Locaçao que esta sendo devolvida
+     * @return BigDecimal Valor da locaçao
+     */
     private BigDecimal getPriceLocation(Location location) {
         return location.calculateValueLocation();
     }
-
+    
+    /**
+     * Recupera a locaçao
+     * @param cpf CPF do cliente
+     * @param idGame Id do game
+     * @return Location Locaçao
+     * @throws SQLException Retorna caso ele não consiga recuperar essa informação
+     * @throws ClassNotFoundException Classe do Driver MySQL não está disponivel
+     */
     private Location getLocation(String cpf, Long idGame) throws ClassNotFoundException, SQLException {
         daoLocation = new LocationDao();
         return daoLocation.findLocation(cpf, idGame);

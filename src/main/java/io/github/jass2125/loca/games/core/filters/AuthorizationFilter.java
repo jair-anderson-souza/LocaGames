@@ -31,7 +31,6 @@ public class AuthorizationFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        System.out.println("Teste");
         chain.doFilter(request, response);
         HttpServletRequest req = ((HttpServletRequest) request);
         HttpSession session = req.getSession();
@@ -42,6 +41,7 @@ public class AuthorizationFilter implements Filter {
         User user = (User) session.getAttribute("user");
         //System.out.println(user.toString());
         if (user == null) {
+            session.setAttribute("error", "Realize o login");
             resp.sendRedirect(path + "/home.jsp");
         }
     }

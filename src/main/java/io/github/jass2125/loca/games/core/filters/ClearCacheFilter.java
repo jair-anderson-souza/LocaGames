@@ -20,11 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author Anderson Souza
- * @since 03:08:03, 14-Feb-2016 
- * Package io.github.jass2125.sistema.alocacao.core.filters
- * Project Name Sistema-Alocacao
- * Encoding UTF-8
- * File Name NewClass.java
+ * @since 03:08:03, 14-Feb-2016
  */
 @WebFilter(urlPatterns = {"/*"})
 public class ClearCacheFilter implements Filter {
