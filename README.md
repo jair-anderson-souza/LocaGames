@@ -30,11 +30,11 @@ Jogo deve conter os seguintes atributos:
 
 Muda o estado do jogo para ’Alugado’ e o funcionário pode então entregar o jogo para o cliente. O sistema deve verificar o dia em que a locação está sendo feita para determinar o cenário (comum ou especial).
 
-<br>Devolver um jogo</br>
+<b>Devolver um jogo</b>
 
 Ao término do períıodo de locação, o cliente devolve o jogo e o sistema verifica se há pendências como multa e juros. Em caso de locação comum, a multa equivale R$1.00 + R$3.00 por dia além da data de devolução, em caso de locação especial, a multa equivale R$ 3.00 + R$3.00 por dia al ́em da data de devolução;
 
-<br>Observar um jogo</br>
+<b>Observar um jogo</b>
 
 O sistema vai associar um cliente a um jogo para que este observe suas alterações (especificamente a devolução). Isso é útil para que o cliente saiba quando o jogo está disponível, por exemplo. Qualquer alteração no jogo deve ser informado para o cliente através de email (que ser ́a solicitado no cadastro).
 Formato da mensagem: ”Caro Sr. Nome, o jogo <NOME DO JOGO> est á disponível 
