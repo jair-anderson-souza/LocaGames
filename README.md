@@ -42,11 +42,11 @@ Para locação! Corra agora para a Loca Games para garantir sua jogatina!
 
 <h4>Fluxos de Execução</h4>
 
-<br>Alugado</br>
+<b>Alugado</b>
 
 Se tentar alugar de novo, lança uma exceção informando a próxima data em que ele estará disponível (1 dia após a data fim do aluguel); 
 Se devolver, retorna o jogo ao estado ’disponível’;
 
-<br>Disponível</br>
+<b>Disponível</b>
 
 No caso de alugar, altera o estado para ’alugado’; No caso de devolver, lança exceção informando que o jogo já está disponível;
