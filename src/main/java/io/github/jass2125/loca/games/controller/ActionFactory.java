@@ -9,6 +9,7 @@ import io.github.jass2125.loca.games.core.actions.Action;
 import io.github.jass2125.loca.games.core.actions.LoaderGamesAction;
 import io.github.jass2125.loca.games.core.actions.LoginClienteAction;
 import io.github.jass2125.loca.games.core.actions.RegisterUserAction;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 public class ActionFactory {
 
     private static final Map<String, Action> commands = new HashMap<>();
+
     static {
         commands.put("loginCliente", ActionEnum.LOGIN.getAction());
         commands.put("loadGames", ActionEnum.LOAD_GAMES.getAction());
@@ -37,8 +39,12 @@ public class ActionFactory {
      * @param request Requisiçao Http do cliente
      * @return Açao a ser executada
      */
-    public static Action getAction(HttpServletRequest request) {
-        return commands.get(request.getParameter("action"));
+    public static Action getAction(HttpServletRequest request) throws IOException {
+        Action action = commands.get(request.getParameter("action"));
+        if (action == null) {
+            throw new IOException();
+        }
+        return action;
     }
 
     public enum ActionEnum {
