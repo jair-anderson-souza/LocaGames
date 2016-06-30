@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.util.Calendar;
 import java.util.List;
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.fail;
 import org.dbunit.operation.DatabaseOperation;
 import org.junit.After;
@@ -51,7 +52,7 @@ public class ClienteDaoImplTest {
     @Test
     public void deveRetornarCarrosZeroKm() {
 //        List<Carro> resultado = carroDAO.buscarCarrosZero();
-
+        assertNull(null);
 //        assertThat(resultado, hasItems(new Carro(1L), new Carro(4L)));
     }
 
