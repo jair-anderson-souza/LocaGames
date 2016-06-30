@@ -5,11 +5,11 @@
  */
 package io.github.jass2125.loca.games.core.actions;
 
-import io.github.jass2125.loca.games.core.business.Game;
+import io.github.jass2125.loca.games.core.business.Jogo;
 import io.github.jass2125.loca.games.core.business.Location;
-import io.github.jass2125.loca.games.core.business.User;
-import io.github.jass2125.loca.games.core.repository.GameDao;
-import io.github.jass2125.loca.games.core.repository.GameRepository;
+import io.github.jass2125.loca.games.core.business.Cliente;
+import io.github.jass2125.loca.games.core.repository.JogoDao;
+import io.github.jass2125.loca.games.core.repository.JogoDaoImpl;
 import io.github.jass2125.loca.games.core.repository.LocationDao;
 import io.github.jass2125.loca.games.core.repository.ObserverDao;
 import io.github.jass2125.loca.games.core.repository.ObserverRepository;
@@ -31,7 +31,7 @@ public class GameDevolutionAction implements Action {
 
     private LocationDao daoLocation;
     private LocationCalcStrategy strategy;
-    private GameRepository dao;
+    private JogoDao dao;
     private ObserverRepository daoObserver;
     private LocationCalcStrategy strategyCalc;
     
@@ -46,8 +46,8 @@ public class GameDevolutionAction implements Action {
 
         try {
             Long idGame = Long.parseLong(request.getParameter("idGame"));
-            String cpf = ((User) request.getSession().getAttribute("user")).getCpf();
-            Game game = this.getGameLocated(idGame);
+            String cpf = ((Cliente) request.getSession().getAttribute("user")).getCpf();
+            Jogo game = this.getGameLocated(idGame);
 
             if (game != null) {
                 Location location = this.getLocation(cpf, idGame);
@@ -75,13 +75,13 @@ public class GameDevolutionAction implements Action {
     /**
      * Recupera o game locado
      * @param idGame Id do game que está sendo pesquisado
-     * @return Game Game pra ser devolvido
+     * @return Jogo Jogo pra ser devolvido
      * @throws SQLException Retorna caso ele não consiga recuperar essa informação
      * @throws ClassNotFoundException Classe do Driver MySQL não está disponivel
      */
-    private Game getGameLocated(Long idGame) throws SQLException, ClassNotFoundException {
-        dao = new GameDao();
-        Game game = dao.findById(idGame);
+    private Jogo getGameLocated(Long idGame) throws SQLException, ClassNotFoundException {
+        dao = new JogoDaoImpl();
+        Jogo game = dao.buscarPorId(idGame);
         return (game.getState().equals(GameState.RENT) ? game : null);
     }
     
@@ -98,7 +98,7 @@ public class GameDevolutionAction implements Action {
     
     /**
      * Pesquisa os observadores de um game
-     * @param idGame Id do Game que está pesquisado
+     * @param idGame Id do Jogo que está pesquisado
      * @return Set<Game> Set com todos os observadores de um game
      * @throws SQLException Retorna caso ele não consiga recuperar essa informação
      * @throws ClassNotFoundException Classe do Driver MySQL não está disponivel
@@ -109,15 +109,15 @@ public class GameDevolutionAction implements Action {
     }
     
     /**
-     * Edita o estado do Game
+     * Edita o estado do Jogo
      * @param idGame Id do game que será editado 
-     * @param state Estado do Game
+     * @param state Estado do Jogo
      * @throws SQLException Retorna caso ele não consiga recuperar essa informação
      * @throws ClassNotFoundException Classe do Driver MySQL não está disponivel
      */
     private void editGameState(Long idGame, String state) throws ClassNotFoundException, SQLException {
-        dao = new GameDao();
-        dao.editState(idGame, GameState.AVAILABLE.name());
+        dao = new JogoDaoImpl();
+        dao.editarEstado(idGame, GameState.AVAILABLE.name());
     }
     
     /**

@@ -5,7 +5,7 @@
  */
 package io.github.jass2125.loca.games.core.repository;
 
-import io.github.jass2125.loca.games.core.business.User;
+import io.github.jass2125.loca.games.core.business.Cliente;
 import io.github.jass2125.loca.games.core.factory.ConnectionFactory;
 import io.github.jass2125.loca.games.observer.Observer;
 import java.sql.Connection;
@@ -48,13 +48,13 @@ public class ObserverDao implements ObserverRepository<Observer> {
         preparedStatement.setLong(1, idGame);
         ResultSet rs = preparedStatement.executeQuery();
         Set<Observer> listObservers = new HashSet<>();
-        User user = null;
+        Cliente user = null;
         while (rs.next()) {
-            user = new User();
+            user = new Cliente();
             String name = rs.getString("name");
             String email = rs.getString("email");
             String cpf = rs.getString("cpf");
-            user = new User(name, cpf, email);
+            user = new Cliente(name, cpf, email);
             listObservers.add(user);
         }
         rs.close();

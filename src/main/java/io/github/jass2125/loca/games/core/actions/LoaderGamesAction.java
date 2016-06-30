@@ -5,10 +5,9 @@
  */
 package io.github.jass2125.loca.games.core.actions;
 
-import io.github.jass2125.loca.games.core.business.Game;
-import io.github.jass2125.loca.games.core.business.User;
-import io.github.jass2125.loca.games.core.repository.GameDao;
-import io.github.jass2125.loca.games.core.repository.GameRepository;
+import io.github.jass2125.loca.games.core.business.Jogo;
+import io.github.jass2125.loca.games.core.repository.JogoDao;
+import io.github.jass2125.loca.games.core.repository.JogoDaoImpl;
 import java.sql.SQLException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -21,13 +20,15 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class LoaderGamesAction implements Action {
 
-    private GameRepository dao;
+    private JogoDao dao;
 
     public LoaderGamesAction() {
-        
+
     }
+
     /**
      * Executa a ação de setar na sessão todos os games
+     *
      * @param request Requisiçao do cliente
      * @param response Reposta do cliente
      * @return URL da pagina de resposta
@@ -35,7 +36,7 @@ public class LoaderGamesAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         try {
-            List<Game> listGames = getListaGames();
+            List<Jogo> listGames = getListaGames();
             request.getSession().setAttribute("listGames", listGames);
             return "funcionario/alugar.jsp";
         } catch (ClassNotFoundException | SQLException e) {
@@ -45,16 +46,18 @@ public class LoaderGamesAction implements Action {
         }
 
     }
-    
+
     /**
      * Recupera a lista com todos os games cadastrados
+     *
      * @return List LIsta com todos jogos da aplicação
-     * @throws SQLException Retorna caso ele não consiga recuperar essas informações
+     * @throws SQLException Retorna caso ele não consiga recuperar essas
+     * informações
      * @throws ClassNotFoundException Classe do Driver MySQL não está disponivel
      */
-    public List<Game> getListaGames() throws SQLException, ClassNotFoundException{
-        dao = new GameDao();
-        List<Game> listGames = dao.listGames();
+    public List<Jogo> getListaGames() throws SQLException, ClassNotFoundException {
+        dao = new JogoDaoImpl();
+        List<Jogo> listGames = dao.listaDeJogos();
         return listGames;
     }
 

@@ -5,9 +5,9 @@
  */
 package io.github.jass2125.loca.games.core.actions;
 
-import io.github.jass2125.loca.games.core.business.User;
-import io.github.jass2125.loca.games.core.repository.UserDao;
-import io.github.jass2125.loca.games.core.repository.UserRepository;
+import io.github.jass2125.loca.games.core.business.Cliente;
+import io.github.jass2125.loca.games.core.repository.ClienteDao;
+import io.github.jass2125.loca.games.core.repository.ClienteDaoImpl;
 import java.sql.SQLException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class RegisterUserAction implements Action {
 
-    private UserRepository repository;
+    private ClienteDao dao;
 
     public RegisterUserAction() {
     }
@@ -39,7 +39,7 @@ public class RegisterUserAction implements Action {
             String email = request.getParameter("email");
             boolean verification = validaCpf(cpf);
             if (verification) {
-                User user = new User(name, cpf, email);
+                Cliente user = new Cliente(name, cpf, email);
                 saveUser(user);
                 request.getSession().setAttribute("user", user);
                 return "funcionario/home.jsp";
@@ -63,8 +63,8 @@ public class RegisterUserAction implements Action {
         return verification;
     }
 
-    private void saveUser(User user) throws ClassNotFoundException, SQLException {
-        repository = new UserDao();
-        repository.save(user);
+    private void saveUser(Cliente user) throws ClassNotFoundException, SQLException {
+        dao = new ClienteDaoImpl();
+        dao.salvar(user);
     }
 }

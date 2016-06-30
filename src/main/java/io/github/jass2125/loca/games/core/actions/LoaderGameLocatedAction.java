@@ -5,10 +5,10 @@
  */
 package io.github.jass2125.loca.games.core.actions;
 
-import io.github.jass2125.loca.games.core.business.Game;
-import io.github.jass2125.loca.games.core.business.User;
-import io.github.jass2125.loca.games.core.repository.GameDao;
-import io.github.jass2125.loca.games.core.repository.GameRepository;
+import io.github.jass2125.loca.games.core.business.Cliente;
+import io.github.jass2125.loca.games.core.business.Jogo;
+import io.github.jass2125.loca.games.core.repository.JogoDao;
+import io.github.jass2125.loca.games.core.repository.JogoDaoImpl;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,20 +21,20 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class LoaderGameLocatedAction implements Action {
 
-    private GameRepository dao;
+    private JogoDao dao;
 
     public LoaderGameLocatedAction() {
-        dao = new GameDao();
+        dao = new JogoDaoImpl();
     }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         try {
-            User user = this.getSessionUser(request);
+            Cliente user = this.getSessionUser(request);
             
             if (user != null) {
                 String cpf = user.getCpf();
-                List<Game> listGames = dao.listGamesLocatedByUser(cpf);
+                List<Jogo> listGames = dao.listaDeJogosLocadosDeUmUsuario(cpf);
                 request.getSession().setAttribute("listLocations", listGames);
                 return "funcionario/devolver.jsp";
             }
@@ -47,14 +47,14 @@ public class LoaderGameLocatedAction implements Action {
 
     }
 
-    public User getSessionUser(HttpServletRequest request) {
-        User user = (User) request.getSession().getAttribute("user");
+    public Cliente getSessionUser(HttpServletRequest request) {
+        Cliente user = (Cliente) request.getSession().getAttribute("user");
         return user;
     }
 
-    public List<Game> getListGamesAvailables(String cpf) throws ClassNotFoundException, SQLException {
-        List<Game> listGames = new ArrayList<>();
-        listGames = dao.listGamesLocatedByUser(cpf);
+    public List<Jogo> getListGamesAvailables(String cpf) throws ClassNotFoundException, SQLException {
+        List<Jogo> listGames = new ArrayList();
+        listGames = dao.listaDeJogosLocadosDeUmUsuario(cpf);
         return listGames;
     }
 }

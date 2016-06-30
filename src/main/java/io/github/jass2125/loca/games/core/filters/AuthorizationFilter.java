@@ -5,7 +5,7 @@
  */
 package io.github.jass2125.loca.games.core.filters;
 
-import io.github.jass2125.loca.games.core.business.User;
+import io.github.jass2125.loca.games.core.business.Cliente;
 import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -38,7 +38,7 @@ public class AuthorizationFilter implements Filter {
 
         String path = req.getContextPath();
 
-        User user = (User) session.getAttribute("user");
+        Cliente user = (Cliente) session.getAttribute("user");
         //System.out.println(user.toString());
         if (user == null) {
             session.setAttribute("error", "Realize o login");

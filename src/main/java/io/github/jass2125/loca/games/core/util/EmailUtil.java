@@ -5,8 +5,8 @@
  */
 package io.github.jass2125.loca.games.core.util;
 
-import io.github.jass2125.loca.games.core.business.Game;
-import io.github.jass2125.loca.games.core.business.User;
+import io.github.jass2125.loca.games.core.business.Jogo;
+import io.github.jass2125.loca.games.core.business.Cliente;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
@@ -20,10 +20,10 @@ public class EmailUtil implements Runnable {
 
     private String myEmail = "petedoherty2009@gmail.com";
     private String myPass = "seeyousoon";
-    private User user;
-    private Game game;
+    private Cliente user;
+    private Jogo game;
 
-    public EmailUtil(User user, Game game) {
+    public EmailUtil(Cliente user, Jogo game) {
         this.user = user;
         this.game = game;
     }

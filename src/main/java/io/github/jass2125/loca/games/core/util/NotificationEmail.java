@@ -6,8 +6,8 @@
 
 package io.github.jass2125.loca.games.core.util;
 
-import io.github.jass2125.loca.games.core.business.Game;
-import io.github.jass2125.loca.games.core.business.User;
+import io.github.jass2125.loca.games.core.business.Jogo;
+import io.github.jass2125.loca.games.core.business.Cliente;
 
 /**
  *
@@ -19,7 +19,7 @@ public class NotificationEmail {
     public NotificationEmail() {
     }
     
-    public void notifyUser(Game game, User user){
+    public void notifyUser(Jogo game, Cliente user){
         this.email = new EmailUtil(user, game);
         Thread thred = new Thread(email);
         thred.start();

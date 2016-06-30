@@ -21,7 +21,7 @@ import org.apache.commons.mail.EmailException;
  * @author Anderson Souza
  * @since 14:17:38, 20-Feb-2016
  */
-public class Game implements Serializable, Observable {
+public class Jogo implements Serializable, Observable {
 
     private Long idGame;
     private String name;
@@ -29,11 +29,11 @@ public class Game implements Serializable, Observable {
     private State state;
     private Set<Observer> listObservers = new HashSet<>();
 
-    public Game() {
+    public Jogo() {
 //        state = GameStateEnum.getAVAILABLE();
     }
 
-    public Game(Long idGame, String name, String gender, String state) {
+    public Jogo(Long idGame, String name, String gender, String state) {
         this.idGame = idGame;
         this.name = name;
         this.gender = gender;

@@ -6,11 +6,6 @@
 
 package io.github.jass2125.loca.games.core.factory;
 
-import io.github.jass2125.loca.games.core.repository.GameDao;
-import io.github.jass2125.loca.games.core.repository.LocationDao;
-import io.github.jass2125.loca.games.core.repository.ObserverDao;
-import io.github.jass2125.loca.games.core.repository.UserDao;
-
 /**
  * @author Anderson Souza 
  * @since 15:49:40, 24-Feb-2016

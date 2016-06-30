@@ -13,16 +13,16 @@ import java.io.Serializable;
  * @author Anderson Souza
  * @since 14:06:27, 20-Feb-2016
  */
-public class User implements Serializable, Observer<Game> {
+public class Cliente implements Serializable, Observer<Jogo> {
 
     private String name;
     private String cpf;
     private String email;
 
-    public User() {
+    public Cliente() {
     }
 
-    public User(String name, String cpf, String email) {
+    public Cliente(String name, String cpf, String email) {
         this.name = name;
         this.cpf = cpf;
         this.email = email;
@@ -53,7 +53,7 @@ public class User implements Serializable, Observer<Game> {
     }
 
     @Override
-    public void update(Game game) {
+    public void update(Jogo game) {
         NotificationEmail not  = new NotificationEmail();
         not.notifyUser(game, this);
     }

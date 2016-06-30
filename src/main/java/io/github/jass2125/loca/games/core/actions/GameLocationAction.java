@@ -5,11 +5,11 @@
  */
 package io.github.jass2125.loca.games.core.actions;
 
-import io.github.jass2125.loca.games.core.business.Game;
+import io.github.jass2125.loca.games.core.business.Jogo;
 import io.github.jass2125.loca.games.core.business.Location;
-import io.github.jass2125.loca.games.core.business.User;
-import io.github.jass2125.loca.games.core.repository.GameDao;
-import io.github.jass2125.loca.games.core.repository.GameRepository;
+import io.github.jass2125.loca.games.core.business.Cliente;
+import io.github.jass2125.loca.games.core.repository.JogoDao;
+import io.github.jass2125.loca.games.core.repository.JogoDaoImpl;
 import io.github.jass2125.loca.games.core.repository.LocationDao;
 import io.github.jass2125.loca.games.core.repository.LocationRepository;
 import io.github.jass2125.loca.games.core.repository.ObserverDao;
@@ -31,7 +31,7 @@ public class GameLocationAction implements Action {
 
     private LocationRepository daoLocation;
     private ObserverRepository daoObserver;
-    private GameRepository dao;
+    private JogoDao dao;
     private String day;
     private LocalDate devolutionDate;
 
@@ -44,13 +44,13 @@ public class GameLocationAction implements Action {
         try {
 
             Long idGame = Long.parseLong(request.getParameter("idGame"));
-            User user = ((User) request.getSession().getAttribute("user"));
-            Game game = getGameLocated(idGame);
+            Cliente user = ((Cliente) request.getSession().getAttribute("user"));
+            Jogo game = getGameLocated(idGame);
 
             if (game != null) {
                 saveLocation(idGame, user.getCpf());
                 request.getSession().setAttribute("success", "Jogo locado com sucesso");
-                dao.editState(idGame, GameState.RENT.name());
+                dao.editarEstado(idGame, GameState.RENT.name());
                 verifyTypeOfLocation();
                 return "funcionario/home.jsp";
             }
@@ -71,7 +71,7 @@ public class GameLocationAction implements Action {
         }
     }
 
-    private void save(User user, Long idGame) throws ClassNotFoundException, SQLException {
+    private void save(Cliente user, Long idGame) throws ClassNotFoundException, SQLException {
         daoObserver = new ObserverDao();
         daoObserver.addObserver(user.getCpf(), idGame);
     }
@@ -86,9 +86,9 @@ public class GameLocationAction implements Action {
         daoLocation.save(location);
     }
 
-    private Game getGameLocated(Long idGame) throws SQLException, ClassNotFoundException {
-        dao = new GameDao();
-        Game game = dao.findById(idGame);
+    private Jogo getGameLocated(Long idGame) throws SQLException, ClassNotFoundException {
+        dao = new JogoDaoImpl();
+        Jogo game = dao.buscarPorId(idGame);
         return (game.getState().equals(GameState.AVAILABLE) ? game : null);
     }
 
