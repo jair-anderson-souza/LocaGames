@@ -14,7 +14,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import io.github.jass2125.loca.games.exceptions.PersistenciaException;
-import java.io.IOException;
 
 /**
  * @author Anderson Souza
@@ -28,26 +27,23 @@ public class ClienteDaoImpl implements ClienteDao {
         fabricaDeConexao = new FabricaDeConexoes();
     }
 
+    /**
+     * Método que armazena um cliente
+     * @param cliente Objeto {@link io.github.jass2125.loca.games.core.business.Cliente} que será armazenado
+     * @throws PersistenciaException Exceção lançada quando a aplicação tentar estabelecer comunicação com o banco de dados
+     * <br>Ver - {@link io.github.jass2125.loca.games.core.factory.FabricaDeConexoes#getConexao()} 
+     */
     @Override
     public void salvar(Cliente cliente) throws PersistenciaException {
-        Connection conexao = null;
-        try {
-            conexao = fabricaDeConexao.getConexao();
-            conexao.setAutoCommit(false);
+        try (Connection conexao = fabricaDeConexao.getConexao()) {
             String sql = "insert into cliente(nome, email, cpf) values(?, ?, ?);";
             PreparedStatement preparedStatement = conexao.prepareStatement(sql);
             preparedStatement.setString(1, cliente.getNome());
             preparedStatement.setString(2, cliente.getEmail());
             preparedStatement.setString(3, cliente.getCpf());
             preparedStatement.executeUpdate();
-            conexao.commit();
         } catch (SQLException | ClassNotFoundException e) {
-            try {
-                conexao.rollback();
-            } catch (SQLException s) {
-                s.printStackTrace();
-            }
-            throw new PersistenciaException(e, "Verifique os dados e tente novamente!!");
+            throw new PersistenciaException(e, "Ops, ocorreu um erro.!!");
         }
     }
 

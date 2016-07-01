@@ -18,6 +18,7 @@ import java.util.Properties;
  * @author Anderson Souza
  */
 public class FabricaDeConexoes {
+
     private final String url = "jdbc:postgresql://localhost:5432/locagames";
     private final String usuario = "postgres";
     private final String senha = "123";
@@ -27,9 +28,11 @@ public class FabricaDeConexoes {
     }
 
     /**
-     *
-     * @return @throws java.sql.SQLException
-     * @throws java.lang.ClassNotFoundException
+     * Método que realiza a conexão com o banco de dados
+     * @return Um objeto {@link java.sql.Connection}
+     * @throws java.sql.SQLException Exceção lançada se ocorrer algum erro ao acessar o banco de dados ou a url é nula
+     * @throws java.lang.ClassNotFoundException Exceção lançada se a classe não pode ser localizada
+     * <br>Ver - {@link io.github.jass2125.loca.games.core.factory.FabricaDeConexoes#carregarArquivoDePropriedade() }
      */
     public Connection getConexao() throws SQLException, ClassNotFoundException {
         try {
@@ -42,12 +45,20 @@ public class FabricaDeConexoes {
         }
     }
 
+    /**
+     * Método que carrega o arquivo de propriedades com as informações d banco
+     * de dados
+     *
+     * @return Um {@link java.util.Properties} com as informações da conexão
+     * @throws ArquivoNaoEncontradoException Exceção lançada quando o arquivo
+     * não puder ser encontrado
+     */
     private Properties carregarArquivoDePropriedade() throws ArquivoNaoEncontradoException {
         try {
             InputStream stream = getClass().getResourceAsStream("/bd.properties");
-            Properties p = new Properties();
-            p.load(stream);
-            return p;
+            Properties properties = new Properties();
+            properties.load(stream);
+            return properties;
         } catch (IOException e) {
             throw new ArquivoNaoEncontradoException("Arquivo de propriedades com configurações do banco não foi encontrado!!", e);
         }
