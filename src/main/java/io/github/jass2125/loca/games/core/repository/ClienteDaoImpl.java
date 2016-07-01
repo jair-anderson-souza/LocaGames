@@ -29,12 +29,17 @@ public class ClienteDaoImpl implements ClienteDao {
 
     /**
      * Método que armazena um cliente
-     * @param cliente Objeto {@link io.github.jass2125.loca.games.core.business.Cliente} que será armazenado
-     * @throws PersistenciaException Exceção lançada quando a aplicação tentar estabelecer comunicação com o banco de dados
-     * <br>Ver - {@link io.github.jass2125.loca.games.core.factory.FabricaDeConexoes#getConexao()} 
+     *
+     * @param cliente Objeto
+     * {@link io.github.jass2125.loca.games.core.business.Cliente} que será
+     * armazenado
+     * @throws PersistenciaException Exceção lançada quando a aplicação tentar
+     * estabelecer comunicação com o banco de dados
+     * <br>Ver -
+     * {@link io.github.jass2125.loca.games.core.factory.FabricaDeConexoes#getConexao()}
      */
     @Override
-    public void salvar(Cliente cliente) throws PersistenciaException {
+    public Cliente salvar(Cliente cliente) throws PersistenciaException {
         try (Connection conexao = fabricaDeConexao.getConexao()) {
             String sql = "insert into cliente(nome, email, cpf) values(?, ?, ?);";
             PreparedStatement preparedStatement = conexao.prepareStatement(sql);
@@ -42,6 +47,7 @@ public class ClienteDaoImpl implements ClienteDao {
             preparedStatement.setString(2, cliente.getEmail());
             preparedStatement.setString(3, cliente.getCpf());
             preparedStatement.executeUpdate();
+            return cliente;
         } catch (SQLException | ClassNotFoundException e) {
             throw new PersistenciaException(e, "Ops, ocorreu um erro.!!");
         }
@@ -71,7 +77,7 @@ public class ClienteDaoImpl implements ClienteDao {
         return listObservers;
     }
 
-    public Cliente buscarPorCPFEEmail(String cpf, String email) throws SQLException, ClassNotFoundException {
+    public Cliente buscarPorCpfEEmail(String cpf, String email) throws SQLException, ClassNotFoundException {
         try (Connection connection = fabricaDeConexao.getConexao()) {
             String sql = "select * from cliente where cpf = ? and email = ?;";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);

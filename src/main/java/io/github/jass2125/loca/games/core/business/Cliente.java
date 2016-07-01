@@ -43,7 +43,7 @@ public class Cliente implements Serializable, Observer<Jogo> {
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
-    
+
     public String getEmail() {
         return this.email;
     }
@@ -54,7 +54,7 @@ public class Cliente implements Serializable, Observer<Jogo> {
 
     @Override
     public void update(Jogo game) {
-        NotificationEmail not  = new NotificationEmail();
+        NotificationEmail not = new NotificationEmail();
         not.notifyUser(game, this);
     }
 

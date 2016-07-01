@@ -16,9 +16,9 @@ import java.util.List;
  */
 public interface ClienteDao {
 
-    public void salvar(Cliente cliente) throws PersistenciaException;
+    public Cliente salvar(Cliente cliente) throws PersistenciaException;
 
     public List<Cliente> buscarPorCpf(String cpf) throws SQLException, ClassNotFoundException;
 
-    public Cliente buscarPorCPFEEmail(String cpf, String email) throws SQLException, ClassNotFoundException;
+    public Cliente buscarPorCpfEEmail(String cpf, String email) throws SQLException, ClassNotFoundException;
 }

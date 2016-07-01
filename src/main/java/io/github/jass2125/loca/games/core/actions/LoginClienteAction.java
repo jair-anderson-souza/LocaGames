@@ -74,7 +74,7 @@ public class LoginClienteAction implements Action {
     private Cliente recuperaCliente(HttpServletRequest request) throws SQLException, ClassNotFoundException {
         String cpf = request.getParameter("cpf");
         String email = request.getParameter("email");
-        return clienteDao.buscarPorCPFEEmail(cpf, email);
+        return clienteDao.buscarPorCpfEEmail(cpf, email);
     }
 
     /**
