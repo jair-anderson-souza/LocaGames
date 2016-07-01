@@ -6,14 +6,15 @@
 package io.github.jass2125.loca.games.core.repository;
 
 import io.github.jass2125.loca.games.core.business.Cliente;
-import io.github.jass2125.loca.games.core.factory.ConnectionFactory;
+import io.github.jass2125.loca.games.core.factory.FabricaDeConexoes;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
+import io.github.jass2125.loca.games.exceptions.PersistenciaException;
+import java.io.IOException;
 
 /**
  * @author Anderson Souza
@@ -21,52 +22,61 @@ import java.util.List;
  */
 public class ClienteDaoImpl implements ClienteDao {
 
-    private final ConnectionFactory factoryConnect;
+    private final FabricaDeConexoes fabricaDeConexao;
 
     public ClienteDaoImpl() {
-        factoryConnect = new ConnectionFactory();
+        fabricaDeConexao = new FabricaDeConexoes();
     }
 
     @Override
-    public void salvar(Cliente cliente) throws ClassNotFoundException, SQLException {
-        try (Connection connection = factoryConnect.getConnection()) {
+    public void salvar(Cliente cliente) throws PersistenciaException {
+        Connection conexao = null;
+        try {
+            conexao = fabricaDeConexao.getConexao();
+            conexao.setAutoCommit(false);
             String sql = "insert into cliente(nome, email, cpf) values(?, ?, ?);";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                preparedStatement.setString(1, cliente.getName());
-                preparedStatement.setString(2, cliente.getEmail());
-                preparedStatement.setString(3, cliente.getCpf());
-                preparedStatement.execute();
+            PreparedStatement preparedStatement = conexao.prepareStatement(sql);
+            preparedStatement.setString(1, cliente.getNome());
+            preparedStatement.setString(2, cliente.getEmail());
+            preparedStatement.setString(3, cliente.getCpf());
+            preparedStatement.executeUpdate();
+            conexao.commit();
+        } catch (SQLException | ClassNotFoundException e) {
+            try {
+                conexao.rollback();
+            } catch (SQLException s) {
+                s.printStackTrace();
             }
-        } catch (SQLIntegrityConstraintViolationException e) {
-            throw new SQLException("Número de CPF já existe", e);
+            throw new PersistenciaException(e, "Verifique os dados e tente novamente!!");
         }
-
     }
 
     public List<Cliente> buscarPorCpf(String cpf) throws SQLException, ClassNotFoundException {
-        List<Cliente> listObservers;
-        try (Connection connection = factoryConnect.getConnection()) {
+        List<Cliente> listObservers = null;
+        try (Connection conexao = fabricaDeConexao.getConexao()) {
             String sql = "select * from cliente where idDoCliente = ?;";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            PreparedStatement preparedStatement = conexao.prepareStatement(sql);
             preparedStatement.setString(1, cpf);
             ResultSet rs = preparedStatement.executeQuery();
             listObservers = new ArrayList<>();
             Cliente user = new Cliente();
             while (rs.next()) {
-                String name = rs.getString("nome");
+                String nome = rs.getString("nome");
                 String email = rs.getString("email");
                 String cpf2 = rs.getString("cpf");
-                user = new Cliente(name, cpf, email);
+                user = new Cliente(nome, cpf, email);
                 listObservers.add(user);
             }
             rs.close();
             preparedStatement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return listObservers;
     }
 
     public Cliente buscarPorCPFEEmail(String cpf, String email) throws SQLException, ClassNotFoundException {
-        try (Connection connection = factoryConnect.getConnection()) {
+        try (Connection connection = fabricaDeConexao.getConexao()) {
             String sql = "select * from cliente where cpf = ? and email = ?;";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, cpf);
@@ -79,6 +89,8 @@ public class ClienteDaoImpl implements ClienteDao {
             }
             resultSet.close();
             preparedStatement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return null;
     }

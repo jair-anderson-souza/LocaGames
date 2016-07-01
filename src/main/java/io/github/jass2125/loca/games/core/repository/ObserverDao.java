@@ -6,10 +6,9 @@
 package io.github.jass2125.loca.games.core.repository;
 
 import io.github.jass2125.loca.games.core.business.Cliente;
-import io.github.jass2125.loca.games.core.factory.ConnectionFactory;
+import io.github.jass2125.loca.games.core.factory.FabricaDeConexoes;
 import io.github.jass2125.loca.games.observer.Observer;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,15 +21,15 @@ import java.util.Set;
  */
 public class ObserverDao implements ObserverRepository<Observer> {
 
-    private ConnectionFactory factoryConnect;
+    private FabricaDeConexoes fabricaDeConexoes;
 
     public ObserverDao() {
-        factoryConnect = new ConnectionFactory();
+        fabricaDeConexoes = new FabricaDeConexoes();
     }
 
     @Override
     public void addObserver(String cpf, Long idGame) throws ClassNotFoundException, SQLException {
-        Connection connection = factoryConnect.getConnection();
+        Connection connection = fabricaDeConexoes.getConexao();
         String sql = "insert into observers(idUser, idGame) values(?, ?);";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, cpf);
@@ -42,7 +41,7 @@ public class ObserverDao implements ObserverRepository<Observer> {
 
     @Override
     public Set<Observer> getListObservers(Long idGame) throws SQLException, ClassNotFoundException {
-        Connection connection = factoryConnect.getConnection();
+        Connection connection = fabricaDeConexoes.getConexao();
         String sql = "select distinct user.name, user.email, user.cpf from user inner join game inner join observers where user.cpf = observers.idUser and ? = observers.idGame;";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setLong(1, idGame);
@@ -65,7 +64,7 @@ public class ObserverDao implements ObserverRepository<Observer> {
 
     @Override
     public void delete(Long idGame) throws SQLException, ClassNotFoundException {
-        Connection connection = factoryConnect.getConnection();
+        Connection connection = fabricaDeConexoes.getConexao();
         String sql = "delete from observers where idGame = ?;";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setLong(1, idGame);

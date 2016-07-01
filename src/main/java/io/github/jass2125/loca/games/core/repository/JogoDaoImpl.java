@@ -6,9 +6,8 @@
 package io.github.jass2125.loca.games.core.repository;
 
 import io.github.jass2125.loca.games.core.business.Jogo;
-import io.github.jass2125.loca.games.core.factory.ConnectionFactory;
+import io.github.jass2125.loca.games.core.factory.FabricaDeConexoes;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,15 +20,15 @@ import java.util.List;
  */
 public class JogoDaoImpl implements JogoDao {
 
-    private ConnectionFactory factoryConnect;
+    private FabricaDeConexoes fabricaConexao;
 
     public JogoDaoImpl() {
-        factoryConnect = new ConnectionFactory();
+        this.fabricaConexao = new FabricaDeConexoes();
     }
 
     @Override
     public List<Jogo> listaDeJogos() throws SQLException, ClassNotFoundException {
-        Connection connection = factoryConnect.getConnection();
+        Connection connection = fabricaConexao.getConexao();
         String sql = "select * from game;";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         ResultSet resulSet = preparedStatement.executeQuery();
@@ -51,7 +50,7 @@ public class JogoDaoImpl implements JogoDao {
 
     @Override
     public Jogo buscarPorId(Long idGame) throws SQLException, ClassNotFoundException {
-        Connection connection = factoryConnect.getConnection();
+        Connection connection = fabricaConexao.getConexao();
         String sql = "select * from game where idGame = ?;";
         PreparedStatement ps = connection.prepareStatement(sql);
         ps.setLong(1, idGame);
@@ -71,7 +70,7 @@ public class JogoDaoImpl implements JogoDao {
 
     @Override
     public void editarEstado(Long idGame, String state) throws ClassNotFoundException, SQLException {
-        Connection connection = factoryConnect.getConnection();
+        Connection connection = fabricaConexao.getConexao();
         String sql = "update game set state = ? where idGame = ?";
         PreparedStatement ps = connection.prepareStatement(sql);
         ps.setString(1, state);
@@ -82,7 +81,7 @@ public class JogoDaoImpl implements JogoDao {
     }
 
     public List<Jogo> listGamesLocated() throws ClassNotFoundException, SQLException {
-        Connection connection = factoryConnect.getConnection();
+        Connection connection = fabricaConexao.getConexao();
         String sql = "select * from game inner join location where location.idGame = game.idGame and game.state = 'RENT'";
         PreparedStatement ps = connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
@@ -105,7 +104,7 @@ public class JogoDaoImpl implements JogoDao {
 
     @Override
     public List<Jogo> listaDeJogosLocadosDeUmUsuario(String cpf) throws ClassNotFoundException, SQLException {
-        Connection connection = factoryConnect.getConnection();
+        Connection connection = fabricaConexao.getConexao();
         String sql = "select distinct g.idGame, g.nameGame, g.gender, g.state from game as g inner join location as l on g.state = 'RENT' and l.idUser = ? and g.idGame = l.idGame;";
         PreparedStatement ps = connection.prepareStatement(sql);
         ps.setString(1, cpf);

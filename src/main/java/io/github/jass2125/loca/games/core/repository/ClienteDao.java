@@ -6,6 +6,7 @@
 package io.github.jass2125.loca.games.core.repository;
 
 import io.github.jass2125.loca.games.core.business.Cliente;
+import io.github.jass2125.loca.games.exceptions.PersistenciaException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import java.util.List;
  */
 public interface ClienteDao {
 
-    public void salvar(Cliente cliente) throws ClassNotFoundException, SQLException;
+    public void salvar(Cliente cliente) throws PersistenciaException;
 
     public List<Cliente> buscarPorCpf(String cpf) throws SQLException, ClassNotFoundException;
 

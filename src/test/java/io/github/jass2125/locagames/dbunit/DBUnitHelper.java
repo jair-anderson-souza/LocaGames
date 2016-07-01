@@ -1,9 +1,11 @@
 package io.github.jass2125.locagames.dbunit;
 
-import io.github.jass2125.loca.games.core.factory.ConnectionFactory;
+import io.github.jass2125.loca.games.core.factory.FabricaDeConexoes;
+import io.github.jass2125.loca.games.exceptions.ConnectionException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
+import javax.resource.cci.ConnectionFactory;
 import org.dbunit.DatabaseUnitException;
 import org.dbunit.database.DatabaseConfig;
 import org.dbunit.database.DatabaseConnection;
@@ -30,12 +32,12 @@ public class DBUnitHelper {
     public DBUnitHelper(String xmlFolder) {
         this.xmlFolder = xmlFolder;
         try {
-            connection = new ConnectionFactory().getConnection();
+            connection = new FabricaDeConexoes().getConexao();
             dbConnection = new DatabaseConnection(connection);
             DatabaseConfig config = dbConnection.getConfig();
             config.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new MySqlDataTypeFactory());
 
-        } catch (SQLException | ClassNotFoundException | DatabaseUnitException e) {
+        } catch (DatabaseUnitException | SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }

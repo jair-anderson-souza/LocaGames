@@ -8,7 +8,7 @@ package io.github.jass2125.loca.games.core.actions;
 import io.github.jass2125.loca.games.core.business.Cliente;
 import io.github.jass2125.loca.games.core.repository.ClienteDao;
 import io.github.jass2125.loca.games.core.repository.ClienteDaoImpl;
-import java.sql.SQLException;
+import io.github.jass2125.loca.games.exceptions.PersistenciaException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -46,13 +46,9 @@ public class RegisterUserAction implements Action {
             }
             request.getSession().setAttribute("error", "Padrao de CPF: 000.000.000-00");
             return "home.jsp";
-        } catch (ClassNotFoundException e) {
+        } catch (PersistenciaException e) {
             e.printStackTrace();
             request.getSession().setAttribute("error", "Erro, retorne e tente novamente");
-            return "home.jsp";
-        } catch (SQLException e) {
-            e.printStackTrace();
-            request.getSession().setAttribute("error", e.getMessage());
             return "home.jsp";
         }
     }
@@ -63,7 +59,7 @@ public class RegisterUserAction implements Action {
         return verification;
     }
 
-    private void saveUser(Cliente user) throws ClassNotFoundException, SQLException {
+    private void saveUser(Cliente user) throws PersistenciaException {
         dao = new ClienteDaoImpl();
         dao.salvar(user);
     }

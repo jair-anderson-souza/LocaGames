@@ -15,25 +15,25 @@ import java.io.Serializable;
  */
 public class Cliente implements Serializable, Observer<Jogo> {
 
-    private String name;
+    private String nome;
     private String cpf;
     private String email;
 
     public Cliente() {
     }
 
-    public Cliente(String name, String cpf, String email) {
-        this.name = name;
+    public Cliente(String nome, String email, String cpf) {
+        this.nome = nome;
         this.cpf = cpf;
         this.email = email;
     }
 
-    public String getName() {
-        return this.name;
+    public String getNome() {
+        return this.nome;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getCpf() {

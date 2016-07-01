@@ -7,8 +7,9 @@ package io.github.jass2125.loca.games.core.repository;
 
 import io.github.jass2125.locagames.dbunit.DBUnitHelper;
 import io.github.jass2125.loca.games.core.business.Cliente;
-import java.sql.SQLException;
+import io.github.jass2125.loca.games.exceptions.ConnectionException;
 import java.util.List;
+import javax.persistence.PersistenceException;
 import static junit.framework.Assert.assertEquals;
 import org.dbunit.operation.DatabaseOperation;
 import org.junit.After;
@@ -54,19 +55,18 @@ public class ClienteDaoImplTest {
     /**
      * Test of salvar method, of class ClienteDaoImpl.
      */
-    @Test(expected = SQLException.class)
+    @Test(expected = Exception.class)
     public void testSalvar() {
         try {
             //Exceção de quando o CPF já existe
-            Mockito.doThrow(new SQLException()).when(dao).salvar(cliente1);
-
+            Mockito.doThrow(new PersistenceException()).when(dao).salvar(cliente1);
+            
             //Exceção de quando o email já existe
-            Mockito.doThrow(new SQLException()).when(dao).salvar(cliente2);
+            Mockito.doThrow(new ConnectionException()).when(dao).salvar(cliente2);
 
             ClienteDao dao2 = new ClienteDaoImpl();
             dao2.salvar(cliente1);
-
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (PersistenceException e) {
             e.printStackTrace();
         }
     }

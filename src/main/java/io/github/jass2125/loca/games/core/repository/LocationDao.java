@@ -6,7 +6,7 @@
 package io.github.jass2125.loca.games.core.repository;
 
 import io.github.jass2125.loca.games.core.business.Location;
-import io.github.jass2125.loca.games.core.factory.ConnectionFactory;
+import io.github.jass2125.loca.games.core.factory.FabricaDeConexoes;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,17 +19,16 @@ import java.util.List;
  * @author Anderson Souza
  * @since 13:49:16, 24-Feb-2016
  */
-
 public class LocationDao implements LocationRepository {
 
-    private ConnectionFactory factoryConnect;
+    private FabricaDeConexoes fabricaDeConexoes;
 
     public LocationDao() {
-        factoryConnect = new ConnectionFactory();
+        fabricaDeConexoes = new FabricaDeConexoes();
     }
 
     public void save(Location location) throws ClassNotFoundException, SQLException {
-        Connection connection = factoryConnect.getConnection();
+        Connection connection = fabricaDeConexoes.getConexao();
         String sql = "insert into location(idUser, idGame, dateLocation, dateDevolution, strategy) values(?, ?, ? ,?, ?);";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, location.getIdUser());
@@ -43,7 +42,7 @@ public class LocationDao implements LocationRepository {
     }
 
     public List<Location> listLocations() throws SQLException, ClassNotFoundException {
-        Connection connection = factoryConnect.getConnection();
+        Connection connection = fabricaDeConexoes.getConexao();
         String sql = "select * from location where location.idGame in();";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         ResultSet resulSet = preparedStatement.executeQuery();
@@ -66,7 +65,7 @@ public class LocationDao implements LocationRepository {
     }
 
     public Location findLocation(String cpf, Long idGame) throws ClassNotFoundException, SQLException {
-        Connection connection = factoryConnect.getConnection();
+        Connection connection = fabricaDeConexoes.getConexao();
         String sql = "select * from location inner join game where location.idUser = ? and game.idGame = ? and location.idGame = game.idGame and game.state = 'RENT';";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, cpf);
@@ -90,7 +89,7 @@ public class LocationDao implements LocationRepository {
     }
 
     public Location findLocationById(Long idGame) throws ClassNotFoundException, SQLException {
-        Connection connection = factoryConnect.getConnection();
+        Connection connection = fabricaDeConexoes.getConexao();
         String sql = "select * from location inner join game where game.state = 'RENT' and location.idGame = ?;";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setLong(1, idGame);
