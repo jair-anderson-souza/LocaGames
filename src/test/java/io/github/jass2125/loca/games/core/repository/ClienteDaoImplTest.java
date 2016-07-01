@@ -7,18 +7,17 @@ package io.github.jass2125.loca.games.core.repository;
 
 import io.github.jass2125.locagames.dbunit.DBUnitHelper;
 import io.github.jass2125.loca.games.core.business.Cliente;
-import java.sql.Connection;
-import java.util.Calendar;
+import java.sql.SQLException;
 import java.util.List;
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNull;
-import static junit.framework.Assert.fail;
 import org.dbunit.operation.DatabaseOperation;
 import org.junit.After;
-import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 /**
  *
@@ -27,7 +26,11 @@ import org.junit.Test;
 public class ClienteDaoImplTest {
 
     private static DBUnitHelper helper;
-    private static Connection connection;
+    @Mock
+    private ClienteDao dao;
+    private Cliente cliente1;
+    private Cliente cliente2;
+    private Cliente cliente3;
 
     @BeforeClass
     public static void beforeClass() {
@@ -36,44 +39,36 @@ public class ClienteDaoImplTest {
 
     @Before //antes da execução de cada método
     public void init() {
-        helper.execute(DatabaseOperation.DELETE_ALL, "Carro.xml");
-
-        helper.execute(DatabaseOperation.INSERT, "Carro.xml");
-
-        //manager = factory.createEntityManager();
-        //this.carroDAO = new CarroDAO(manager);
+        helper.execute(DatabaseOperation.INSERT, "cliente.xml");
+        MockitoAnnotations.initMocks(this);
+        cliente1 = new Cliente("Thomaz", "thom@gmail.com", "34235");
+        cliente2 = new Cliente("Rafael", "matheus@hotmail.com", "273632");
+        cliente3 = new Cliente("Rafael", "jorge@hotmail.com", "654654");
     }
 
     @After //depois da execução de cada método
     public void end() {
-        //this.manager.close();
-    }
-
-    @Test
-    public void deveRetornarCarrosZeroKm() {
-//        List<Carro> resultado = carroDAO.buscarCarrosZero();
-        assertNull(null);
-//        assertThat(resultado, hasItems(new Carro(1L), new Carro(4L)));
-    }
-
-    @Test
-    public void deveRetornarCarrosMenosDoisAnosUso() {
-        Integer doisAnosAntes = Calendar.getInstance().get(Calendar.YEAR) - 2;
-//        List<Carro> resultado = carroDAO.buscarCarrosComIdadeInferiorA(doisAnosAntes);
-//
-//        assertThat(resultado, hasItems(new Carro(1L), new Carro(2L), new Carro(3L), new Carro(4L)));
+        helper.execute(DatabaseOperation.DELETE_ALL, "cliente.xml");
     }
 
     /**
      * Test of salvar method, of class ClienteDaoImpl.
      */
-    public void testSalvar() throws Exception {
-        System.out.println("salvar");
-        Cliente cliente = null;
-        ClienteDaoImpl instance = new ClienteDaoImpl();
-        instance.salvar(cliente);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    @Test(expected = SQLException.class)
+    public void testSalvar() {
+        try {
+            //Exceção de quando o CPF já existe
+            Mockito.doThrow(new SQLException()).when(dao).salvar(cliente1);
+
+            //Exceção de quando o email já existe
+            Mockito.doThrow(new SQLException()).when(dao).salvar(cliente2);
+
+            ClienteDao dao2 = new ClienteDaoImpl();
+            dao2.salvar(cliente1);
+
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -87,7 +82,6 @@ public class ClienteDaoImplTest {
         List<Cliente> result = instance.buscarPorCpf(cpf);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -102,7 +96,6 @@ public class ClienteDaoImplTest {
         Cliente result = instance.buscarPorCPFEEmail(cpf, email);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
 }

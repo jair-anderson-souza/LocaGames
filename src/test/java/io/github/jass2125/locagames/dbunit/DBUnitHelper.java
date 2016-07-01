@@ -1,10 +1,10 @@
 package io.github.jass2125.locagames.dbunit;
 
-
 import io.github.jass2125.loca.games.core.factory.ConnectionFactory;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
+import org.dbunit.DatabaseUnitException;
 import org.dbunit.database.DatabaseConfig;
 import org.dbunit.database.DatabaseConnection;
 import org.dbunit.dataset.IDataSet;
@@ -27,15 +27,15 @@ public class DBUnitHelper {
     private String xmlFolder;
     private DatabaseConnection dbConnection;
 
-    public DBUnitHelper(String xml) {
+    public DBUnitHelper(String xmlFolder) {
+        this.xmlFolder = xmlFolder;
         try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
             connection = new ConnectionFactory().getConnection();
             dbConnection = new DatabaseConnection(connection);
             DatabaseConfig config = dbConnection.getConfig();
             config.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new MySqlDataTypeFactory());
 
-        } catch (Exception e) {
+        } catch (SQLException | ClassNotFoundException | DatabaseUnitException e) {
             e.printStackTrace();
         }
     }
@@ -46,7 +46,7 @@ public class DBUnitHelper {
             FlatXmlDataSetBuilder builder = new FlatXmlDataSetBuilder();
             IDataSet set = builder.build(stream);
             op.execute(dbConnection, set);
-        } catch (Exception e) {
+        } catch (DatabaseUnitException | SQLException e) {
             e.printStackTrace();
         }
     }
