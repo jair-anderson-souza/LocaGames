@@ -13,5 +13,6 @@
     </head>
     <body>
         <h1>Página de Erro</h1>
+        <a href="home.jsp">Home</a>
     </body>
 </html>

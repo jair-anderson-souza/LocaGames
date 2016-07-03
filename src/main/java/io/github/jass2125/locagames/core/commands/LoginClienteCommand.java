@@ -40,27 +40,18 @@ public class LoginClienteCommand implements Command {
      */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        try {
-            HttpSession session = session = request.getSession();
-            Cliente cliente = this.recuperaDadosDoClienteDaRequisicao(request);
+        HttpSession session = request.getSession();
+        Cliente cliente = this.recuperaDadosDoClienteDaRequisicao(request);
 
-            if (cliente != null) {
-                session.setMaxInactiveInterval(60 * 60);
-                session.setAttribute("success", "Autenticação feita com sucesso");
-                session.setAttribute("user", cliente);
-                return "funcionario/home.jsp";
-            } else {
-                //cada não exista, encaminhar pra página de cadastro do cliente
-                request.getSession().setAttribute("error", "Erro na autenticação");
-                return "home.jsp";
-            }
-        } catch (ClassNotFoundException | SQLException e) {
-            //web.xml
-            e.printStackTrace();
-            request.getSession().setAttribute("error", "Ocorreu um erro, retorne e tente novamente");
+        if (cliente != null) {
+            session.setMaxInactiveInterval(60 * 30);
+            session.setAttribute("success", "Autenticação feita com sucesso");
+            session.setAttribute("user", cliente);
+            return "funcionario/home.jsp";
+        } else {
+            request.getSession().setAttribute("error", "Erro na autenticação");
             return "home.jsp";
         }
-
     }
 
     /**
@@ -73,21 +64,22 @@ public class LoginClienteCommand implements Command {
      * informação
      * @throws ClassNotFoundException Classe do Driver MySQL não está disponivel
      */
-    private Cliente recuperaDadosDoClienteDaRequisicao(HttpServletRequest request) throws SQLException, ClassNotFoundException {
+    private Cliente recuperaDadosDoClienteDaRequisicao(HttpServletRequest request) {
         String cpf = request.getParameter("cpf");
         String email = request.getParameter("email");
         return buscaCliente(cpf, email);
     }
+
     /**
-     * 
+     *
      * @param cpf
      * @param email
      * @return
      * @throws SQLException
-     * @throws ClassNotFoundException 
+     * @throws ClassNotFoundException
      */
-   
-    private Cliente buscaCliente(String cpf, String email) throws SQLException, ClassNotFoundException{
+
+    private Cliente buscaCliente(String cpf, String email) {
         return clienteDao.buscarPorCpfEEmail(cpf, email);
     }
 

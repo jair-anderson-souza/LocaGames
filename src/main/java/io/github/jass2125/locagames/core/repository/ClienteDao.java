@@ -20,5 +20,5 @@ public interface ClienteDao {
 
     public List<Cliente> buscarPorCpf(String cpf) throws SQLException, ClassNotFoundException;
 
-    public Cliente buscarPorCpfEEmail(String cpf, String email) throws SQLException, ClassNotFoundException;
+    public Cliente buscarPorCpfEEmail(String cpf, String email) throws PersistenciaException;
 }

@@ -87,7 +87,7 @@ public class FabricaDeConexoes {
         } catch (SQLException | ClassNotFoundException r) {
             throw new ConexaoException(ExcecoesEnum.ERRO_NA_CONEXAO)
                     .putMap("Mensagem de Erro", "Não foi possivel realizar uma conexão com o banco de dados, "
-                            + "verifique os dados e tente novamente");
+                            + "verifique os parametros de conexão e tente novamente");
         }
     }
 

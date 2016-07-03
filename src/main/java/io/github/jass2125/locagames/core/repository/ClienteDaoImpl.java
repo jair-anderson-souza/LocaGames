@@ -81,7 +81,7 @@ public class ClienteDaoImpl implements ClienteDao {
         return listObservers;
     }
 
-    public Cliente buscarPorCpfEEmail(String cpf, String email) throws SQLException, ClassNotFoundException {
+    public Cliente buscarPorCpfEEmail(String cpf, String email) throws PersistenciaException {
         try (Connection connection = fabricaDeConexao.getConexao()) {
             String sql = "select * from cliente where cpf = ? and email = ?;";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -96,7 +96,7 @@ public class ClienteDaoImpl implements ClienteDao {
             }
         } catch (SQLException e) {
             throw new PersistenciaException(ExcecoesEnum.ERRO_NA_CONSULTA)
-                    //aquipode ficar o log, sendo uma atributo na exceção
+                    //aqui pode ficar o log, sendo uma atributo na exceção
                     .inserirMensagemDeErro("Mensagem de Erro: ", "Não foi possível realizar uma consulta no seu banco de dados.");
         }
         return null;
