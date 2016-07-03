@@ -21,12 +21,12 @@ import javax.servlet.http.HttpSession;
  * @author Anderson Souza
  * @since 15:40:48, 20-Feb-2016
  */
-public class LoginClienteAction implements Action {
+public class LoginClienteCommand implements Command {
 
     private final ClienteDao clienteDao;
     private final JogoDao jogosDao;
 
-    public LoginClienteAction() {
+    public LoginClienteCommand() {
         this.clienteDao = new ClienteDaoImpl();
         this.jogosDao = new JogoDaoImpl();
     }
@@ -42,7 +42,7 @@ public class LoginClienteAction implements Action {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         try {
             HttpSession session = session = request.getSession();
-            Cliente cliente = this.recuperaCliente(request);
+            Cliente cliente = this.recuperaDadosDoClienteDaRequisicao(request);
 
             if (cliente != null) {
                 session.setMaxInactiveInterval(60 * 60);
@@ -71,9 +71,21 @@ public class LoginClienteAction implements Action {
      * informação
      * @throws ClassNotFoundException Classe do Driver MySQL não está disponivel
      */
-    private Cliente recuperaCliente(HttpServletRequest request) throws SQLException, ClassNotFoundException {
+    private Cliente recuperaDadosDoClienteDaRequisicao(HttpServletRequest request) throws SQLException, ClassNotFoundException {
         String cpf = request.getParameter("cpf");
         String email = request.getParameter("email");
+        return buscaCliente(cpf, email);
+    }
+    /**
+     * 
+     * @param cpf
+     * @param email
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException 
+     */
+   
+    private Cliente buscaCliente(String cpf, String email) throws SQLException, ClassNotFoundException{
         return clienteDao.buscarPorCpfEEmail(cpf, email);
     }
 

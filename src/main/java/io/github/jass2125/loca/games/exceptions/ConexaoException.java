@@ -14,45 +14,51 @@ import java.util.Map;
  *
  * @author Anderson Souza
  */
-public class ArquivoNaoEncontradoException extends Exception {
+public class ConexaoException extends RuntimeException {
 
     private Erro erro;
     private Map<String, String> map = new HashMap<>();
 
-    public ArquivoNaoEncontradoException() {
+    public ConexaoException() {
     }
 
-    public ArquivoNaoEncontradoException(Erro erro) {
+    public ConexaoException(Erro erro) {
         this.erro = erro;
     }
 
-    public ArquivoNaoEncontradoException(Erro erro, String message) {
-        super(message);
-        this.erro = erro;
-    }
-
-    public ArquivoNaoEncontradoException(Erro erro, Throwable cause) {
-        super(cause);
-        this.erro = erro;
-    }
-
-    public ArquivoNaoEncontradoException(Erro erro, String message, Throwable cause) {
+    public ConexaoException(Erro erro, String message, Throwable cause) {
         super(message, cause);
         this.erro = erro;
     }
 
-    public ArquivoNaoEncontradoException(String msg, Throwable th) {
-        super(msg, th);
+    public ConexaoException(Erro erro, Throwable cause) {
+        this.erro = erro;
     }
 
-    public ArquivoNaoEncontradoException putMap(String chave, String valor) {
+    public ConexaoException(Erro erro, String mensagem) {
+        this.erro = erro;
+    }
+
+    public ConexaoException(Exception e, String string) {
+        super(string, e);
+    }
+
+    public Erro getCodigoDeErro() {
+        return erro;
+    }
+
+    public void setCodigoDeErro(Erro erro) {
+        this.erro = erro;
+    }
+
+    public ConexaoException putMap(String chave, String valor) {
         this.map.put(chave, valor);
         return this;
     }
 
     @Override
     public String getMessage() {
-        return this.getMessage(); //To change body of generated methods, choose Tools | Templates.
+        return this.getMessage();
     }
 
     @Override
@@ -68,14 +74,13 @@ public class ArquivoNaoEncontradoException extends Exception {
             if (this.erro != null) {
                 System.out.println("Código de Erro: " + erro.getCodigoDeErro());
                 System.out.println("Erro: " + erro);
-                
             }
-
+            
             /* Parametros sobre o Erro */
             map.keySet().stream().forEach(it -> {
                 System.out.println("Descrição do Erro: " + map.get(it));
             });
-
+            
             /* Pilha de Erros */
             StackTraceElement[] trace = getStackTrace();
             for (StackTraceElement tr : trace) {
@@ -90,5 +95,4 @@ public class ArquivoNaoEncontradoException extends Exception {
 
         }
     }
-
 }

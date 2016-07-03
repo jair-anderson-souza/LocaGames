@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  * @since 15:33:48, 20-Feb-2016
  * @version 1.0
  */
-public class RegisterUserAction implements Action {
+public class RegisterUserAction implements Command {
 
     private ClienteDao dao;
 

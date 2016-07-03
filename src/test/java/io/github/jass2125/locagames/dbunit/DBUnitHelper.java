@@ -1,7 +1,7 @@
 package io.github.jass2125.locagames.dbunit;
 
 import io.github.jass2125.loca.games.core.factory.FabricaDeConexoes;
-import io.github.jass2125.loca.games.exceptions.ConnectionException;
+import io.github.jass2125.loca.games.exceptions.ConexaoException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -37,7 +37,7 @@ public class DBUnitHelper {
             DatabaseConfig config = dbConnection.getConfig();
             config.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new MySqlDataTypeFactory());
 
-        } catch (DatabaseUnitException | SQLException | ClassNotFoundException e) {
+        } catch (DatabaseUnitException e) {
             e.printStackTrace();
         }
     }

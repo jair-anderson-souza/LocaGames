@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
  * @since 15:32:48, 20-Feb-2016 
  * @version 1.0
  */
-public interface Action {
+public interface Command {
     /**
      * 
      * @param request Requisiçao do cliente

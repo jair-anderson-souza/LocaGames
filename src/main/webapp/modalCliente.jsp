@@ -15,7 +15,7 @@
                 <h2 class="modal-title">Cliente</h2>
             </div>
             <div class="modal-body">
-                <form action="front?action=loginClient" method="post" class="form-group">
+                <form action="front?command=loginCliente" method="post" class="form-group">
                     <div class="form-group dj-form__input">
                         <label for="cpf">CPF:</label>
                         <input class="dj-button form-control" id="cpf" name="cpf">

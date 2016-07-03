@@ -9,13 +9,7 @@ package io.github.jass2125.loca.games.exceptions;
  *
  * @author Anderson Souza
  */
-public class ConnectionException extends Exception {
+public interface Erro {
 
-    public ConnectionException(Exception e, String string) {
-        super(string, e);
-    }
-
-    public ConnectionException() {
-    }
-
+    public int getCodigoDeErro();
 }

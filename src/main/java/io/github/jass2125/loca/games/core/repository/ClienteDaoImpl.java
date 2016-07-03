@@ -33,6 +33,7 @@ public class ClienteDaoImpl implements ClienteDao {
      * @param cliente Objeto
      * {@link io.github.jass2125.loca.games.core.business.Cliente} que será
      * armazenado
+     * @return
      * @throws PersistenciaException Exceção lançada quando a aplicação tentar
      * estabelecer comunicação com o banco de dados
      * <br>Ver -
@@ -42,13 +43,14 @@ public class ClienteDaoImpl implements ClienteDao {
     public Cliente salvar(Cliente cliente) throws PersistenciaException {
         try (Connection conexao = fabricaDeConexao.getConexao()) {
             String sql = "insert into cliente(nome, email, cpf) values(?, ?, ?);";
-            PreparedStatement preparedStatement = conexao.prepareStatement(sql);
-            preparedStatement.setString(1, cliente.getNome());
-            preparedStatement.setString(2, cliente.getEmail());
-            preparedStatement.setString(3, cliente.getCpf());
-            preparedStatement.executeUpdate();
+            try (PreparedStatement preparedStatement = conexao.prepareStatement(sql)) {
+                preparedStatement.setString(1, cliente.getNome());
+                preparedStatement.setString(2, cliente.getEmail());
+                preparedStatement.setString(3, cliente.getCpf());
+                preparedStatement.execute();
+            }
             return cliente;
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
             throw new PersistenciaException(e, "Ops, ocorreu um erro.!!");
         }
     }
@@ -80,19 +82,19 @@ public class ClienteDaoImpl implements ClienteDao {
     public Cliente buscarPorCpfEEmail(String cpf, String email) throws SQLException, ClassNotFoundException {
         try (Connection connection = fabricaDeConexao.getConexao()) {
             String sql = "select * from cliente where cpf = ? and email = ?;";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, cpf);
-            preparedStatement.setString(2, email);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                String name = resultSet.getString("nome");
-                return new Cliente(name, cpf, email);
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, cpf);
+                preparedStatement.setString(2, email);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        String nome = resultSet.getString("nome");
+                        return new Cliente(nome, cpf, email);
+                    }
+                }
             }
-            resultSet.close();
-            preparedStatement.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
+            throw new PersistenciaException(e, "Ops, ocorreu um erro.!!");
         }
         return null;
     }

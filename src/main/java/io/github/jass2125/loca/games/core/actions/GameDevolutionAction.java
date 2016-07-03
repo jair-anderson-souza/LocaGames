@@ -27,7 +27,7 @@ import org.apache.commons.mail.EmailException;
  * @author Anderson Souza
  * @version 1.0
  */
-public class GameDevolutionAction implements Action {
+public class GameDevolutionAction implements Command {
 
     private LocationDao daoLocation;
     private LocationCalcStrategy strategy;

@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Anderson Souza
  * @version 1.0
  */
-public class LoaderGameLocatedAction implements Action {
+public class LoaderGameLocatedAction implements Command {
 
     private JogoDao dao;
 

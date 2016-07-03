@@ -5,32 +5,32 @@
  */
 package io.github.jass2125.loca.games.controller;
 
-import io.github.jass2125.loca.games.core.actions.Action;
 import io.github.jass2125.loca.games.core.actions.LoaderGamesAction;
-import io.github.jass2125.loca.games.core.actions.LoginClienteAction;
+import io.github.jass2125.loca.games.core.actions.LoginClienteCommand;
 import io.github.jass2125.loca.games.core.actions.RegisterUserAction;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+import io.github.jass2125.loca.games.core.actions.Command;
 
 /**
  * @author Anderson Souza
  * @since 15:32:23, 20-Feb-2016
  * @version 1.0
  */
-public class ActionFactory {
+public class CommandFactory {
 
-    private static final Map<String, Action> commands = new HashMap<>();
+    private static final Map<String, Command> commands = new HashMap<>();
 
     static {
-        commands.put("loginCliente", ActionEnum.LOGIN.getAction());
-        commands.put("loadGames", ActionEnum.LOAD_GAMES.getAction());
-        commands.put("loadGamesLocated", ActionEnum.LOAD_GAMES_LOCATED.getAction());
-        commands.put("registerUser", ActionEnum.REGISTER_USER.getAction());
-        commands.put("devolutionGame", ActionEnum.DEVOLUTION_GAME.getAction());
-        commands.put("logout", ActionEnum.LOGOUT.getAction());
-        commands.put("locationGame", ActionEnum.LOCATION_GAME.getAction());
+        commands.put("loginCliente", CommandEnum.LOGIN.getCommand());
+        commands.put("loadGames", CommandEnum.LOAD_GAMES.getCommand());
+        commands.put("loadGamesLocated", CommandEnum.LOAD_GAMES_LOCATED.getCommand());
+        commands.put("registerUser", CommandEnum.REGISTER_USER.getCommand());
+        commands.put("devolutionGame", CommandEnum.DEVOLUTION_GAME.getCommand());
+        commands.put("logout", CommandEnum.LOGOUT.getCommand());
+        commands.put("locationGame", CommandEnum.LOCATION_GAME.getCommand());
     }
 
     /**
@@ -38,65 +38,66 @@ public class ActionFactory {
      *
      * @param request Requisiçao Http do cliente
      * @return Açao a ser executada
+     * @throws java.io.IOException
      */
-    public static Action getAction(HttpServletRequest request) throws IOException {
-        Action action = commands.get(request.getParameter("action"));
-        if (action == null) {
+    public static Command getCommand(HttpServletRequest request) throws IOException {
+        Command command = commands.get(request.getParameter("command"));
+        if (command == null) {
             throw new IOException();
         }
-        return action;
+        return command;
     }
 
-    public enum ActionEnum {
+    public enum CommandEnum {
         LOGIN("loginCliente") {
             @Override
-            public Action getAction() {
-                return new LoginClienteAction();
+            public Command getCommand() {
+                return new LoginClienteCommand();
             }
         },
         LOAD_GAMES("loadGames") {
             @Override
-            public Action getAction() {
+            public Command getCommand() {
                 return new LoaderGamesAction();
             }
         },
         LOAD_GAMES_LOCATED("loadGamesLocated") {
             @Override
-            public Action getAction() {
+            public Command getCommand() {
                 return new LoaderGamesAction();
             }
         },
         REGISTER_USER("registerUser") {
             @Override
-            public Action getAction() {
+            public Command getCommand() {
                 return new RegisterUserAction();
             }
         },
         DEVOLUTION_GAME("devolutionGame") {
             @Override
-            public Action getAction() {
+            public Command getCommand() {
                 return new RegisterUserAction();
             }
         },
         LOGOUT("logout") {
             @Override
-            public Action getAction() {
+            public Command getCommand() {
                 return new RegisterUserAction();
             }
         },
         LOCATION_GAME("locationGame") {
             @Override
-            public Action getAction() {
+            public Command getCommand() {
                 return new RegisterUserAction();
             }
         };
 
-        public abstract Action getAction();
+        public abstract Command getCommand();
 
-        private final String action;
+        private final String command;
 
-        private ActionEnum(String action) {
-            this.action = action;
+        private CommandEnum(String command) {
+            this.command = command;
         }
 
     }

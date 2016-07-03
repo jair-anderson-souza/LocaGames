@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
  * @author Anderson Souza
  * 
  */
-public class LogoutAction implements Action{
+public class LogoutAction implements Command{
     
     /**
      * Finaliza a sessão do cliente

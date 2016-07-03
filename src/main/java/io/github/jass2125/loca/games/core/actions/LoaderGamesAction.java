@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  * @since 16:55:23, 24-Feb-2016
  * @version 1.0
  */
-public class LoaderGamesAction implements Action {
+public class LoaderGamesAction implements Command {
 
     private JogoDao dao;
 

@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Anderson Souza
  * @since 15:18:13, 24-Feb-2016
  */
-public class GameLocationAction implements Action {
+public class GameLocationAction implements Command {
 
     private LocationRepository daoLocation;
     private ObserverRepository daoObserver;

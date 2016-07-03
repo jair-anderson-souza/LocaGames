@@ -5,13 +5,13 @@
  */
 package io.github.jass2125.loca.games.controller;
 
-import io.github.jass2125.loca.games.core.actions.Action;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import io.github.jass2125.loca.games.core.actions.Command;
 
 /**
  * @author Anderson Souza
@@ -34,8 +34,8 @@ public class FrontController extends HttpServlet {
      */
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Action action = ActionFactory.getAction(request);
-        String view = action.execute(request, response);
+        Command command = CommandFactory.getCommand(request);
+        String view = command.execute(request, response);
         response.sendRedirect(view);
     }
 }
