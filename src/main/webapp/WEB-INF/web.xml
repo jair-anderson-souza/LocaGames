@@ -24,4 +24,8 @@
         <exception-type>io.github.jass2125.locagames.excecoes.ConexaoException</exception-type>
         <location>/error.jsp</location>
     </error-page>
+<!--    SQLEXCEPTION <error-page>
+        <exception-type>io.github.jass2125.locagames.excecoes.ConexaoException</exception-type>
+        <location>/error.jsp</location>
+    </error-page>-->
 </web-app>

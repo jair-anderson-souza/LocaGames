@@ -33,7 +33,7 @@ public class PropriedadesUtil {
      * não puder ser encontrado
      */
     public Properties carregarArquivoDePropriedade() throws ArquivoNaoEncontradoException {
-        try (InputStream stream = getClass().getResourceAsStream("/bd.propertie")) {
+        try (InputStream stream = getClass().getResourceAsStream("/bd.properties")) {
             properties = new Properties();
             properties.load(stream);
             return properties;

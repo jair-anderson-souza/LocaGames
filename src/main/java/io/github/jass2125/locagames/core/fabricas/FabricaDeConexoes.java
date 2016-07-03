@@ -50,7 +50,7 @@ public class FabricaDeConexoes {
     }
 
     private FabricaDeConexoes inicializaParametrosDoBanco() {
-        this.url = "jdbc:postgresql://localhost:5432/locagame";
+        this.url = "jdbc:postgresql://localhost:5432/locagames";
         this.usuario = "postgres";
         this.senha = "123";
         this.driver = "org.postgresql.Driver";

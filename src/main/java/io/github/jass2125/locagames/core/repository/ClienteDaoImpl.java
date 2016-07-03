@@ -7,6 +7,8 @@ package io.github.jass2125.locagames.core.repository;
 
 import io.github.jass2125.locagames.core.negocio.Cliente;
 import io.github.jass2125.locagames.core.fabricas.FabricaDeConexoes;
+import io.github.jass2125.locagames.excecoes.ConexaoException;
+import io.github.jass2125.locagames.excecoes.ExcecoesEnum;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -93,8 +95,9 @@ public class ClienteDaoImpl implements ClienteDao {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new PersistenciaException(e, "Ops, ocorreu um erro.!!");
+            throw new PersistenciaException(ExcecoesEnum.ERRO_NA_CONSULTA)
+                    //aquipode ficar o log, sendo uma atributo na exceção
+                    .inserirMensagemDeErro("Mensagem de Erro: ", "Não foi possível realizar uma consulta no seu banco de dados.");
         }
         return null;
     }

@@ -50,10 +50,12 @@ public class LoginClienteCommand implements Command {
                 session.setAttribute("user", cliente);
                 return "funcionario/home.jsp";
             } else {
+                //cada não exista, encaminhar pra página de cadastro do cliente
                 request.getSession().setAttribute("error", "Erro na autenticação");
                 return "home.jsp";
             }
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (ClassNotFoundException | SQLException e) {
+            //web.xml
             e.printStackTrace();
             request.getSession().setAttribute("error", "Ocorreu um erro, retorne e tente novamente");
             return "home.jsp";

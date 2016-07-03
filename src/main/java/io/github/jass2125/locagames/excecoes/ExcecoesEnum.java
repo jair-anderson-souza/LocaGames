@@ -12,8 +12,7 @@ package io.github.jass2125.locagames.excecoes;
 public enum ExcecoesEnum implements Erro {
     ERRO_NA_CONEXAO(1),
     ARQUIVO_NAO_ENCONTRADO(2),
-    DRIVER_INVALIDO(3),
-    SENHA_INVALIDA(4);
+    ERRO_NA_CONSULTA(3);
 
     private final int codigoDeErro;
 
