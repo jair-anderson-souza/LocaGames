@@ -1,11 +1,9 @@
 package io.github.jass2125.locagames.dbunit;
 
-import io.github.jass2125.loca.games.core.factory.FabricaDeConexoes;
-import io.github.jass2125.loca.games.exceptions.ConexaoException;
+import io.github.jass2125.locagames.core.fabricas.FabricaDeConexoes;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
-import javax.resource.cci.ConnectionFactory;
 import org.dbunit.DatabaseUnitException;
 import org.dbunit.database.DatabaseConfig;
 import org.dbunit.database.DatabaseConnection;

@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package io.github.jass2125.loca.games.core.repository;
+package io.github.jass2125.locagames.core.repository;
 
 import io.github.jass2125.locagames.dbunit.DBUnitHelper;
-import io.github.jass2125.loca.games.core.business.Cliente;
-import io.github.jass2125.loca.games.exceptions.PersistenciaException;
+import io.github.jass2125.locagames.core.negocio.Cliente;
+import io.github.jass2125.locagames.excecoes.PersistenciaException;
 import java.util.List;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
