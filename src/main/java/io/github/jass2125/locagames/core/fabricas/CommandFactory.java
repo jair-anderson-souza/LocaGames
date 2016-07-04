@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import io.github.jass2125.locagames.core.commands.Command;
+import io.github.jass2125.locagames.core.commands.DevolucaoDeJogoCommand;
 import io.github.jass2125.locagames.core.commands.LocacaoDeJogoCommand;
 
 /**
@@ -28,9 +29,10 @@ public class CommandFactory {
         commands.put("loginCliente", CommandEnum.LOGIN_CLIENTE);
         commands.put("carregaJogos", CommandEnum.CARREGA_JOGOS);
         commands.put("locacaoDeJogo", CommandEnum.LOCACAO_DE_JOGO);
-        commands.put("loadGamesLocated", CommandEnum.LOAD_GAMES_LOCATED);
+        commands.put("devolverJogo", CommandEnum.DEVOLUCAO_DE_JOGO);
+        
+        commands.put("carregaJogosAlugados", CommandEnum.CARREGA_JOGOS_ALUGADOS);
         commands.put("registerUser", CommandEnum.REGISTER_USER);
-        commands.put("devolutionGame", CommandEnum.DEVOLUTION_GAME);
         commands.put("logout", CommandEnum.LOGOUT);
     }
 
@@ -62,7 +64,7 @@ public class CommandFactory {
                 return new CarregaJogosCommand();
             }
         },
-        LOAD_GAMES_LOCATED {
+        CARREGA_JOGOS_ALUGADOS {
             @Override
             public Command getCommand() {
                 return new CarregaJogosCommand();
@@ -74,10 +76,10 @@ public class CommandFactory {
                 return new RegisterUserAction();
             }
         },
-        DEVOLUTION_GAME {
+        DEVOLUCAO_DE_JOGO {
             @Override
             public Command getCommand() {
-                return new RegisterUserAction();
+                return new DevolucaoDeJogoCommand();
             }
         },
         LOGOUT {

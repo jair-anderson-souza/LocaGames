@@ -15,11 +15,13 @@ import java.util.List;
  */
 public interface LocacaoDao {
 
+    //FUNCIONANDO
     public void salvar(Locacao locacao) throws PersistenciaException;
 
     public List<Locacao> listarlocacoes() throws PersistenciaException;
 
     public Locacao buscarLocacaoPorUsuario(String cpf, Long idGame) throws PersistenciaException;
-
+    
+    //FUNCIONANDO
     public Locacao buscarLocacaoPorId(Long idGame) throws PersistenciaException;
 }

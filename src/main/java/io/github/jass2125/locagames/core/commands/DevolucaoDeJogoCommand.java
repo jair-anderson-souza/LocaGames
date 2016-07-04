@@ -27,16 +27,17 @@ import io.github.jass2125.locagames.strategy.CalculadoraDeLocacaoStrategy;
  * @author Anderson Souza
  * @version 1.0
  */
-public class GameDevolutionAction implements Command {
+public class DevolucaoDeJogoCommand implements Command {
 
     private LocacaoDaoImpl daoLocation;
     private CalculadoraDeLocacaoStrategy strategy;
     private JogoDao dao;
     private ObserverDao daoObserver;
     private CalculadoraDeLocacaoStrategy strategyCalc;
-    
+
     /**
      * Executa a ação geral de devolver game
+     *
      * @param request Requisiçao do cliente
      * @param response Reposta do cliente
      * @return URL da pagina de resposta
@@ -45,19 +46,19 @@ public class GameDevolutionAction implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
         try {
-            Long idGame = Long.parseLong(request.getParameter("idGame"));
+            Long idDoJogo = Long.parseLong(request.getParameter("idGame"));
             String cpf = ((Cliente) request.getSession().getAttribute("user")).getCpf();
-            Jogo game = this.getGameLocated(idGame);
+            Jogo jogo = this.getGameLocated(idDoJogo);
 
-            if (game != null) {
-                Locacao location = this.getLocation(cpf, idGame);
+            if (jogo != null) {
+                Locacao location = this.getLocation(cpf, idDoJogo);
                 request.getSession().setAttribute("success", "Jogo devolvido com sucesso");
                 BigDecimal price = this.getPriceLocation(location);
                 request.getSession().setAttribute("price", price);
-                this.editGameState(idGame, GameState.AVAILABLE.name());
-                game.setListObservers(loadObservers(idGame));
-                game.notifyObservers();
-                removeObservers(idGame);
+                this.editGameState(idDoJogo, GameState.AVAILABLE.name());
+                jogo.setListObservers(loadObservers(idDoJogo));
+                jogo.notifyObservers();
+                removeObservers(idDoJogo);
 
                 return "funcionario/home.jsp";
             }
@@ -65,79 +66,87 @@ public class GameDevolutionAction implements Command {
             request.getSession().setAttribute("error", "Você não alugou este jogo!");
             return "funcionario/home.jsp";
 
-        } catch (SQLException | ClassNotFoundException | EmailException e) {
+        } catch (EmailException e) {
             e.printStackTrace();
             request.getSession().setAttribute("error", "Erro, retorne e tente novamente");
             return "funcionario/home.jsp";
         }
     }
-    
+
     /**
      * Recupera o game locado
+     *
      * @param idGame Id do game que está sendo pesquisado
      * @return Jogo Jogo pra ser devolvido
-     * @throws SQLException Retorna caso ele não consiga recuperar essa informação
+     * @throws SQLException Retorna caso ele não consiga recuperar essa
+     * informação
      * @throws ClassNotFoundException Classe do Driver MySQL não está disponivel
      */
-    private Jogo getGameLocated(Long idGame) throws SQLException, ClassNotFoundException {
+    private Jogo getGameLocated(Long idGame) {
         dao = new JogoDaoImpl();
         Jogo game = dao.buscarPorId(idGame);
         return (game.getEstado().equals(GameState.RENT) ? game : null);
     }
-    
+
     /**
      * Deleta o observadores de um game
+     *
      * @param idGame Id do game que está sendo pesquisado
-     * @throws SQLException Retorna caso ele não consiga recuperar essa informação
-     * @throws ClassNotFoundException Classe do Driver MySQL não está disponivel
      */
-    public void removeObservers(Long idGame) throws SQLException, ClassNotFoundException {
+    public void removeObservers(Long idGame) {
         daoObserver = new ObserverDaoImpl();
         daoObserver.deleteObservador(idGame);
-    }   
-    
+    }
+
     /**
      * Pesquisa os observadores de um game
+     *
      * @param idGame Id do Jogo que está pesquisado
      * @return Set<Game> Set com todos os observadores de um game
-     * @throws SQLException Retorna caso ele não consiga recuperar essa informação
+     * @throws SQLException Retorna caso ele não consiga recuperar essa
+     * informação
      * @throws ClassNotFoundException Classe do Driver MySQL não está disponivel
      */
-    private Set<Observer> loadObservers(Long idGame) throws SQLException, ClassNotFoundException, EmailException {
+    private Set<Observer> loadObservers(Long idGame) throws EmailException {
         daoObserver = new ObserverDaoImpl();
         return daoObserver.getListaDeObservadores(idGame);
     }
-    
+
     /**
      * Edita o estado do Jogo
-     * @param idGame Id do game que será editado 
+     *
+     * @param idGame Id do game que será editado
      * @param state Estado do Jogo
-     * @throws SQLException Retorna caso ele não consiga recuperar essa informação
+     * @throws SQLException Retorna caso ele não consiga recuperar essa
+     * informação
      * @throws ClassNotFoundException Classe do Driver MySQL não está disponivel
      */
-    private void editGameState(Long idGame, String state) throws ClassNotFoundException, SQLException {
+    private void editGameState(Long idGame, String state) {
         dao = new JogoDaoImpl();
         dao.editarEstado(idGame, GameState.AVAILABLE.name());
     }
-    
+
     /**
      * Retorna o preço do aluguel
+     *
      * @param location Locaçao que esta sendo devolvida
      * @return BigDecimal Valor da locaçao
      */
     private BigDecimal getPriceLocation(Locacao location) {
         return location.calculateValueLocation();
     }
-    
+
     /**
      * Recupera a locaçao
+     *
      * @param cpf CPF do cliente
      * @param idGame Id do game
      * @return Locacao Locaçao
-     * @throws SQLException Retorna caso ele não consiga recuperar essa informação
+     * @throws SQLException Retorna caso ele não consiga recuperar essa
+     * informação
      * @throws ClassNotFoundException Classe do Driver MySQL não está disponivel
      */
-    private Locacao getLocation(String cpf, Long idGame) throws ClassNotFoundException, SQLException {
+    private Locacao getLocation(String cpf, Long idGame) {
         daoLocation = new LocacaoDaoImpl();
         return daoLocation.buscarLocacaoPorUsuario(cpf, idGame);
     }

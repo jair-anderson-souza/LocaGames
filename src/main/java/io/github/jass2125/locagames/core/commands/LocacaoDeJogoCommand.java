@@ -36,7 +36,6 @@ public class LocacaoDeJogoCommand implements Command {
     private ObserverDao daoObservadores;
     private final JogoDao daoJogo;
     private DayOfWeek diaAtual;
-    private LocalDate dataDeDevolucao;
 
     public LocacaoDeJogoCommand() {
         daoJogo = new JogoDaoImpl();
