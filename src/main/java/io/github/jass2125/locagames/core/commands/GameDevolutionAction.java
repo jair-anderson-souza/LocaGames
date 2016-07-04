@@ -6,22 +6,22 @@
 package io.github.jass2125.locagames.core.commands;
 
 import io.github.jass2125.locagames.core.negocio.Jogo;
-import io.github.jass2125.locagames.core.negocio.Location;
+import io.github.jass2125.locagames.core.negocio.Locacao;
 import io.github.jass2125.locagames.core.negocio.Cliente;
 import io.github.jass2125.locagames.core.repository.JogoDao;
 import io.github.jass2125.locagames.core.repository.JogoDaoImpl;
-import io.github.jass2125.locagames.core.repository.LocationDao;
-import io.github.jass2125.locagames.core.repository.ObserverDao;
-import io.github.jass2125.locagames.core.repository.ObserverRepository;
+import io.github.jass2125.locagames.core.repository.LocacaoDaoImpl;
+import io.github.jass2125.locagames.core.repository.ObserverDaoImpl;
 import io.github.jass2125.locagames.observer.Observer;
 import io.github.jass2125.locagames.state.GameState;
-import io.github.jass2125.locagames.strategy.LocationCalcStrategy;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.mail.EmailException;
+import io.github.jass2125.locagames.core.repository.ObserverDao;
+import io.github.jass2125.locagames.strategy.CalculadoraDeLocacaoStrategy;
 
 /**
  * @author Anderson Souza
@@ -29,11 +29,11 @@ import org.apache.commons.mail.EmailException;
  */
 public class GameDevolutionAction implements Command {
 
-    private LocationDao daoLocation;
-    private LocationCalcStrategy strategy;
+    private LocacaoDaoImpl daoLocation;
+    private CalculadoraDeLocacaoStrategy strategy;
     private JogoDao dao;
-    private ObserverRepository daoObserver;
-    private LocationCalcStrategy strategyCalc;
+    private ObserverDao daoObserver;
+    private CalculadoraDeLocacaoStrategy strategyCalc;
     
     /**
      * Executa a ação geral de devolver game
@@ -50,7 +50,7 @@ public class GameDevolutionAction implements Command {
             Jogo game = this.getGameLocated(idGame);
 
             if (game != null) {
-                Location location = this.getLocation(cpf, idGame);
+                Locacao location = this.getLocation(cpf, idGame);
                 request.getSession().setAttribute("success", "Jogo devolvido com sucesso");
                 BigDecimal price = this.getPriceLocation(location);
                 request.getSession().setAttribute("price", price);
@@ -82,7 +82,7 @@ public class GameDevolutionAction implements Command {
     private Jogo getGameLocated(Long idGame) throws SQLException, ClassNotFoundException {
         dao = new JogoDaoImpl();
         Jogo game = dao.buscarPorId(idGame);
-        return (game.getState().equals(GameState.RENT) ? game : null);
+        return (game.getEstado().equals(GameState.RENT) ? game : null);
     }
     
     /**
@@ -92,8 +92,8 @@ public class GameDevolutionAction implements Command {
      * @throws ClassNotFoundException Classe do Driver MySQL não está disponivel
      */
     public void removeObservers(Long idGame) throws SQLException, ClassNotFoundException {
-        daoObserver = new ObserverDao();
-        daoObserver.delete(idGame);
+        daoObserver = new ObserverDaoImpl();
+        daoObserver.deleteObservador(idGame);
     }   
     
     /**
@@ -104,8 +104,8 @@ public class GameDevolutionAction implements Command {
      * @throws ClassNotFoundException Classe do Driver MySQL não está disponivel
      */
     private Set<Observer> loadObservers(Long idGame) throws SQLException, ClassNotFoundException, EmailException {
-        daoObserver = new ObserverDao();
-        return daoObserver.getListObservers(idGame);
+        daoObserver = new ObserverDaoImpl();
+        return daoObserver.getListaDeObservadores(idGame);
     }
     
     /**
@@ -125,7 +125,7 @@ public class GameDevolutionAction implements Command {
      * @param location Locaçao que esta sendo devolvida
      * @return BigDecimal Valor da locaçao
      */
-    private BigDecimal getPriceLocation(Location location) {
+    private BigDecimal getPriceLocation(Locacao location) {
         return location.calculateValueLocation();
     }
     
@@ -133,12 +133,12 @@ public class GameDevolutionAction implements Command {
      * Recupera a locaçao
      * @param cpf CPF do cliente
      * @param idGame Id do game
-     * @return Location Locaçao
+     * @return Locacao Locaçao
      * @throws SQLException Retorna caso ele não consiga recuperar essa informação
      * @throws ClassNotFoundException Classe do Driver MySQL não está disponivel
      */
-    private Location getLocation(String cpf, Long idGame) throws ClassNotFoundException, SQLException {
-        daoLocation = new LocationDao();
-        return daoLocation.findLocation(cpf, idGame);
+    private Locacao getLocation(String cpf, Long idGame) throws ClassNotFoundException, SQLException {
+        daoLocation = new LocacaoDaoImpl();
+        return daoLocation.buscarLocacaoPorUsuario(cpf, idGame);
     }
 }

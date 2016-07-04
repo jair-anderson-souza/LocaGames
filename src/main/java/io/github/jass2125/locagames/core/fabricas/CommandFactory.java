@@ -5,7 +5,7 @@
  */
 package io.github.jass2125.locagames.core.fabricas;
 
-import io.github.jass2125.locagames.core.commands.LoaderGamesAction;
+import io.github.jass2125.locagames.core.commands.CarregaJogosCommand;
 import io.github.jass2125.locagames.core.commands.LoginClienteCommand;
 import io.github.jass2125.locagames.core.commands.RegisterUserAction;
 import java.io.IOException;
@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import io.github.jass2125.locagames.core.commands.Command;
+import io.github.jass2125.locagames.core.commands.LocacaoDeJogoCommand;
 
 /**
  * @author Anderson Souza
@@ -25,12 +26,12 @@ public class CommandFactory {
 
     static {
         commands.put("loginCliente", CommandEnum.LOGIN_CLIENTE);
-        commands.put("loadGames", CommandEnum.LOAD_GAMES);
+        commands.put("carregaJogos", CommandEnum.CARREGA_JOGOS);
+        commands.put("locacaoDeJogo", CommandEnum.LOCACAO_DE_JOGO);
         commands.put("loadGamesLocated", CommandEnum.LOAD_GAMES_LOCATED);
         commands.put("registerUser", CommandEnum.REGISTER_USER);
         commands.put("devolutionGame", CommandEnum.DEVOLUTION_GAME);
         commands.put("logout", CommandEnum.LOGOUT);
-        commands.put("locationGame", CommandEnum.LOCATION_GAME);
     }
 
     /**
@@ -49,56 +50,50 @@ public class CommandFactory {
     }
 
     public enum CommandEnum {
-        LOGIN_CLIENTE("loginCliente") {
+        LOGIN_CLIENTE {
             @Override
             public Command getCommand() {
                 return new LoginClienteCommand();
             }
         },
-        LOAD_GAMES("loadGames") {
+        CARREGA_JOGOS {
             @Override
             public Command getCommand() {
-                return new LoaderGamesAction();
+                return new CarregaJogosCommand();
             }
         },
-        LOAD_GAMES_LOCATED("loadGamesLocated") {
+        LOAD_GAMES_LOCATED {
             @Override
             public Command getCommand() {
-                return new LoaderGamesAction();
+                return new CarregaJogosCommand();
             }
         },
-        REGISTER_USER("registerUser") {
+        REGISTER_USER {
             @Override
             public Command getCommand() {
                 return new RegisterUserAction();
             }
         },
-        DEVOLUTION_GAME("devolutionGame") {
+        DEVOLUTION_GAME {
             @Override
             public Command getCommand() {
                 return new RegisterUserAction();
             }
         },
-        LOGOUT("logout") {
+        LOGOUT {
             @Override
             public Command getCommand() {
                 return new RegisterUserAction();
             }
         },
-        LOCATION_GAME("locationGame") {
+        LOCACAO_DE_JOGO {
             @Override
             public Command getCommand() {
-                return new RegisterUserAction();
+                return new LocacaoDeJogoCommand();
             }
         };
 
         public abstract Command getCommand();
-
-        private final String command;
-
-        private CommandEnum(String command) {
-            this.command = command;
-        }
 
     }
 

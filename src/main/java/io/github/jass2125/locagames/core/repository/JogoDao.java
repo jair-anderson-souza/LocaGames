@@ -6,7 +6,7 @@
 package io.github.jass2125.locagames.core.repository;
 
 import io.github.jass2125.locagames.core.negocio.Jogo;
-import java.sql.SQLException;
+import io.github.jass2125.locagames.excecoes.PersistenciaException;
 import java.util.List;
 
 /**
@@ -15,12 +15,12 @@ import java.util.List;
  */
 public interface JogoDao {
 
-    public List<Jogo> listaDeJogos() throws SQLException, ClassNotFoundException;
+    public List<Jogo> listaDeJogos() throws PersistenciaException;
 
-    public Jogo buscarPorId(Long idGame) throws SQLException, ClassNotFoundException;
+    public Jogo buscarPorId(Long idGame) throws PersistenciaException;
 
-    public void editarEstado(Long idGame, String state) throws ClassNotFoundException, SQLException;
+    public void editarEstado(Long idGame, String state) throws PersistenciaException;
 
-    public List<Jogo> listaDeJogosLocadosDeUmUsuario(String cpf) throws ClassNotFoundException, SQLException;
+    public List<Jogo> listaDeJogosLocadosDeUmUsuario(String cpf) throws PersistenciaException;
 
 }

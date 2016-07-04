@@ -61,14 +61,14 @@
                         </tr>
                     </thead>
                     <tbody id="table">
-                        <c:forEach items="${sessionScope.listGames}" var="game">
+                        <c:forEach items="${sessionScope.listGames}" var="jogo">
                             <tr>
-                                <td>${game.idGame}</td>
-                                <td>${game.name}</td>
-                                <td>${game.gender}</td>
+                                <td>${jogo.idDoJogo}</td>
+                                <td>${jogo.nomeDoJogo}</td>
+                                <td>${jogo.genero}</td>
                                 <c:choose>
                                     <c:when test="${sessionScope.user != null}">
-                                        <td><a href="../front?action=locationGame&idGame=${game.idGame}">Alugar</a></td>
+                                        <td><a href="../front?command=locacaoDeJogo&idDoJogoGame=${jogo.idDoJogo}">Alugar</a></td>
                                     </c:when>
                                     <c:otherwise>
                                         <td>Operaçao nao permitida</td>

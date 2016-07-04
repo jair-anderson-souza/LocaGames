@@ -7,7 +7,6 @@ package io.github.jass2125.locagames.core.repository;
 
 import io.github.jass2125.locagames.core.negocio.Cliente;
 import io.github.jass2125.locagames.core.fabricas.FabricaDeConexoes;
-import io.github.jass2125.locagames.excecoes.ConexaoException;
 import io.github.jass2125.locagames.excecoes.ExcecoesEnum;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -31,7 +30,7 @@ public class ClienteDaoImpl implements ClienteDao {
 
     /**
      * Método que armazena um cliente
-     *
+     * Funcionando
      * @param cliente Objeto
      * {@link io.github.jass2125.loca.games.core.business.Cliente} que será
      * armazenado
@@ -56,7 +55,7 @@ public class ClienteDaoImpl implements ClienteDao {
             throw new PersistenciaException(e, "Ops, ocorreu um erro.!!");
         }
     }
-
+    //Refatorar
     public List<Cliente> buscarPorCpf(String cpf) throws SQLException, ClassNotFoundException {
         List<Cliente> listObservers = null;
         try (Connection conexao = fabricaDeConexao.getConexao()) {
@@ -76,11 +75,16 @@ public class ClienteDaoImpl implements ClienteDao {
                 rs.close();
             }
         } catch (Exception e) {
-            e.printStackTrace();
         }
         return listObservers;
     }
-
+    /**
+     * Funcionando
+     * @param cpf
+     * @param email
+     * @return
+     * @throws PersistenciaException 
+     */
     public Cliente buscarPorCpfEEmail(String cpf, String email) throws PersistenciaException {
         try (Connection connection = fabricaDeConexao.getConexao()) {
             String sql = "select * from cliente where cpf = ? and email = ?;";
@@ -90,7 +94,7 @@ public class ClienteDaoImpl implements ClienteDao {
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     while (resultSet.next()) {
                         String nome = resultSet.getString("nome");
-                        return new Cliente(nome, cpf, email);
+                        return new Cliente(nome, email, cpf);
                     }
                 }
             }

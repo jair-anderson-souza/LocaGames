@@ -11,6 +11,7 @@ import org.apache.commons.mail.EmailException;
 /**
  *
  * @author Anderson Souza
+ * @param <T>
  */
 public interface Observer<T> {
     

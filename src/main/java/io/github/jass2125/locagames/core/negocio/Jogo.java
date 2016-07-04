@@ -23,49 +23,49 @@ import org.apache.commons.mail.EmailException;
  */
 public class Jogo implements Serializable, Observable {
 
-    private Long idGame;
-    private String name;
-    private String gender;
-    private State state;
+    private Long idDoJogo;
+    private String nomeDoJogo;
+    private String genero;
+    private State estado;
     private Set<Observer> listObservers = new HashSet<>();
 
     public Jogo() {
-//        state = GameStateEnum.getAVAILABLE();
+//        estado = GameStateEnum.getAVAILABLE();
     }
 
-    public Jogo(Long idGame, String name, String gender, String state) {
-        this.idGame = idGame;
-        this.name = name;
-        this.gender = gender;
-        this.state = GameState.valueOf(state);
+    public Jogo(Long idDoJogo, String nome, String genero, String estado) {
+        this.idDoJogo = idDoJogo;
+        this.nomeDoJogo = nome;
+        this.genero = estado;
+        this.estado = GameState.valueOf(estado);
     }
 
-    public Long getIdGame() {
-        return idGame;
+    public Long getIdDoJogo() {
+        return idDoJogo;
     }
 
-    public String getName() {
-        return name;
+    public String getNomeDoJogo() {
+        return nomeDoJogo;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNomeDoJogo(String nomeDoJogo) {
+        this.nomeDoJogo = nomeDoJogo;
     }
 
-    public String getGender() {
-        return gender;
+    public String getGenero() {
+        return genero;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public void setGenero(String genero) {
+        this.genero = genero;
     }
 
-    public State getState() {
-        return state;
+    public State getEstado() {
+        return estado;
     }
 
-    public void setState(State state) {
-        this.state = state;
+    public void setEstado(State estado) {
+        this.estado = estado;
     }
 
     public Set<Observer> getListObservers() {
@@ -94,14 +94,14 @@ public class Jogo implements Serializable, Observable {
     }
 
     public State devolution() throws SQLException, ClassNotFoundException, GameException {
-        State state = this.state.availableGame();
-        this.setState(state);
+        State state = this.estado.availableGame();
+        this.setEstado(state);
         return state;
     }
 
     public State location() throws SQLException, ClassNotFoundException, GameException {
-        State state = this.state.rentedGame();
-        this.setState(state);
+        State state = this.estado.rentedGame();
+        this.setEstado(state);
         return state;
     }
 

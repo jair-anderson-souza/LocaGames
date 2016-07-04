@@ -29,21 +29,15 @@ public class LoaderGameLocatedAction implements Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        try {
-            Cliente user = this.getSessionUser(request);
-            
-            if (user != null) {
-                String cpf = user.getCpf();
-                List<Jogo> listGames = dao.listaDeJogosLocadosDeUmUsuario(cpf);
-                request.getSession().setAttribute("listLocations", listGames);
-                return "funcionario/devolver.jsp";
-            }
-            request.getSession().setAttribute("error", "Faça o login/cadastro!");
-            return "home.jsp";
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-            return "home.jsp";
+        Cliente user = this.getSessionUser(request);
+        if (user != null) {
+            String cpf = user.getCpf();
+            List<Jogo> listGames = dao.listaDeJogosLocadosDeUmUsuario(cpf);
+            request.getSession().setAttribute("listLocations", listGames);
+            return "funcionario/devolver.jsp";
         }
+        request.getSession().setAttribute("error", "Faça o login/cadastro!");
+        return "home.jsp";
 
     }
 

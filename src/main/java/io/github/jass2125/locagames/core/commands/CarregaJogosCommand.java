@@ -18,12 +18,12 @@ import javax.servlet.http.HttpServletResponse;
  * @since 16:55:23, 24-Feb-2016
  * @version 1.0
  */
-public class LoaderGamesAction implements Command {
+public class CarregaJogosCommand implements Command {
 
     private JogoDao dao;
 
-    public LoaderGamesAction() {
-
+    public CarregaJogosCommand() {
+        dao = new JogoDaoImpl();
     }
 
     /**
@@ -35,30 +35,17 @@ public class LoaderGamesAction implements Command {
      */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        try {
-            List<Jogo> listGames = getListaGames();
-            request.getSession().setAttribute("listGames", listGames);
-            return "funcionario/alugar.jsp";
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
-            request.getSession().setAttribute("error", "Ocorreu um erro, retorne e tente novamente");
-            return "home.jsp";
-        }
-
+        request.getSession().setAttribute("listGames", getListaGames());
+        return "funcionario/alugar.jsp";
     }
 
     /**
      * Recupera a lista com todos os games cadastrados
      *
      * @return List LIsta com todos jogos da aplicação
-     * @throws SQLException Retorna caso ele não consiga recuperar essas
-     * informações
-     * @throws ClassNotFoundException Classe do Driver MySQL não está disponivel
      */
-    public List<Jogo> getListaGames() throws SQLException, ClassNotFoundException {
-        dao = new JogoDaoImpl();
-        List<Jogo> listGames = dao.listaDeJogos();
-        return listGames;
+    public List<Jogo> getListaGames() {
+        return dao.listaDeJogos();
     }
 
 }

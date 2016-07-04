@@ -58,7 +58,7 @@
                 <ul>
                     <li>
                         <img src="../icons/rent.png" class="dj-image__funcionalidade">
-                        <a href="../front?action=loadGames">Alugar</a>
+                        <a href="../front?command=carregaJogos">Alugar</a>
                     </li>
                     <li>
                         <img src="../icons/return.png" class="dj-image__funcionalidade">

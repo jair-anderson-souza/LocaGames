@@ -36,7 +36,7 @@ public class EmailUtil implements Runnable {
 
         try {
             String emailU = user.getEmail();
-            String gameU = game.getName();
+            String gameU = game.getNomeDoJogo();
 
             Email email = new SimpleEmail();
 
@@ -46,7 +46,7 @@ public class EmailUtil implements Runnable {
             email.setSSLOnConnect(true);
             email.setFrom(myEmail);
             email.setSubject("Loca-Games");
-            email.setMsg("Caro Sr. " + user.getNome() + ", o jogo " + game.getName() + " esta disponivel para locaçao! Corra agora para a Pattern Games para garantir");
+            email.setMsg("Caro Sr. " + user.getNome() + ", o jogo " + game.getNomeDoJogo() + " esta disponivel para locaçao! Corra agora para a Pattern Games para garantir");
             email.addTo(emailU);
             email.send();
         } catch (EmailException e) {

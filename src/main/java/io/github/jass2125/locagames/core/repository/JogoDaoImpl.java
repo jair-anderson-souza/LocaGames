@@ -7,6 +7,8 @@ package io.github.jass2125.locagames.core.repository;
 
 import io.github.jass2125.locagames.core.negocio.Jogo;
 import io.github.jass2125.locagames.core.fabricas.FabricaDeConexoes;
+import io.github.jass2125.locagames.excecoes.ExcecoesEnum;
+import io.github.jass2125.locagames.excecoes.PersistenciaException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,61 +25,85 @@ public class JogoDaoImpl implements JogoDao {
     private FabricaDeConexoes fabricaConexao;
 
     public JogoDaoImpl() {
-        this.fabricaConexao = new FabricaDeConexoes();
+        fabricaConexao = new FabricaDeConexoes();
     }
 
+    /**
+     * Funcionando
+     *
+     * @return
+     */
     @Override
-    public List<Jogo> listaDeJogos() throws SQLException, ClassNotFoundException {
-        Connection connection = fabricaConexao.getConexao();
-        String sql = "select * from game;";
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        ResultSet resulSet = preparedStatement.executeQuery();
-        List<Jogo> listGamers = new ArrayList<>();
-        Jogo game = null;
-        while (resulSet.next()) {
-            Long idGame = resulSet.getLong("idGame");
-            String name = resulSet.getString("nameGame");
-            String gender = resulSet.getString("gender");
-            String state = resulSet.getString("state");
-            game = new Jogo(idGame, name, gender, state);
-            listGamers.add(game);
+    public List<Jogo> listaDeJogos() {
+        List<Jogo> listaDeJogos;
+        try (Connection connection = fabricaConexao.getConexao()) {
+            String sql = "select * from jogo;";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                try (ResultSet resulSet = preparedStatement.executeQuery()) {
+                    listaDeJogos = new ArrayList<>();
+                    Jogo jogo;
+                    while (resulSet.next()) {
+                        Long idDoJogo = resulSet.getLong("idDoJogo");
+                        String nomeDoJogo = resulSet.getString("nomeDoJogo");
+                        String genero = resulSet.getString("genero");
+                        String estado = resulSet.getString("estado");
+                        jogo = new Jogo(idDoJogo, nomeDoJogo, genero, estado);
+                        listaDeJogos.add(jogo);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new PersistenciaException(ExcecoesEnum.ERRO_NA_CONSULTA)
+                    //aqui pode ficar o log, sendo uma atributo na exceção
+                    .inserirMensagemDeErro("Mensagem de Erro: ", "Não foi possível realizar uma consulta no seu banco de dados.");
         }
-        resulSet.close();
-        preparedStatement.close();
-        connection.close();
-        return listGamers;
+        return listaDeJogos;
+
     }
 
+    /**
+     * Funcionando
+     *
+     * @param idDoJogo
+     * @return
+     * @throws PersistenciaException
+     */
     @Override
-    public Jogo buscarPorId(Long idGame) throws SQLException, ClassNotFoundException {
-        Connection connection = fabricaConexao.getConexao();
-        String sql = "select * from game where idGame = ?;";
-        PreparedStatement ps = connection.prepareStatement(sql);
-        ps.setLong(1, idGame);
-        ResultSet rs = ps.executeQuery();
-        Jogo game = null;
-        if (rs.next()) {
-            String nameGame = rs.getString("nameGame");
-            String gender = rs.getString("gender");
-            String state = rs.getString("state");
-            return game = new Jogo(idGame, nameGame, gender, state);
+    public Jogo buscarPorId(Long idDoJogo) throws PersistenciaException {
+        try (Connection connection = fabricaConexao.getConexao()) {
+            String sql = "select * from jogo where idDoJogo = ?;";
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setLong(1, idDoJogo);
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        String nomeDoJogo = rs.getString("nomeDoJogo");
+                        String genero = rs.getString("genero");
+                        String estado = rs.getString("estado");
+                        return new Jogo(idDoJogo, nomeDoJogo, genero, estado);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new PersistenciaException();
         }
-        rs.close();
-        ps.close();
-        connection.close();
         return null;
     }
 
     @Override
-    public void editarEstado(Long idGame, String state) throws ClassNotFoundException, SQLException {
-        Connection connection = fabricaConexao.getConexao();
-        String sql = "update game set state = ? where idGame = ?";
-        PreparedStatement ps = connection.prepareStatement(sql);
-        ps.setString(1, state);
-        ps.setLong(2, idGame);
-        ps.execute();
-        ps.close();
-        connection.close();
+    public void editarEstado(Long idDoJogo, String estado) throws PersistenciaException {
+        try (Connection connection = fabricaConexao.getConexao()) {
+            String sql = "update jogo set estado = ? where idDoJogo = ?";
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setString(1, estado);
+                ps.setLong(2, idDoJogo);
+                ps.execute();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new PersistenciaException();
+        }
     }
 
     public List<Jogo> listGamesLocated() throws ClassNotFoundException, SQLException {
@@ -103,25 +129,28 @@ public class JogoDaoImpl implements JogoDao {
     }
 
     @Override
-    public List<Jogo> listaDeJogosLocadosDeUmUsuario(String cpf) throws ClassNotFoundException, SQLException {
-        Connection connection = fabricaConexao.getConexao();
-        String sql = "select distinct g.idGame, g.nameGame, g.gender, g.state from game as g inner join location as l on g.state = 'RENT' and l.idUser = ? and g.idGame = l.idGame;";
-        PreparedStatement ps = connection.prepareStatement(sql);
-        ps.setString(1, cpf);
-        ResultSet rs = ps.executeQuery();
-        List<Jogo> listGames = new ArrayList<>();
-        Jogo game = null;
-        while (rs.next()) {
-            Long idGame = rs.getLong("idGame");
-            String nameGame = rs.getString("nameGame");
-            String gender = rs.getString("gender");
-            String state = rs.getString("state");
-            game = new Jogo(idGame, nameGame, gender, state);
-            listGames.add(game);
+    public List<Jogo> listaDeJogosLocadosDeUmUsuario(String cpf) throws PersistenciaException {
+        List<Jogo> listGames;
+        try (Connection connection = fabricaConexao.getConexao()) {
+            String sql = "select distinct g.idGame, g.nameGame, g.gender, g.state from game as g inner join location as l on g.state = 'RENT' and l.idUser = ? and g.idGame = l.idGame;";
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setString(1, cpf);
+                try (ResultSet rs = ps.executeQuery()) {
+                    listGames = new ArrayList<>();
+                    Jogo game = null;
+                    while (rs.next()) {
+                        Long idGame = rs.getLong("idGame");
+                        String nameGame = rs.getString("nameGame");
+                        String gender = rs.getString("gender");
+                        String state = rs.getString("state");
+                        game = new Jogo(idGame, nameGame, gender, state);
+                        listGames.add(game);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new PersistenciaException();
         }
-        rs.close();
-        ps.close();
-        connection.close();
         return listGames;
     }
 

@@ -24,4 +24,10 @@
         <exception-type>io.github.jass2125.locagames.excecoes.PersistenciaException</exception-type>
         <location>/error.jsp</location>
     </error-page>
+    
+    <!--//ILLEGALARGUMENTEXCEPTION-->
+    <error-page>
+        <exception-type>io.github.jass2125.locagames.excecoes.PersistenciaException</exception-type>
+        <location>/error.jsp</location>
+    </error-page>
 </web-app>
