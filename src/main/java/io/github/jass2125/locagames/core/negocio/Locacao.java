@@ -5,7 +5,6 @@
  */
 package io.github.jass2125.locagames.core.negocio;
 
-import io.github.jass2125.locagames.strategy.CalculadoraDeLocacaoComumStrategy;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import io.github.jass2125.locagames.strategy.CalculadoraDeLocacaoStrategy;

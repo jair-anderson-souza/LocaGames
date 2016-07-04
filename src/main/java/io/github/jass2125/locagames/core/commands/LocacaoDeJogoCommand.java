@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import io.github.jass2125.locagames.core.repository.LocacaoDao;
 import io.github.jass2125.locagames.core.repository.ObserverDao;
+import io.github.jass2125.locagames.core.repository.ObserverDaoImpl;
 import io.github.jass2125.locagames.strategy.CalculadoraDeLocacaoEspecialStrategy;
 import io.github.jass2125.locagames.strategy.CalculadoraDeLocacaoStrategy;
 
@@ -45,7 +46,7 @@ public class LocacaoDeJogoCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         this.session = request.getSession();
-        Long idDoJogo = Long.parseLong(request.getParameter("idDoJogoGame"));
+        Long idDoJogo = Long.parseLong(request.getParameter("idDoJogo"));
 
         Cliente cliente = getClienteDaSessao();
         Jogo jogo = getJogoAlugado(idDoJogo);
@@ -55,6 +56,7 @@ public class LocacaoDeJogoCommand implements Command {
             request.getSession().setAttribute("success", "Jogo locado com sucesso");
             return "funcionario/home.jsp";
         }
+        
         String dataDeEntrega = buscarDataDeDevolucaoDoJogo(idDoJogo);
         adicionarObservador(idDoJogo, cliente);
 
@@ -70,6 +72,7 @@ public class LocacaoDeJogoCommand implements Command {
     }
 
     public void adicionarObservador(Long idDoJogo, Cliente cliente) {
+        daoObservadores = new ObserverDaoImpl();
         this.addObserver(idDoJogo, cliente.getCpf());
     }
 

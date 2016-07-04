@@ -99,24 +99,26 @@ public class LocacaoDaoImpl implements LocacaoDao {
 
     }
 
-    public Locacao buscarLocacaoPorId(Long idGame) throws PersistenciaException {
+    public Locacao buscarLocacaoPorId(Long idDoJogo) throws PersistenciaException {
         try (Connection connection = fabricaDeConexoes.getConexao()) {
-            String sql = "select * from location inner join game where game.state = 'RENT' and location.idGame = ?;";
+            
+            String sql = "select * from locacao inner join jogo on locacao.idDoJogo = jogo.idDoJogo where jogo.estado = 'RENT' and locacao.idDoJogo = ?;";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                preparedStatement.setLong(1, idGame);
+                preparedStatement.setLong(1, idDoJogo);
                 try (ResultSet rs = preparedStatement.executeQuery()) {
                     if (rs.next()) {
-                        Long idLocation = rs.getLong("idLocation");
-                        String idUser = rs.getString("idUser");
+                        Long idDaLocacao = rs.getLong("idDaLocacao");
+                        String idUser = rs.getString("idDoCliente");
 //            String idGame = rs.getString("idGame");
-                        LocalDate dateLocation = rs.getDate("dateLocation").toLocalDate();
-                        LocalDate dateDevolution = rs.getDate("dateDevolution").toLocalDate();
-                        String strategy = rs.getString("strategy");
-                        return new Locacao(idLocation, idUser, idGame, dateLocation, dateDevolution, strategy);
+                        LocalDate dateLocation = rs.getDate("dataDaLocacao").toLocalDate();
+                        LocalDate dateDevolution = rs.getDate("dataDeDevolucao").toLocalDate();
+                        String strategy = rs.getString("estrategia");
+                        return new Locacao(idDaLocacao, idUser, idDoJogo, dateLocation, dateDevolution, strategy);
                     }
                 }
             }
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new PersistenciaException();
         }
         return null;

@@ -25,12 +25,13 @@ public class ObserverDaoImpl implements ObserverDao<Observer> {
     private FabricaDeConexoes fabricaDeConexoes;
 
     public ObserverDaoImpl() {
+        fabricaDeConexoes = new FabricaDeConexoes();
     }
 
     @Override
     public void adicionaObservador(String cpf, Long idGame) throws PersistenciaException {
         try (Connection connection = fabricaDeConexoes.getConexao()) {
-            String sql = "insert into observers(idUser, idGame) values(?, ?);";
+            String sql = "insert into observadores(iddoCliente, idDoJogo) values(?, ?);";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setString(1, cpf);
                 preparedStatement.setLong(2, idGame);
