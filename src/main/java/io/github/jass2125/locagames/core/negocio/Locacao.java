@@ -5,11 +5,11 @@
  */
 package io.github.jass2125.locagames.core.negocio;
 
-import io.github.jass2125.locagames.strategy.CalculadoraDeLocacaoComumStrategy;
-import io.github.jass2125.locagames.strategy.CalculadoraDeLocacaoEspecialStrategy;
+import io.github.jass2125.locagames.core.strategy.CalculadoraDeLocacaoComumStrategy;
+import io.github.jass2125.locagames.core.strategy.CalculadoraDeLocacaoEspecialStrategy;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import io.github.jass2125.locagames.strategy.CalculadoraDeLocacaoStrategy;
+import io.github.jass2125.locagames.core.strategy.CalculadoraDeLocacaoStrategy;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;

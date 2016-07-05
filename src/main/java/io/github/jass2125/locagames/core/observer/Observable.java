@@ -3,19 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-package io.github.jass2125.locagames.observer;
+package io.github.jass2125.locagames.core.observer;
 
 import org.apache.commons.mail.EmailException;
 
 /**
  *
  * @author Anderson Souza
- * @param <T>
  */
-public interface Observer<T> {
-    
-    public void update(T game) throws EmailException;
-    
-    
+public interface Observable {
+
+    public void notificarObservadores() throws EmailException;
+
+    public void deleteObserver(Observer observer);
+
+    public void addObserver(Observer observer);
+
 }

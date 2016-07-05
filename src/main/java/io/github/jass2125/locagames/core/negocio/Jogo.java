@@ -6,10 +6,10 @@
 package io.github.jass2125.locagames.core.negocio;
 
 import io.github.jass2125.locagames.core.excecoes.GameException;
-import io.github.jass2125.locagames.observer.Observable;
-import io.github.jass2125.locagames.observer.Observer;
-import io.github.jass2125.locagames.state.GameState;
-import io.github.jass2125.locagames.state.State;
+import io.github.jass2125.locagames.core.observer.Observable;
+import io.github.jass2125.locagames.core.observer.Observer;
+import io.github.jass2125.locagames.core.state.GameState;
+import io.github.jass2125.locagames.core.state.State;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.HashSet;

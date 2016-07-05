@@ -12,8 +12,8 @@ import io.github.jass2125.locagames.core.repository.JogoDao;
 import io.github.jass2125.locagames.core.repository.JogoDaoImpl;
 import io.github.jass2125.locagames.core.repository.LocacaoDaoImpl;
 import io.github.jass2125.locagames.core.utilitarios.ConvertDate;
-import io.github.jass2125.locagames.state.GameState;
-import io.github.jass2125.locagames.strategy.CalculadoraDeLocacaoComumStrategy;
+import io.github.jass2125.locagames.core.state.GameState;
+import io.github.jass2125.locagames.core.strategy.CalculadoraDeLocacaoComumStrategy;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import javax.servlet.http.HttpServletRequest;
@@ -22,8 +22,8 @@ import javax.servlet.http.HttpSession;
 import io.github.jass2125.locagames.core.repository.LocacaoDao;
 import io.github.jass2125.locagames.core.repository.ObserverDao;
 import io.github.jass2125.locagames.core.repository.ObserverDaoImpl;
-import io.github.jass2125.locagames.strategy.CalculadoraDeLocacaoEspecialStrategy;
-import io.github.jass2125.locagames.strategy.CalculadoraDeLocacaoStrategy;
+import io.github.jass2125.locagames.core.strategy.CalculadoraDeLocacaoEspecialStrategy;
+import io.github.jass2125.locagames.core.strategy.CalculadoraDeLocacaoStrategy;
 
 /**
  * @author Anderson Souza

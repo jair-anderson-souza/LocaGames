@@ -8,7 +8,7 @@ package io.github.jass2125.locagames.core.repository;
 import io.github.jass2125.locagames.core.negocio.Cliente;
 import io.github.jass2125.locagames.core.fabricas.FabricaDeConexoes;
 import io.github.jass2125.locagames.core.excecoes.PersistenciaException;
-import io.github.jass2125.locagames.observer.Observer;
+import io.github.jass2125.locagames.core.observer.Observer;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

@@ -63,13 +63,9 @@ public class CadastroDeClienteCommand implements Command {
         return new Cliente(name, email, cpf);
     }
 
-    /**
-     * Método que valida o CPF np formato especifico
-     *
-     * @param cpf Cpf do {@link Cliente
-     * @return True esteja no formato esperado, false caso não esteja
-     */
+    
     public boolean validaCpf(String cpf) {
+        
         String regex = "(\\d{3})[.](\\d{3})[.](\\d{3})-(\\d{2})";
         boolean verification = cpf.matches(regex);
         return verification;
@@ -79,7 +75,7 @@ public class CadastroDeClienteCommand implements Command {
      * Método que cadastra um novo cliente
      *
      * @param cliente {@link Cliente}
-     * @return
+     * @return {@link Cliente} Cliente
      * @throws DadosInvalidosException
      */
     private Cliente cadastrarNovoCliente(Cliente cliente) throws DadosInvalidosException {

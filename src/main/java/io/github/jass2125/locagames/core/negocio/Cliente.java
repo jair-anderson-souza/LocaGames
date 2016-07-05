@@ -6,7 +6,7 @@
 package io.github.jass2125.locagames.core.negocio;
 
 import io.github.jass2125.locagames.core.utilitarios.NotificationEmail;
-import io.github.jass2125.locagames.observer.Observer;
+import io.github.jass2125.locagames.core.observer.Observer;
 import java.io.Serializable;
 
 /**
