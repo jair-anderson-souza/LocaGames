@@ -14,6 +14,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import io.github.jass2125.locagames.core.commands.Command;
 import io.github.jass2125.locagames.core.commands.DevolucaoDeJogoCommand;
+import io.github.jass2125.locagames.core.commands.CarregaJogosDeUmClienteCommand;
 import io.github.jass2125.locagames.core.commands.LocacaoDeJogoCommand;
 
 /**
@@ -30,7 +31,8 @@ public class CommandFactory {
         commands.put("carregaJogos", CommandEnum.CARREGA_JOGOS);
         commands.put("locacaoDeJogo", CommandEnum.LOCACAO_DE_JOGO);
         commands.put("devolverJogo", CommandEnum.DEVOLUCAO_DE_JOGO);
-        
+        commands.put("carregarJogoAlugadosDeUmCliente", CommandEnum.CARREGA_JOGOS_DE_CLIENTE);
+
         commands.put("carregaJogosAlugados", CommandEnum.CARREGA_JOGOS_ALUGADOS);
         commands.put("registerUser", CommandEnum.REGISTER_USER);
         commands.put("logout", CommandEnum.LOGOUT);
@@ -92,6 +94,11 @@ public class CommandFactory {
             @Override
             public Command getCommand() {
                 return new LocacaoDeJogoCommand();
+            }
+        }, CARREGA_JOGOS_DE_CLIENTE {
+            @Override
+            public Command getCommand() {
+                return new CarregaJogosDeUmClienteCommand();
             }
         };
 

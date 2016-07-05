@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.mail.EmailException;
 import io.github.jass2125.locagames.core.repository.ObserverDao;
 import io.github.jass2125.locagames.strategy.CalculadoraDeLocacaoStrategy;
+import javax.servlet.http.HttpSession;
 
 /**
  * @author Anderson Souza
@@ -29,7 +30,8 @@ import io.github.jass2125.locagames.strategy.CalculadoraDeLocacaoStrategy;
  */
 public class DevolucaoDeJogoCommand implements Command {
 
-    private LocacaoDaoImpl daoLocation;
+    private HttpSession session;
+    private LocacaoDaoImpl daoLocacao;
     private CalculadoraDeLocacaoStrategy strategy;
     private JogoDao dao;
     private ObserverDao daoObserver;
@@ -46,8 +48,9 @@ public class DevolucaoDeJogoCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
         try {
+            session = request.getSession();
             Long idDoJogo = Long.parseLong(request.getParameter("idGame"));
-            String cpf = ((Cliente) request.getSession().getAttribute("user")).getCpf();
+            String cpf = getCpfDoClienteDaSessao();
             Jogo jogo = this.getGameLocated(idDoJogo);
 
             if (jogo != null) {
@@ -71,6 +74,10 @@ public class DevolucaoDeJogoCommand implements Command {
             request.getSession().setAttribute("error", "Erro, retorne e tente novamente");
             return "funcionario/home.jsp";
         }
+    }
+
+    public String getCpfDoClienteDaSessao() {
+        return ((Cliente) session.getAttribute("user")).getCpf();
     }
 
     /**
@@ -147,7 +154,7 @@ public class DevolucaoDeJogoCommand implements Command {
      * @throws ClassNotFoundException Classe do Driver MySQL não está disponivel
      */
     private Locacao getLocation(String cpf, Long idGame) {
-        daoLocation = new LocacaoDaoImpl();
-        return daoLocation.buscarLocacaoPorUsuario(cpf, idGame);
+        daoLocacao = new LocacaoDaoImpl();
+        return daoLocacao.buscarLocacaoPorUsuario(cpf, idGame);
     }
 }

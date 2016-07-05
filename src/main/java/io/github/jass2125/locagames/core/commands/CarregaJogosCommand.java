@@ -8,7 +8,6 @@ package io.github.jass2125.locagames.core.commands;
 import io.github.jass2125.locagames.core.negocio.Jogo;
 import io.github.jass2125.locagames.core.repository.JogoDao;
 import io.github.jass2125.locagames.core.repository.JogoDaoImpl;
-import java.sql.SQLException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

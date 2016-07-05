@@ -130,28 +130,28 @@ public class JogoDaoImpl implements JogoDao {
 
     @Override
     public List<Jogo> listaDeJogosLocadosDeUmUsuario(String cpf) throws PersistenciaException {
-        List<Jogo> listGames;
+        List<Jogo> listaDeJogos;
         try (Connection connection = fabricaConexao.getConexao()) {
-            String sql = "select distinct g.idGame, g.nameGame, g.gender, g.state from game as g inner join location as l on g.state = 'RENT' and l.idUser = ? and g.idGame = l.idGame;";
+            String sql = "select distinct j.idDoJogo, j.nomeDoJogo, j.genero, j.estado from jogo as j inner join locacao as l on j.estado = 'RENT' and l.idDoCliente = ? and j.idDoJogo = l.idDoJogo;";
             try (PreparedStatement ps = connection.prepareStatement(sql)) {
                 ps.setString(1, cpf);
                 try (ResultSet rs = ps.executeQuery()) {
-                    listGames = new ArrayList<>();
-                    Jogo game = null;
+                    listaDeJogos = new ArrayList<>();
+                    Jogo jogo = null;
                     while (rs.next()) {
-                        Long idGame = rs.getLong("idGame");
-                        String nameGame = rs.getString("nameGame");
-                        String gender = rs.getString("gender");
-                        String state = rs.getString("state");
-                        game = new Jogo(idGame, nameGame, gender, state);
-                        listGames.add(game);
+                        Long idDoJogo = rs.getLong("idDoJogo");
+                        String nomeDoJogo = rs.getString("nomeDoJogo");
+                        String genero = rs.getString("genero");
+                        String estado = rs.getString("estado");
+                        jogo = new Jogo(idDoJogo, nomeDoJogo, genero, estado);
+                        listaDeJogos.add(jogo);
                     }
                 }
             }
         } catch (SQLException e) {
             throw new PersistenciaException();
         }
-        return listGames;
+        return listaDeJogos;
     }
 
 }

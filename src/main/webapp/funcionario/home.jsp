@@ -62,7 +62,7 @@
                     </li>
                     <li>
                         <img src="../icons/return.png" class="dj-image__funcionalidade">
-                        <a href="../front?command=devolverJogo">Devolver</a> 
+                        <a href="../front?command=carregarJogoAlugadosDeUmCliente">Devolver</a> 
                     </li>
                     <li>
                         <img src="" class="dj-image__funcionalidade">

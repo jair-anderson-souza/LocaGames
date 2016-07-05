@@ -37,14 +37,14 @@
                         </tr>
                     </thead>
                     <tbody id="table">
-                        <c:forEach items="${sessionScope.listLocations}" var="game">
+                        <c:forEach items="${sessionScope.listLocations}" var="jogo">
                             <tr>
-                                <td>${game.idGame}</td>
-                                <td>${game.name}</td>
-                                <td>${game.gender}</td>
+                                <td>${jogo.idDoJogo}</td>
+                                <td>${jogo.nomeDoJogo}</td>
+                                <td>${jogo.genero}</td>
                                 <c:choose>
                                     <c:when test="${sessionScope.user != null}">
-                                        <td><a href="../front?action=devolutionGame&idGame=${game.idGame}">Devolver</a></td>
+                                        <td><a href="../front?action=devolutionGame&idGame=${jogo.idDoJogo}">Devolver</a></td>
                                     </c:when>
                                     <c:otherwise>
                                         <td>Operaçao nao permitida</td>
