@@ -61,17 +61,17 @@ public class ClienteDaoImpl implements ClienteDao {
             String sql = "select * from cliente where cpf = ?;";
             try (PreparedStatement preparedStatement = conexao.prepareStatement(sql)) {
                 preparedStatement.setString(1, cpf);
-                ResultSet rs = preparedStatement.executeQuery();
-                listObservers = new ArrayList<>();
-                Cliente user = new Cliente();
-                while (rs.next()) {
-                    String nome = rs.getString("nome");
-                    String email = rs.getString("email");
-                    String cpf2 = rs.getString("cpf");
-                    user = new Cliente(nome, cpf, email);
-                    listObservers.add(user);
+                try (ResultSet rs = preparedStatement.executeQuery()) {
+                    listObservers = new ArrayList<>();
+                    Cliente user = new Cliente();
+                    while (rs.next()) {
+                        String nome = rs.getString("nome");
+                        String email = rs.getString("email");
+                        String cpf2 = rs.getString("cpf");
+                        user = new Cliente(nome, cpf, email);
+                        listObservers.add(user);
+                    }
                 }
-                rs.close();
             }
         } catch (Exception e) {
         }
