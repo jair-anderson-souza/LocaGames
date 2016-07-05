@@ -44,39 +44,40 @@ public class ObserverDaoImpl implements ObserverDao<Observer> {
 
     @Override
     public Set<Observer> getListaDeObservadores(Long idGame) throws PersistenciaException {
-        Set<Observer> listObservers;
+        Set<Observer> listaDeObservadores;
         try (Connection connection = fabricaDeConexoes.getConexao()) {
-            String sql = "select distinct user.name, user.email, user.cpf from user inner join game inner join observers where user.cpf = observers.idUser and ? = observers.idGame;";
+            String sql = "select * from cliente as c left join observadores as o on c.cpf = o.idDoCliente left join jogo as j on j.idDoJogo = o.idDoJogo where ? = o.idDoJogo;";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setLong(1, idGame);
                 try (ResultSet rs = preparedStatement.executeQuery()) {
-                    listObservers = new HashSet<>();
-                    Cliente user = null;
+                    listaDeObservadores = new HashSet<>();
+                    Cliente cliente = null;
                     while (rs.next()) {
-                        user = new Cliente();
-                        String name = rs.getString("name");
+                        String nome = rs.getString("nome");
                         String email = rs.getString("email");
                         String cpf = rs.getString("cpf");
-                        user = new Cliente(name, cpf, email);
-                        listObservers.add(user);
+                        cliente = new Cliente(nome, email, cpf);
+                        listaDeObservadores.add(cliente);
                     }
                 }
             }
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new PersistenciaException();
         }
-        return listObservers;
+        return listaDeObservadores;
     }
 
     @Override
     public void deleteObservador(Long idGame) throws PersistenciaException {
         try (Connection connection = fabricaDeConexoes.getConexao()) {
-            String sql = "delete from observers where idGame = ?;";
+            String sql = "delete from observadores where idDoJogo = ?;";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setLong(1, idGame);
                 preparedStatement.execute();
             }
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new PersistenciaException();
         }
     }

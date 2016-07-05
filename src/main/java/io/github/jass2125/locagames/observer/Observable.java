@@ -13,7 +13,7 @@ import org.apache.commons.mail.EmailException;
  */
 public interface Observable {
 
-    public void notifyObservers() throws EmailException;
+    public void notificarObservadores() throws EmailException;
 
     public void deleteObserver(Observer observer);
 

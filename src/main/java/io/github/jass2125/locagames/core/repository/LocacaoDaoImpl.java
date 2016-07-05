@@ -76,23 +76,23 @@ public class LocacaoDaoImpl implements LocacaoDao {
 
     public Locacao buscarLocacaoPorUsuario(String cpf, Long idGame) throws PersistenciaException {
         try (Connection connection = fabricaDeConexoes.getConexao()) {
-            String sql = "select * from location inner join game where location.idUser = ? and game.idGame = ? and location.idGame = game.idGame and game.state = 'RENT';";
+            String sql = "select l.idDaLocacao, l.idDoCliente, l.dataDaLocacao, l.dataDedevolucao, l.estrategia from locacao as l join jogo as j on l.idDoJogo = j.idDoJogo where l.idDoCliente = ? and j.idDoJogo = ? and j.estado = 'RENT';";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setString(1, cpf);
                 preparedStatement.setLong(2, idGame);
                 try (ResultSet rs = preparedStatement.executeQuery()) {
                     if (rs.next()) {
-                        Long idLocation = rs.getLong("idLocation");
-                        String idUser = rs.getString("idUser");
-//            String idGame = rs.getString("idGame");
-                        LocalDate dateLocation = rs.getDate("dateLocation").toLocalDate();
-                        LocalDate dateDevolution = rs.getDate("dateDevolution").toLocalDate();
-                        String strategy = rs.getString("strategy");
-                        return new Locacao(idLocation, idUser, idGame, dateLocation, dateDevolution, strategy);
+                        Long idDaLocacao = rs.getLong("idDaLocacao");
+                        String idDoCliente = rs.getString("idDoCliente");
+                        LocalDate dateDaLocacao = rs.getDate("dataDaLocacao").toLocalDate();
+                        LocalDate dataDaDevolucao = rs.getDate("dataDedevolucao").toLocalDate();
+                        String estrategia = rs.getString("estrategia");
+                        return new Locacao(idDaLocacao, idDoCliente, idGame, dateDaLocacao, dataDaDevolucao, estrategia);
                     }
                 }
             }
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new PersistenciaException();
         }
         return null;

@@ -19,7 +19,7 @@ import org.apache.commons.mail.SimpleEmail;
 public class EmailUtil implements Runnable {
 
     private String myEmail = "petedoherty2009@gmail.com";
-    private String myPass = "seeyousoon";
+    private String myPass = "";
     private Cliente user;
     private Jogo game;
 
@@ -45,8 +45,8 @@ public class EmailUtil implements Runnable {
             email.setAuthenticator(new DefaultAuthenticator(myEmail, myPass));
             email.setSSLOnConnect(true);
             email.setFrom(myEmail);
-            email.setSubject("Loca-Games");
-            email.setMsg("Caro Sr. " + user.getNome() + ", o jogo " + game.getNomeDoJogo() + " esta disponivel para locaçao! Corra agora para a Pattern Games para garantir");
+            email.setSubject("LocaGames");
+            email.setMsg("Caro Sr. " + user.getNome() + ", o jogo " + game.getNomeDoJogo() + " esta disponivel para locaçao! Corra agora para a LocaGames para garantir");
             email.addTo(emailU);
             email.send();
         } catch (EmailException e) {

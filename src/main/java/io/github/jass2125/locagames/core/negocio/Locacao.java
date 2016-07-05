@@ -5,9 +5,16 @@
  */
 package io.github.jass2125.locagames.core.negocio;
 
+import io.github.jass2125.locagames.strategy.CalculadoraDeLocacaoComumStrategy;
+import io.github.jass2125.locagames.strategy.CalculadoraDeLocacaoEspecialStrategy;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import io.github.jass2125.locagames.strategy.CalculadoraDeLocacaoStrategy;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import static org.slf4j.MDC.put;
 
 /**
  * @author Anderson Souza
@@ -21,6 +28,12 @@ public class Locacao {
     private LocalDate dataDeLocacao;
     private LocalDate dataDeDevolucao;
     private CalculadoraDeLocacaoStrategy strategy;
+    private Map<String, CalculadoraDeLocacaoStrategy> map = Collections.unmodifiableMap(new HashMap() {
+        {
+            put("COMUM", new CalculadoraDeLocacaoComumStrategy());
+            put("ESPECIAL", new CalculadoraDeLocacaoEspecialStrategy());
+        }
+    });
 
     public Locacao() {
         this.dataDeLocacao = LocalDate.now();
@@ -33,6 +46,7 @@ public class Locacao {
         this.idDoJogo = idGame;
         this.dataDeLocacao = dateLocation;
         this.dataDeDevolucao = dateDevolution;
+        this.strategy = map.get(strategy);
     }
 
     public Locacao(Long idLocation, String idUser, Long idGame, LocalDate dateLocation, String strategy) {

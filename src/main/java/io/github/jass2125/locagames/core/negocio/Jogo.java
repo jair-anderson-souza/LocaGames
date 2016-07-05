@@ -16,7 +16,6 @@ import java.util.HashSet;
 import java.util.Set;
 import org.apache.commons.mail.EmailException;
 
-
 /**
  * @author Anderson Souza
  * @since 14:17:38, 20-Feb-2016
@@ -27,7 +26,7 @@ public class Jogo implements Serializable, Observable {
     private String nomeDoJogo;
     private String genero;
     private State estado;
-    private Set<Observer> listObservers = new HashSet<>();
+    private Set<Observer> listaDeObservadores = new HashSet<>();
 
     public Jogo() {
 //        estado = GameStateEnum.getAVAILABLE();
@@ -68,29 +67,29 @@ public class Jogo implements Serializable, Observable {
         this.estado = estado;
     }
 
-    public Set<Observer> getListObservers() {
-        return listObservers;
+    public Set<Observer> getListaDeObservadores() {
+        return listaDeObservadores;
     }
 
-    public void setListObservers(Set<Observer> listObservers) {
-        this.listObservers = listObservers;
+    public void setListaDeObservadores(Set<Observer> listaDeObservadores) {
+        this.listaDeObservadores = listaDeObservadores;
     }
 
     @Override
-    public void notifyObservers() throws EmailException {
-        for (Observer it : listObservers) {
+    public void notificarObservadores() throws EmailException {
+        for (Observer it : listaDeObservadores) {
             it.update(this);
         }
     }
 
     @Override
     public void deleteObserver(Observer observer) {
-        this.listObservers.remove(this);
+        this.listaDeObservadores.remove(this);
     }
 
     @Override
     public void addObserver(Observer observer) {
-        this.listObservers.add(observer);
+        this.listaDeObservadores.add(observer);
     }
 
     public State devolution() throws SQLException, ClassNotFoundException, GameException {

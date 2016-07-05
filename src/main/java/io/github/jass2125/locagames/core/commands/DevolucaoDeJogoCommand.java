@@ -22,6 +22,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.mail.EmailException;
 import io.github.jass2125.locagames.core.repository.ObserverDao;
 import io.github.jass2125.locagames.strategy.CalculadoraDeLocacaoStrategy;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -47,37 +49,43 @@ public class DevolucaoDeJogoCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
-        try {
-            session = request.getSession();
-            Long idDoJogo = Long.parseLong(request.getParameter("idGame"));
-            String cpf = getCpfDoClienteDaSessao();
-            Jogo jogo = this.getGameLocated(idDoJogo);
+        session = request.getSession();
+        Long idDoJogo = Long.parseLong(request.getParameter("idDoJogo"));
 
-            if (jogo != null) {
-                Locacao location = this.getLocation(cpf, idDoJogo);
-                request.getSession().setAttribute("success", "Jogo devolvido com sucesso");
-                BigDecimal price = this.getPriceLocation(location);
-                request.getSession().setAttribute("price", price);
-                this.editGameState(idDoJogo, GameState.AVAILABLE.name());
-                jogo.setListObservers(loadObservers(idDoJogo));
-                jogo.notifyObservers();
-                removeObservers(idDoJogo);
+        Cliente cliente = getCpfDoClienteDaSessao();
+        Jogo jogo = getJogoAlugado(idDoJogo);
 
-                return "funcionario/home.jsp";
+        if (jogo != null) {
+            Locacao locacao = this.getLocacao(cliente.getCpf(), idDoJogo);
+            BigDecimal valorDoAluguel = this.getPrecoDoAluguel(locacao);
+
+            try {
+                jogo.setListaDeObservadores(recuperarObservadoresDeUmJogo(idDoJogo));
+                jogo.notificarObservadores();
+            } catch (EmailException ex) {
+                ex.printStackTrace();
             }
 
-            request.getSession().setAttribute("error", "Você não alugou este jogo!");
-            return "funcionario/home.jsp";
+            request.getSession().setAttribute("price", valorDoAluguel);
+            request.getSession().setAttribute("success", "Jogo devolvido com sucesso");
 
-        } catch (EmailException e) {
-            e.printStackTrace();
-            request.getSession().setAttribute("error", "Erro, retorne e tente novamente");
+            removeObservers(idDoJogo);
+
             return "funcionario/home.jsp";
         }
-    }
 
-    public String getCpfDoClienteDaSessao() {
-        return ((Cliente) session.getAttribute("user")).getCpf();
+        request.getSession().setAttribute("error", "Você não alugou este jogo!");
+        return "funcionario/home.jsp";
+    }
+//    catch (EmailException e) {
+//            e.printStackTrace();
+//        request.getSession().setAttribute("error", "Erro, retorne e tente novamente");
+//        return "funcionario/home.jsp";
+//    }
+//}
+
+    public Cliente getCpfDoClienteDaSessao() {
+        return ((Cliente) session.getAttribute("user"));
     }
 
     /**
@@ -89,7 +97,7 @@ public class DevolucaoDeJogoCommand implements Command {
      * informação
      * @throws ClassNotFoundException Classe do Driver MySQL não está disponivel
      */
-    private Jogo getGameLocated(Long idGame) {
+    private Jogo getJogoAlugado(Long idGame) {
         dao = new JogoDaoImpl();
         Jogo game = dao.buscarPorId(idGame);
         return (game.getEstado().equals(GameState.RENT) ? game : null);
@@ -114,7 +122,7 @@ public class DevolucaoDeJogoCommand implements Command {
      * informação
      * @throws ClassNotFoundException Classe do Driver MySQL não está disponivel
      */
-    private Set<Observer> loadObservers(Long idGame) throws EmailException {
+    private Set<Observer> recuperarObservadoresDeUmJogo(Long idGame) throws EmailException {
         daoObserver = new ObserverDaoImpl();
         return daoObserver.getListaDeObservadores(idGame);
     }
@@ -128,7 +136,7 @@ public class DevolucaoDeJogoCommand implements Command {
      * informação
      * @throws ClassNotFoundException Classe do Driver MySQL não está disponivel
      */
-    private void editGameState(Long idGame, String state) {
+    private void devolveJogo(Long idGame, String state) {
         dao = new JogoDaoImpl();
         dao.editarEstado(idGame, GameState.AVAILABLE.name());
     }
@@ -139,7 +147,7 @@ public class DevolucaoDeJogoCommand implements Command {
      * @param location Locaçao que esta sendo devolvida
      * @return BigDecimal Valor da locaçao
      */
-    private BigDecimal getPriceLocation(Locacao location) {
+    private BigDecimal getPrecoDoAluguel(Locacao location) {
         return location.calculateValueLocation();
     }
 
@@ -153,8 +161,13 @@ public class DevolucaoDeJogoCommand implements Command {
      * informação
      * @throws ClassNotFoundException Classe do Driver MySQL não está disponivel
      */
-    private Locacao getLocation(String cpf, Long idGame) {
+    private Locacao getLocacao(String cpf, Long idGame) {
         daoLocacao = new LocacaoDaoImpl();
-        return daoLocacao.buscarLocacaoPorUsuario(cpf, idGame);
+        Locacao locacao = daoLocacao.buscarLocacaoPorUsuario(cpf, idGame);
+        if (locacao != null) {
+            devolveJogo(idGame, cpf);
+            return locacao;
+        }
+        return locacao;
     }
 }
