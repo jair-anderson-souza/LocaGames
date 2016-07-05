@@ -5,10 +5,8 @@
  */
 package io.github.jass2125.locagames.core.utilitarios;
 
-import com.mysql.fabric.xmlrpc.Client;
-import io.github.jass2125.locagames.core.negocio.Cliente;
-import io.github.jass2125.locagames.excecoes.ArquivoNaoEncontradoException;
-import io.github.jass2125.locagames.excecoes.ExcecoesEnum;
+import io.github.jass2125.locagames.core.enums.ExcecoesEnum;
+import io.github.jass2125.locagames.core.excecoes.ArquivoNaoEncontradoException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;

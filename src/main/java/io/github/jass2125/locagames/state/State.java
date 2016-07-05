@@ -5,7 +5,7 @@
  */
 package io.github.jass2125.locagames.state;
 
-import io.github.jass2125.locagames.excecoes.GameException;
+import io.github.jass2125.locagames.core.excecoes.GameException;
 import java.sql.SQLException;
 
 /**

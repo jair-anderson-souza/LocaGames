@@ -5,14 +5,9 @@
  */
 package io.github.jass2125.locagames.core.commands;
 
-import io.github.jass2125.locagames.core.negocio.Jogo;
 import io.github.jass2125.locagames.core.negocio.Cliente;
 import io.github.jass2125.locagames.core.repository.ClienteDao;
 import io.github.jass2125.locagames.core.repository.ClienteDaoImpl;
-import io.github.jass2125.locagames.core.repository.JogoDao;
-import io.github.jass2125.locagames.core.repository.JogoDaoImpl;
-import java.sql.SQLException;
-import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -23,24 +18,20 @@ import javax.servlet.http.HttpSession;
  */
 public class LoginClienteCommand implements Command {
 
-    private final ClienteDao clienteDao;
-    private final JogoDao jogosDao;
+    private HttpSession session;
+    private ClienteDao clienteDao;
 
     public LoginClienteCommand() {
-        this.clienteDao = new ClienteDaoImpl();
-        this.jogosDao = new JogoDaoImpl();
     }
 
     /**
-     * Executa o ação de login do cliente
-     *
-     * @param request Requisiçao do cliente
-     * @param response Reposta do cliente
+     * @param request Requisiçao {@link HttpServletRequest} do cliente
+     * @param response Reposta {@link HttpServletResponse} do cliente
      * @return URL da pagina de resposta
      */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        HttpSession session = request.getSession();
+        session = request.getSession();
         Cliente cliente = this.recuperaDadosDoClienteDaRequisicao(request);
 
         if (cliente != null) {
@@ -55,14 +46,9 @@ public class LoginClienteCommand implements Command {
     }
 
     /**
-     * Retorna o usuario cadastrado na aplicação
      *
-     * @param cpf CPF do cliente passado na requisição
-     * @param email Email do cliente passado na requisição
-     * @return Cliente Usuario cadastrado
-     * @throws SQLException Retorna caso ele não consiga recuperar essa
-     * informação
-     * @throws ClassNotFoundException Classe do Driver MySQL não está disponivel
+     * @param request Requisiçao {@link HttpServletRequest} do cliente
+     * @return {@link Cliente} Cliente registrado na sessão
      */
     private Cliente recuperaDadosDoClienteDaRequisicao(HttpServletRequest request) {
         String cpf = request.getParameter("cpf");
@@ -71,30 +57,16 @@ public class LoginClienteCommand implements Command {
     }
 
     /**
+     * Caso haja cliente registrado na {@link HttpSession}, esse método o
+     * retorna totalmente preenchido
      *
-     * @param cpf
-     * @param email
-     * @return
-     * @throws SQLException
-     * @throws ClassNotFoundException
+     * @param cpf Cpf do cliente registrado na sessão
+     * @param email Email do cliente registrado na sessão
+     * @return {@link Cliente} Cliente
      */
-
     private Cliente buscaCliente(String cpf, String email) {
+        clienteDao = new ClienteDaoImpl();
         return clienteDao.buscarPorCpfEEmail(cpf, email);
-    }
-
-    /**
-     * Retorna a lista preenchida com todos os games alugados pelo cliente
-     *
-     * @param cpf CPF do cliente passado na requisição
-     * @return List<Game> Lista com todos os jogos alugados pelo cliente
-     * @throws SQLException Retorna caso ele não consiga recuperar essas
-     * informaçãoes
-     * @throws ClassNotFoundException A classe do Driver MySQL não está
-     * disponivel
-     */
-    private List<Jogo> recuperaListaDeJogosDeUmUsuarioPeloCpf(String cpf) throws SQLException, ClassNotFoundException {
-        return jogosDao.listaDeJogosLocadosDeUmUsuario(cpf);
     }
 
 }

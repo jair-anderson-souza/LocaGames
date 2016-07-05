@@ -10,11 +10,9 @@ import io.github.jass2125.locagames.strategy.CalculadoraDeLocacaoEspecialStrateg
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import io.github.jass2125.locagames.strategy.CalculadoraDeLocacaoStrategy;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import static org.slf4j.MDC.put;
 
 /**
  * @author Anderson Souza

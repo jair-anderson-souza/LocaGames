@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package io.github.jass2125.locagames.excecoes;
+package io.github.jass2125.locagames.core.excecoes;
 
 import java.io.PrintStream;
 import java.io.PrintWriter;
@@ -14,32 +14,32 @@ import java.util.Map;
  *
  * @author Anderson Souza
  */
-public class PersistenciaException extends RuntimeException {
+public class ConexaoException extends RuntimeException {
 
     private Erro erro;
     private Map<String, String> map = new HashMap<>();
 
-    public PersistenciaException() {
+    public ConexaoException() {
     }
 
-    public PersistenciaException(Erro erro) {
+    public ConexaoException(Erro erro) {
         this.erro = erro;
     }
 
-    public PersistenciaException(Erro erro, String message, Throwable cause) {
+    public ConexaoException(Erro erro, String message, Throwable cause) {
         super(message, cause);
         this.erro = erro;
     }
 
-    public PersistenciaException(Erro erro, Throwable cause) {
+    public ConexaoException(Erro erro, Throwable cause) {
         this.erro = erro;
     }
 
-    public PersistenciaException(Erro erro, String mensagem) {
+    public ConexaoException(Erro erro, String mensagem) {
         this.erro = erro;
     }
 
-    public PersistenciaException(Exception e, String string) {
+    public ConexaoException(Exception e, String string) {
         super(string, e);
     }
 
@@ -51,7 +51,7 @@ public class PersistenciaException extends RuntimeException {
         this.erro = erro;
     }
 
-    public PersistenciaException inserirMensagemDeErro(String chave, String valor) {
+    public ConexaoException putMap(String chave, String valor) {
         this.map.put(chave, valor);
         return this;
     }

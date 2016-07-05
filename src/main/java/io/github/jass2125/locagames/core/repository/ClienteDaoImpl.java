@@ -5,16 +5,16 @@
  */
 package io.github.jass2125.locagames.core.repository;
 
+import io.github.jass2125.locagames.core.enums.ExcecoesEnum;
 import io.github.jass2125.locagames.core.negocio.Cliente;
 import io.github.jass2125.locagames.core.fabricas.FabricaDeConexoes;
-import io.github.jass2125.locagames.excecoes.ExcecoesEnum;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import io.github.jass2125.locagames.excecoes.PersistenciaException;
+import io.github.jass2125.locagames.core.excecoes.PersistenciaException;
 
 /**
  * @author Anderson Souza
@@ -32,13 +32,13 @@ public class ClienteDaoImpl implements ClienteDao {
      * Método que armazena um cliente
      * Funcionando
      * @param cliente Objeto
-     * {@link io.github.jass2125.loca.games.core.business.Cliente} que será
+     * {@link Cliente} que será
      * armazenado
-     * @return
+     * @return {@link Cliente} Cliente
      * @throws PersistenciaException Exceção lançada quando a aplicação tentar
      * estabelecer comunicação com o banco de dados
      * <br>Ver -
-     * {@link io.github.jass2125.loca.games.core.factory.FabricaDeConexoes#getConexao()}
+     * {@link FabricaDeConexoes#getConexao()}
      */
     @Override
     public Cliente salvar(Cliente cliente) throws PersistenciaException {
@@ -55,7 +55,6 @@ public class ClienteDaoImpl implements ClienteDao {
             throw new PersistenciaException(e, "Ops, ocorreu um erro.!!");
         }
     }
-    //Refatorar
     public List<Cliente> buscarPorCpf(String cpf) throws SQLException, ClassNotFoundException {
         List<Cliente> listObservers = null;
         try (Connection conexao = fabricaDeConexao.getConexao()) {
@@ -80,10 +79,10 @@ public class ClienteDaoImpl implements ClienteDao {
     }
     /**
      * Funcionando
-     * @param cpf
-     * @param email
-     * @return
-     * @throws PersistenciaException 
+     * @param cpf CPf 
+     * @param email Email
+     * @return @{Cliente} Cliente de tretorno
+     * @throws PersistenciaException Exceção lançada
      */
     public Cliente buscarPorCpfEEmail(String cpf, String email) throws PersistenciaException {
         try (Connection connection = fabricaDeConexao.getConexao()) {

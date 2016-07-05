@@ -8,6 +8,20 @@
     <welcome-file-list>
         <welcome-file>home.jsp</welcome-file>
     </welcome-file-list>
+    <!-- Erros no Servlet Controlador -->
+    <error-page>
+        <exception-type>javax.servlet.ServletException</exception-type>
+        <location>/error.jsp</location>
+    </error-page>
+    <error-page>
+        <exception-type>java.io.IOException</exception-type>
+        <location>/error.jsp</location>
+    </error-page>
+    
+    <error-page>
+        <exception-type>io.github.jass2125.locagames.core.excecoes.AplicacaoException</exception-type>
+        <location>/error.jsp</location>
+    </error-page>
     <error-page>
         <error-code>404</error-code>
         <location>/error.jsp</location>
@@ -17,17 +31,22 @@
         <location>/error.jsp</location>
     </error-page>
     <error-page>
-        <exception-type>io.github.jass2125.locagames.excecoes.ConexaoException</exception-type>
+        <exception-type>io.github.jass2125.locagames.core.excecoes.ConexaoException</exception-type>
         <location>/error.jsp</location>
     </error-page>
     <error-page>
-        <exception-type>io.github.jass2125.locagames.excecoes.PersistenciaException</exception-type>
+        <exception-type>io.github.jass2125.locagames.core.excecoes.PersistenciaException</exception-type>
+        <location>/error.jsp</location>
+    </error-page>
+    
+    <error-page>
+        <exception-type></exception-type>
         <location>/error.jsp</location>
     </error-page>
     
     <!--//ILLEGALARGUMENTEXCEPTION-->
     <error-page>
-        <exception-type>io.github.jass2125.locagames.excecoes.PersistenciaException</exception-type>
+        <exception-type>io.github.jass2125.locagames.core.excecoes.PersistenciaException</exception-type>
         <location>/error.jsp</location>
     </error-page>
 </web-app>

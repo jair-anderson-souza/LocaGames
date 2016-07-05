@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package io.github.jass2125.locagames.excecoes;
+package io.github.jass2125.locagames.core.excecoes;
 
 import java.io.PrintStream;
 import java.io.PrintWriter;
@@ -14,46 +14,45 @@ import java.util.Map;
  *
  * @author Anderson Souza
  */
-public class ConexaoException extends RuntimeException {
+public class ArquivoNaoEncontradoException extends Exception {
 
     private Erro erro;
     private Map<String, String> map = new HashMap<>();
 
-    public ConexaoException() {
+    public ArquivoNaoEncontradoException() {
     }
 
-    public ConexaoException(Erro erro) {
+    public ArquivoNaoEncontradoException(Erro erro) {
         this.erro = erro;
     }
 
-    public ConexaoException(Erro erro, String message, Throwable cause) {
+    public ArquivoNaoEncontradoException(Erro erro, String message) {
+        super(message);
+        this.erro = erro;
+    }
+
+    public ArquivoNaoEncontradoException(Erro erro, Throwable cause) {
+        super(cause);
+        this.erro = erro;
+    }
+
+    public ArquivoNaoEncontradoException(Erro erro, String message, Throwable cause) {
         super(message, cause);
         this.erro = erro;
     }
 
-    public ConexaoException(Erro erro, Throwable cause) {
-        this.erro = erro;
+    public ArquivoNaoEncontradoException(String msg, Throwable th) {
+        super(msg, th);
     }
 
-    public ConexaoException(Erro erro, String mensagem) {
-        this.erro = erro;
-    }
-
-    public ConexaoException(Exception e, String string) {
-        super(string, e);
-    }
-
-    public Erro getCodigoDeErro() {
-        return erro;
-    }
-
-    public void setCodigoDeErro(Erro erro) {
-        this.erro = erro;
-    }
-
-    public ConexaoException putMap(String chave, String valor) {
+    public ArquivoNaoEncontradoException putMap(String chave, String valor) {
         this.map.put(chave, valor);
         return this;
+    }
+
+    @Override
+    public String getMessage() {
+        return this.getMessage(); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -69,6 +68,7 @@ public class ConexaoException extends RuntimeException {
             if (this.erro != null) {
                 System.out.println("Código de Erro: " + erro.getCodigoDeErro());
                 System.out.println("Erro: " + erro);
+                
             }
 
             /* Parametros sobre o Erro */
@@ -90,4 +90,5 @@ public class ConexaoException extends RuntimeException {
 
         }
     }
+
 }

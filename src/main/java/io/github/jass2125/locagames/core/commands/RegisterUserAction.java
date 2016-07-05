@@ -8,7 +8,7 @@ package io.github.jass2125.locagames.core.commands;
 import io.github.jass2125.locagames.core.negocio.Cliente;
 import io.github.jass2125.locagames.core.repository.ClienteDao;
 import io.github.jass2125.locagames.core.repository.ClienteDaoImpl;
-import io.github.jass2125.locagames.excecoes.PersistenciaException;
+import io.github.jass2125.locagames.core.excecoes.PersistenciaException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 

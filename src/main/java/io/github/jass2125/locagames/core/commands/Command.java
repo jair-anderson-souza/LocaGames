@@ -17,8 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 public interface Command {
     /**
      * 
-     * @param request Requisiçao do cliente
-     * @param response Reposta do cliente
+     * @param request Requisiçao {@link HttpServletRequest} do cliente
+     * @param response Reposta {@link HttpServletResponse} do cliente
      * @return URL da pagina de resposta
      */
     public String execute(HttpServletRequest request, HttpServletResponse response);

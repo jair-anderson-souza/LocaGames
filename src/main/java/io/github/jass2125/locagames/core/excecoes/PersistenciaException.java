@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package io.github.jass2125.locagames.excecoes;
+package io.github.jass2125.locagames.core.excecoes;
 
 import java.io.PrintStream;
 import java.io.PrintWriter;
@@ -14,45 +14,46 @@ import java.util.Map;
  *
  * @author Anderson Souza
  */
-public class ArquivoNaoEncontradoException extends Exception {
+public class PersistenciaException extends RuntimeException {
 
     private Erro erro;
     private Map<String, String> map = new HashMap<>();
 
-    public ArquivoNaoEncontradoException() {
+    public PersistenciaException() {
     }
 
-    public ArquivoNaoEncontradoException(Erro erro) {
+    public PersistenciaException(Erro erro) {
         this.erro = erro;
     }
 
-    public ArquivoNaoEncontradoException(Erro erro, String message) {
-        super(message);
-        this.erro = erro;
-    }
-
-    public ArquivoNaoEncontradoException(Erro erro, Throwable cause) {
-        super(cause);
-        this.erro = erro;
-    }
-
-    public ArquivoNaoEncontradoException(Erro erro, String message, Throwable cause) {
+    public PersistenciaException(Erro erro, String message, Throwable cause) {
         super(message, cause);
         this.erro = erro;
     }
 
-    public ArquivoNaoEncontradoException(String msg, Throwable th) {
-        super(msg, th);
+    public PersistenciaException(Erro erro, Throwable cause) {
+        this.erro = erro;
     }
 
-    public ArquivoNaoEncontradoException putMap(String chave, String valor) {
+    public PersistenciaException(Erro erro, String mensagem) {
+        this.erro = erro;
+    }
+
+    public PersistenciaException(Exception e, String mensagem) {
+        super(mensagem, e);
+    }
+
+    public Erro getCodigoDeErro() {
+        return erro;
+    }
+
+    public void setCodigoDeErro(Erro erro) {
+        this.erro = erro;
+    }
+
+    public PersistenciaException inserirMensagemDeErro(String chave, String valor) {
         this.map.put(chave, valor);
         return this;
-    }
-
-    @Override
-    public String getMessage() {
-        return this.getMessage(); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -68,7 +69,6 @@ public class ArquivoNaoEncontradoException extends Exception {
             if (this.erro != null) {
                 System.out.println("Código de Erro: " + erro.getCodigoDeErro());
                 System.out.println("Erro: " + erro);
-                
             }
 
             /* Parametros sobre o Erro */
@@ -90,5 +90,4 @@ public class ArquivoNaoEncontradoException extends Exception {
 
         }
     }
-
 }

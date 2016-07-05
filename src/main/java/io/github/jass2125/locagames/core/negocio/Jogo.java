@@ -5,7 +5,7 @@
  */
 package io.github.jass2125.locagames.core.negocio;
 
-import io.github.jass2125.locagames.excecoes.GameException;
+import io.github.jass2125.locagames.core.excecoes.GameException;
 import io.github.jass2125.locagames.observer.Observable;
 import io.github.jass2125.locagames.observer.Observer;
 import io.github.jass2125.locagames.state.GameState;

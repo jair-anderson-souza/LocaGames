@@ -3,7 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package io.github.jass2125.locagames.excecoes;
+package io.github.jass2125.locagames.core.enums;
+
+import io.github.jass2125.locagames.core.excecoes.Erro;
 
 /**
  *

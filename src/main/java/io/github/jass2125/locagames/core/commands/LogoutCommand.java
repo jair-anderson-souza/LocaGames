@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package io.github.jass2125.locagames.core.commands;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,14 +11,15 @@ import javax.servlet.http.HttpSession;
 
 /**
  * @author Anderson Souza
- * 
+ *
  */
-public class LogoutCommand implements Command{
-    
+public class LogoutCommand implements Command {
+
     /**
      * Finaliza a sessão do cliente
-     * @param request Requisiçao do cliente
-     * @param response Reposta do cliente
+     *
+     * @param request Requisiçao {@link HttpServletRequest} do cliente
+     * @param response Reposta {@link HttpServletResponse} do cliente
      * @return URL da pagina de resposta
      */
     @Override
@@ -35,5 +35,5 @@ public class LogoutCommand implements Command{
         session.invalidate();
         return "home.jsp";
     }
-    
+
 }

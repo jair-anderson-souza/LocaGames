@@ -5,10 +5,10 @@
  */
 package io.github.jass2125.locagames.core.fabricas;
 
+import io.github.jass2125.locagames.core.enums.ExcecoesEnum;
 import io.github.jass2125.locagames.core.utilitarios.PropriedadesUtil;
-import io.github.jass2125.locagames.excecoes.ArquivoNaoEncontradoException;
-import io.github.jass2125.locagames.excecoes.ExcecoesEnum;
-import io.github.jass2125.locagames.excecoes.ConexaoException;
+import io.github.jass2125.locagames.core.excecoes.ArquivoNaoEncontradoException;
+import io.github.jass2125.locagames.core.excecoes.ConexaoException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;

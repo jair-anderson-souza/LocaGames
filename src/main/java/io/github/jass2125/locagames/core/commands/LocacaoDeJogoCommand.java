@@ -34,11 +34,10 @@ public class LocacaoDeJogoCommand implements Command {
     private HttpSession session;
     private LocacaoDao daoLocacao;
     private ObserverDao daoObservadores;
-    private final JogoDao daoJogo;
+    private JogoDao daoJogo;
     private DayOfWeek diaAtual;
 
     public LocacaoDeJogoCommand() {
-        daoJogo = new JogoDaoImpl();
         this.diaAtual = LocalDate.now().getDayOfWeek();
     }
 
@@ -49,13 +48,12 @@ public class LocacaoDeJogoCommand implements Command {
 
         Cliente cliente = getClienteDaSessao();
         Jogo jogo = getJogoAlugado(idDoJogo);
-        //fluxo de jogo disponivel
         if (jogo != null) {
             registraLocacao(idDoJogo, cliente.getCpf());
             request.getSession().setAttribute("success", "Jogo locado com sucesso");
             return "funcionario/home.jsp";
         }
-        
+
         String dataDeEntrega = buscarDataDeDevolucaoDoJogo(idDoJogo);
         adicionarObservador(idDoJogo, cliente);
 
@@ -63,7 +61,6 @@ public class LocacaoDeJogoCommand implements Command {
         request.getSession().setAttribute("error", "Jogo já esta alugado");
         return "funcionario/home.jsp";
     }
-
     public String buscarDataDeDevolucaoDoJogo(Long idDoJogo) {
         daoLocacao = new LocacaoDaoImpl();
         Locacao locacao = daoLocacao.buscarLocacaoPorId(idDoJogo);
@@ -83,18 +80,27 @@ public class LocacaoDeJogoCommand implements Command {
         return (Long) Long.parseLong(request.getParameter("locacaoDeJogo"));
     }
 
+    /**
+     * Registra a locação de um jogo por um cliente
+     * @param idDoJogo Atributo identificador do Jogo
+     * @param cpf Cpf do cliente
+     */
     private void registraLocacao(Long idDoJogo, String cpf) {
         Locacao locacao = new Locacao();
         daoLocacao = new LocacaoDaoImpl();
         locacao.setIdDoJogo(idDoJogo);
         locacao.setDataDeDevolucao(calcularDataDeDevolucao());
         locacao.setIdDoUsuario(cpf);
-        locacao.setStrategy(c());
+        locacao.setStrategy(recuperaTipoDeLocacao());
         daoLocacao.salvar(locacao);
         alterarEstadoDoJogo(idDoJogo);
     }
-
-    public CalculadoraDeLocacaoStrategy c() {
+    /**
+     * Método que retorna uma instancia do tipo de calculo que deverá efetuado para o preço do jogo
+     * @return {@link CalculadoraDeLocacaoStrategy} 
+     */
+    
+    public CalculadoraDeLocacaoStrategy recuperaTipoDeLocacao() {
         if (calcularDataDeDevolucao().equals(calcularDataDeDevolucao().plusDays(2))) {
             return new CalculadoraDeLocacaoEspecialStrategy();
         }
@@ -102,6 +108,7 @@ public class LocacaoDeJogoCommand implements Command {
     }
 
     private Jogo getJogoAlugado(Long idGame) {
+        daoJogo = new JogoDaoImpl();
         Jogo jogo = daoJogo.buscarPorId(idGame);
         return (jogo.getEstado().equals(GameState.AVAILABLE) ? jogo : null);
     }
@@ -125,7 +132,11 @@ public class LocacaoDeJogoCommand implements Command {
     private void addObserver(Long idGame, String cpf) {
         daoObservadores.adicionaObservador(cpf, idGame);
     }
-
+    
+    /**
+     * Altera o estado do jogo de alugado para disponivel, e de disponivel para alugado
+     * @param idDoJogo Atributo identificador do Jogo
+     */
     private void alterarEstadoDoJogo(Long idDoJogo) {
         daoJogo.editarEstado(idDoJogo, GameState.RENT.name());
     }

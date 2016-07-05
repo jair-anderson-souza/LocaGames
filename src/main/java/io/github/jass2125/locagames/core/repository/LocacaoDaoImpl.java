@@ -5,10 +5,10 @@
  */
 package io.github.jass2125.locagames.core.repository;
 
+import io.github.jass2125.locagames.core.enums.ExcecoesEnum;
 import io.github.jass2125.locagames.core.negocio.Locacao;
 import io.github.jass2125.locagames.core.fabricas.FabricaDeConexoes;
-import io.github.jass2125.locagames.excecoes.ExcecoesEnum;
-import io.github.jass2125.locagames.excecoes.PersistenciaException;
+import io.github.jass2125.locagames.core.excecoes.PersistenciaException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

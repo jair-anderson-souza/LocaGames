@@ -6,7 +6,7 @@
 package io.github.jass2125.locagames.core.repository;
 
 import io.github.jass2125.locagames.core.negocio.Cliente;
-import io.github.jass2125.locagames.excecoes.PersistenciaException;
+import io.github.jass2125.locagames.core.excecoes.PersistenciaException;
 import java.sql.SQLException;
 import java.util.List;
 
