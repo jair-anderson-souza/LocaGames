@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
-    <cliente nome="Amanda Alves" email="amanda@hotmail.com" cpf="12345" />
-    <cliente nome="Jorge" email="jorge@hotmail.com" cpf="654654" />
+    <cliente nome="Amanda Alves" email="amanda@gmail.com" cpf="1234567" />
     <cliente nome="Helder" email="helder@hotmail.com" cpf="675324" />
     <cliente nome="Matheus" email="matheus@hotmail.com" cpf="98765" />
     <cliente nome="Thomaz" email="thomaz@hotmail.com" cpf="34235" />

@@ -13,7 +13,7 @@
         <div class="dj-modal__section">
             <h2 class="dj-titulo__left">Novo cliente</h2>
             <br>
-            <form action="front?action=registerUser" method="post" class="form-group">
+            <form action="front?command=cadastroNovoCliente" method="post" class="form-group">
                 
                 <div class="form-group dj-form__input">
                     <label for="name">Nome:</label>

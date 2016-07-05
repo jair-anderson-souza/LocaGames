@@ -5,15 +5,15 @@
  */
 package io.github.jass2125.locagames.core.repository;
 
+import io.github.jass2125.locagames.core.excecoes.DadosInvalidosException;
 import io.github.jass2125.locagames.dbunit.DBUnitHelper;
 import io.github.jass2125.locagames.core.negocio.Cliente;
-import io.github.jass2125.locagames.core.excecoes.PersistenciaException;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.fail;
 import org.dbunit.operation.DatabaseOperation;
-import org.junit.AfterClass;
+import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -31,9 +31,9 @@ public class ClienteDaoImplTest {
     private static Cliente cliente3;
 
     @BeforeClass
-    public static void beforeClass() {
+    public static void beforeClass() throws DadosInvalidosException {
         helper = new DBUnitHelper("DbUnitXml");
-        cliente1 = new Cliente("Ricardo", "ricardo@gmail.com", "12345");
+        cliente1 = new Cliente("Ricardo", "ricardo@gmail.com", "1234567");
         cliente2 = new Cliente("Job", "job@hotmail.com", "76576532");
         cliente3 = new Cliente("Priscila", "priscila@hotmail.com", "654633");
 
@@ -41,27 +41,27 @@ public class ClienteDaoImplTest {
                 .when(dao)
                 .salvar(null);
 
-        Mockito.doThrow(new PersistenciaException())
+        Mockito.doThrow(new DadosInvalidosException())
                 .when(dao)
                 .salvar(cliente1);
 
         Mockito.when(dao.salvar(cliente2)).thenReturn(cliente2);
 
         //Exceção de quando o email já existe
-        Mockito.doThrow(new PersistenciaException())
+        Mockito.doThrow(new DadosInvalidosException())
                 .when(dao)
                 .salvar(cliente3);
 
         helper.execute(DatabaseOperation.INSERT, "cliente.xml");
     }
 
-    @AfterClass
-    public static void end() {
-        helper.execute(DatabaseOperation.DELETE_ALL, "cliente.xml");
+    @After
+    public void end() {
+        helper.execute(DatabaseOperation.DELETE, "cliente.xml");
     }
 
     @Test
-    public void testSalvarClienteNulo() {
+    public void testSalvarClienteNulo() throws DadosInvalidosException {
         Cliente cliente = null;
         try {
             cliente = dao.salvar(null);
@@ -76,13 +76,13 @@ public class ClienteDaoImplTest {
         try {
             clietne = dao.salvar(cliente1);
 
-        } catch (PersistenciaException e) {
+        } catch (DadosInvalidosException e) {
             assertNull(clietne);
         }
     }
 
     @Test
-    public void testSalvar() {
+    public void testSalvar() throws DadosInvalidosException {
         Cliente cliente = dao.salvar(cliente2);
         assertNotNull(cliente);
         assertEquals(cliente, cliente2);
@@ -95,7 +95,7 @@ public class ClienteDaoImplTest {
         try {
             daoCliente = new ClienteDaoImpl();
             c = daoCliente.salvar(cliente1);
-        } catch (PersistenciaException e) {
+        } catch (DadosInvalidosException e) {
             assertNull(c);
         }
     }

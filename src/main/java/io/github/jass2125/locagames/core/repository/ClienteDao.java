@@ -5,6 +5,7 @@
  */
 package io.github.jass2125.locagames.core.repository;
 
+import io.github.jass2125.locagames.core.excecoes.DadosInvalidosException;
 import io.github.jass2125.locagames.core.negocio.Cliente;
 import io.github.jass2125.locagames.core.excecoes.PersistenciaException;
 import java.sql.SQLException;
@@ -16,7 +17,7 @@ import java.util.List;
  */
 public interface ClienteDao {
 
-    public Cliente salvar(Cliente cliente) throws PersistenciaException;
+    public Cliente salvar(Cliente cliente) throws DadosInvalidosException;
 
     public List<Cliente> buscarPorCpf(String cpf) throws SQLException, ClassNotFoundException;
 

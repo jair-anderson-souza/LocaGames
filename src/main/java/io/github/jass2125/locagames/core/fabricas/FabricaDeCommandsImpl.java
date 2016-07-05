@@ -28,9 +28,9 @@ public class FabricaDeCommandsImpl implements FabricaDeCommands {
         commands.put("devolverJogo", CommandsEnum.DEVOLUCAO_DE_JOGO);
         commands.put("carregarJogoAlugadosDeUmCliente", CommandsEnum.CARREGA_JOGOS_DE_CLIENTE);
         commands.put("sair", CommandsEnum.LOGOUT);
-
+        commands.put("cadastroNovoCliente", CommandsEnum.CADASTRO_NOVO_CLIENTE);
+        
         commands.put("carregaJogosAlugados", CommandsEnum.CARREGA_JOGOS_ALUGADOS);
-        commands.put("registerUser", CommandsEnum.REGISTER_USER);
     }
 
     /**

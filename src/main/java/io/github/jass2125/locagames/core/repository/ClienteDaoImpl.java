@@ -6,6 +6,7 @@
 package io.github.jass2125.locagames.core.repository;
 
 import io.github.jass2125.locagames.core.enums.ExcecoesEnum;
+import io.github.jass2125.locagames.core.excecoes.DadosInvalidosException;
 import io.github.jass2125.locagames.core.negocio.Cliente;
 import io.github.jass2125.locagames.core.fabricas.FabricaDeConexoes;
 import java.sql.Connection;
@@ -29,19 +30,16 @@ public class ClienteDaoImpl implements ClienteDao {
     }
 
     /**
-     * Método que armazena um cliente
-     * Funcionando
-     * @param cliente Objeto
-     * {@link Cliente} que será
-     * armazenado
+     * Método que armazena um cliente Funcionando
+     *
+     * @param cliente Objeto {@link Cliente} que será armazenado
      * @return {@link Cliente} Cliente
      * @throws PersistenciaException Exceção lançada quando a aplicação tentar
      * estabelecer comunicação com o banco de dados
-     * <br>Ver -
-     * {@link FabricaDeConexoes#getConexao()}
+     * <br>Ver - {@link FabricaDeConexoes#getConexao()}
      */
     @Override
-    public Cliente salvar(Cliente cliente) throws PersistenciaException {
+    public Cliente salvar(Cliente cliente) throws DadosInvalidosException {
         try (Connection conexao = fabricaDeConexao.getConexao()) {
             String sql = "insert into cliente(nome, email, cpf) values(?, ?, ?);";
             try (PreparedStatement preparedStatement = conexao.prepareStatement(sql)) {
@@ -52,9 +50,10 @@ public class ClienteDaoImpl implements ClienteDao {
             }
             return cliente;
         } catch (SQLException e) {
-            throw new PersistenciaException(e, "Ops, ocorreu um erro.!!");
+            throw new DadosInvalidosException(e, "Ops, ocorreu um erro.!!");
         }
     }
+
     public List<Cliente> buscarPorCpf(String cpf) throws SQLException, ClassNotFoundException {
         List<Cliente> listObservers = null;
         try (Connection conexao = fabricaDeConexao.getConexao()) {
@@ -77,9 +76,11 @@ public class ClienteDaoImpl implements ClienteDao {
         }
         return listObservers;
     }
+
     /**
      * Funcionando
-     * @param cpf CPf 
+     *
+     * @param cpf CPf
      * @param email Email
      * @return {@link Cliente} Cliente de tretorno
      * @throws PersistenciaException Exceção lançada

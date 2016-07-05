@@ -12,7 +12,7 @@ import io.github.jass2125.locagames.core.commands.DevolucaoDeJogoCommand;
 import io.github.jass2125.locagames.core.commands.LocacaoDeJogoCommand;
 import io.github.jass2125.locagames.core.commands.LoginClienteCommand;
 import io.github.jass2125.locagames.core.commands.LogoutCommand;
-import io.github.jass2125.locagames.core.commands.RegisterUserAction;
+import io.github.jass2125.locagames.core.commands.CadastroDeClienteCommand;
 
 /**
  * Enumeração com os commandos possíveis
@@ -22,6 +22,12 @@ public enum CommandsEnum {
     
     
     /**
+     * Enumeração correspondente ao login do cliente na aplicação
+     *//**
+     * Enumeração correspondente ao login do cliente na aplicação
+     *//**
+     * Enumeração correspondente ao login do cliente na aplicação
+     *//**
      * Enumeração correspondente ao login do cliente na aplicação
      */
      LOGIN_CLIENTE {
@@ -51,10 +57,10 @@ public enum CommandsEnum {
     /**
      * FAZER
      */
-     REGISTER_USER {
+     CADASTRO_NOVO_CLIENTE {
         @Override
         public Command getCommand() {
-            return new RegisterUserAction();
+            return new CadastroDeClienteCommand();
         }
     },
     /**

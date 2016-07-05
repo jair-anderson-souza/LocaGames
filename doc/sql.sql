@@ -81,7 +81,7 @@ create table if not exists observadores(
     foreign key(idDoCliente) references cliente(cpf) on update cascade on delete restrict,
     primary key(idDoObservador)
 );
-insert into cliente values('Anderson Souza', 'jair_anderson_bs@hotmail.com','98765445678');
+insert into cliente values('Anderson Souza', 'jair_anderson_bs@hotmail.com','123');
 insert into cliente values('Diogo Moreira', 'diogomoreira@hotmail.com','765678987');
 insert into cliente values('Dijalma', 'dijalma@hotmail.com','9658');
 insert into jogo values(1, 'Donkey Kong 3','Aventura', 'AVAILABLE');
