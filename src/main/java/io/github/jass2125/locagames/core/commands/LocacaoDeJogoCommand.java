@@ -61,27 +61,47 @@ public class LocacaoDeJogoCommand implements Command {
         request.getSession().setAttribute("error", "Jogo já esta alugado");
         return "funcionario/home.jsp";
     }
+    /**
+     * Método que busca o dia da devolução do jogo
+     * @param idDoJogo {@link Long} Identificador do jogo
+     * @return {@link String} Data de Devolução
+     */
     public String buscarDataDeDevolucaoDoJogo(Long idDoJogo) {
         daoLocacao = new LocacaoDaoImpl();
         Locacao locacao = daoLocacao.buscarLocacaoPorId(idDoJogo);
-        return this.getDateDevolution(locacao);
+        return this.getDataDeDevolucaoDoJogo(locacao);
     }
-
+    /**
+     * Método que adiciona um observador ao jogo
+     * @param idDoJogo {@link Long} Identificador do jogo
+     * @param cliente {@link Cliente}
+     */
+    
     public void adicionarObservador(Long idDoJogo, Cliente cliente) {
         daoObservadores = new ObserverDaoImpl();
-        this.addObserver(idDoJogo, cliente.getCpf());
+        this.adicionaObservador(idDoJogo, cliente.getCpf());
     }
-
+    
+    /**
+     * Método que retorna o cliente da sessão
+     * @return {@link Cliente} Cliente
+     */
     public Cliente getClienteDaSessao() {
         return (Cliente) session.getAttribute("user");
     }
-
+    
+    /**
+     * Método que retorna o id do jogo
+     * @param request {@link HttpServletRequest} Requisição HTTP
+     * @return {@link Long} Long
+     */
     public Long getIdDoJogo(HttpServletRequest request) {
         return (Long) Long.parseLong(request.getParameter("locacaoDeJogo"));
     }
 
     /**
      * Registra a locação de um jogo por um cliente
+     *
      * @param idDoJogo Atributo identificador do Jogo
      * @param cpf Cpf do cliente
      */
@@ -95,46 +115,56 @@ public class LocacaoDeJogoCommand implements Command {
         daoLocacao.salvar(locacao);
         alterarEstadoDoJogo(idDoJogo);
     }
+
     /**
-     * Método que retorna uma instancia do tipo de calculo que deverá efetuado para o preço do jogo
-     * @return {@link CalculadoraDeLocacaoStrategy} 
+     * Método que retorna uma instancia do tipo de calculo que deverá efetuado
+     * para o preço do jogo
+     *
+     * @return {@link CalculadoraDeLocacaoStrategy}
      */
-    
+
     public CalculadoraDeLocacaoStrategy recuperaTipoDeLocacao() {
         if (calcularDataDeDevolucao().equals(calcularDataDeDevolucao().plusDays(2))) {
             return new CalculadoraDeLocacaoEspecialStrategy();
         }
         return new CalculadoraDeLocacaoComumStrategy();
     }
-
-    private Jogo getJogoAlugado(Long idGame) {
+    /**
+     * Método que que informa se o jogo tá alugado
+     * @param idDoJogo Identificador do {@link Jogo}
+     * @return {@link Jogo} Jogo
+     */
+    private Jogo getJogoAlugado(Long idDoJogo) {
         daoJogo = new JogoDaoImpl();
-        Jogo jogo = daoJogo.buscarPorId(idGame);
+        Jogo jogo = daoJogo.buscarPorId(idDoJogo);
         return (jogo.getEstado().equals(GameState.AVAILABLE) ? jogo : null);
     }
 
-    // TODO alterar nome desse metodo
+    /**
+     * Método que calcula a data de devolução do jogo
+     * @return {@link LocalDate} LocaDate
+     */
     private LocalDate calcularDataDeDevolucao() {
         if (diaAtual.equals(DayOfWeek.SUNDAY) || diaAtual.equals(DayOfWeek.SATURDAY)) {
-//            return "ESPECIAL";
             return LocalDate.now().plusDays(2);
         }
-//        return "COMUM";
         return LocalDate.now().plusDays(1);
     }
 
-    private String getDateDevolution(Locacao location) {
-        LocalDate dataAvailable = location.getDataDeDevolucao();
+    private String getDataDeDevolucaoDoJogo(Locacao locacao) {
+        LocalDate dataAvailable = locacao.getDataDeDevolucao();
         ConvertDate converter = new ConvertDate();
         return converter.converteToString(dataAvailable);
     }
 
-    private void addObserver(Long idGame, String cpf) {
-        daoObservadores.adicionaObservador(cpf, idGame);
+    private void adicionaObservador(Long idDoJogo, String cpf) {
+        daoObservadores.adicionaObservador(cpf, idDoJogo);
     }
-    
+
     /**
-     * Altera o estado do jogo de alugado para disponivel, e de disponivel para alugado
+     * Altera o estado do jogo de alugado para disponivel, e de disponivel para
+     * alugado
+     *
      * @param idDoJogo Atributo identificador do Jogo
      */
     private void alterarEstadoDoJogo(Long idDoJogo) {

@@ -19,7 +19,11 @@ public class ConvertDate {
     public ConvertDate() {
         this.pattern = "dd/MM/yyyy";
     }
-    
+    /**
+     * Método que retorna uma data formatada
+     * @param dateDevolution {@link LocalDate} Data de Devolução
+     * @return String Data formatada no padrão BR
+     */
      public String converteToString(LocalDate dateDevolution) {
         return dateDevolution.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }

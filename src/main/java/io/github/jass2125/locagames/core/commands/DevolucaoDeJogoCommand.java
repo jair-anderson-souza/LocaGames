@@ -63,7 +63,6 @@ public class DevolucaoDeJogoCommand implements Command {
                 jogo.setListaDeObservadores(recuperarObservadoresDeUmJogo(idDoJogo));
                 jogo.notificarObservadores();
             } catch (EmailException ex) {
-                ex.printStackTrace();
             }
 
             request.getSession().setAttribute("price", valorDoAluguel);
@@ -77,7 +76,10 @@ public class DevolucaoDeJogoCommand implements Command {
         request.getSession().setAttribute("error", "Você não alugou este jogo!");
         return "funcionario/home.jsp";
     }
-
+    /**
+     * Recupera o usuario da sessão {@link HttpSession}
+     * @return {@link Cliente} Cliente
+     */
     public Cliente getCpfDoClienteDaSessao() {
         return ((Cliente) session.getAttribute("user"));
     }
@@ -85,81 +87,70 @@ public class DevolucaoDeJogoCommand implements Command {
     /**
      * Recupera o game locado
      *
-     * @param idGame Id do game que está sendo pesquisado
-     * @return Jogo Jogo pra ser devolvido
-     * @throws SQLException Retorna caso ele não consiga recuperar essa
-     * informação
-     * @throws ClassNotFoundException Classe do Driver MySQL não está disponivel
+     * @param idDoJogo Id do game que está sendo pesquisado
+     * @return {@link Jogo} Jogo pra ser devolvido
      */
-    private Jogo getJogoAlugado(Long idGame) {
+    private Jogo getJogoAlugado(Long idDoJogo) {
         dao = new JogoDaoImpl();
-        Jogo game = dao.buscarPorId(idGame);
+        Jogo game = dao.buscarPorId(idDoJogo);
         return (game.getEstado().equals(GameState.RENT) ? game : null);
     }
 
     /**
      * Deleta o observadores de um game
      *
-     * @param idGame Id do game que está sendo pesquisado
+     * @param idDoJogo Id do game que está sendo pesquisado
      */
-    public void removeObservers(Long idGame) {
+    public void removeObservers(Long idDoJogo) {
         daoObserver = new ObserverDaoImpl();
-        daoObserver.deleteObservador(idGame);
+        daoObserver.deleteObservador(idDoJogo);
     }
 
     /**
-     * Pesquisa os observadores de um game
-     *
-     * @param idGame Id do Jogo que está pesquisado
-     * @return Set<Game> Set com todos os observadores de um game
-     * @throws SQLException Retorna caso ele não consiga recuperar essa
-     * informação
-     * @throws ClassNotFoundException Classe do Driver MySQL não está disponivel
+     * Pesquisa os observadores de um jogo
+     * @param idDoJogo Id do Jogo que está pesquisado
+     * @return {@link Set} Set com todos os observadores de um game
+     * @throws {@link EmailException} Exceção lançada quando ocorrer um erro na library commoms
      */
-    private Set<Observer> recuperarObservadoresDeUmJogo(Long idGame) throws EmailException {
+    private Set<Observer> recuperarObservadoresDeUmJogo(Long idDoJogo) throws EmailException {
         daoObserver = new ObserverDaoImpl();
-        return daoObserver.getListaDeObservadores(idGame);
+        return daoObserver.getListaDeObservadores(idDoJogo);
     }
 
     /**
      * Edita o estado do Jogo
-     *
-     * @param idGame Id do game que será editado
-     * @param state Estado do Jogo
+     * @param idDoJogod Id do game que será editado
+     * @param estado Estado do Jogo
      * @throws SQLException Retorna caso ele não consiga recuperar essa
      * informação
      * @throws ClassNotFoundException Classe do Driver MySQL não está disponivel
      */
-    private void devolveJogo(Long idGame, String state) {
+    private void devolveJogo(Long idDoJogod, String estado) {
         dao = new JogoDaoImpl();
-        dao.editarEstado(idGame, GameState.AVAILABLE.name());
+        dao.editarEstado(idDoJogod, GameState.AVAILABLE.name());
     }
 
     /**
-     * Retorna o preço do aluguel
-     *
-     * @param location Locaçao que esta sendo devolvida
-     * @return BigDecimal Valor da locaçao
+     * Retorna o preço do jogo
+     * @param locacao Locaçao que esta sendo devolvida
+     * @return {@link BigDecimal} Valor da locaçao
      */
-    private BigDecimal getPrecoDoAluguel(Locacao location) {
-        return location.calculateValueLocation();
+    private BigDecimal getPrecoDoAluguel(Locacao locacao) {
+        return locacao.calculateValueLocation();
     }
 
     /**
-     * Recupera a locaçao
+     * Recupera a instancia da locação
      *
-     * @param cpf CPF do cliente
-     * @param idGame Id do game
-     * @return Locacao Locaçao
-     * @throws SQLException Retorna caso ele não consiga recuperar essa
-     * informação
-     * @throws ClassNotFoundException Classe do Driver MySQL não está disponivel
+     * @param cpf CPF do cliente que está devolvendo o jogo
+     * @param idDoJogo Id do jogo que será devolvido
+     * @return {@link Locacao} Locaçao
      */
-    private Locacao getLocacao(String cpf, Long idGame) {
+    private Locacao getLocacao(String cpf, Long idDoJogo) {
         daoLocacao = new LocacaoDaoImpl();
-        Locacao locacao = daoLocacao.buscarLocacaoPorUsuario(cpf, idGame);
+        Locacao locacao = daoLocacao.buscarLocacaoPorUsuario(cpf, idDoJogo);
         if (locacao != null) {
-            devolveJogo(idGame, cpf);
+            devolveJogo(idDoJogo, cpf);
             return locacao;
         }
         return locacao;
