@@ -12,7 +12,7 @@ import java.util.Set;
 /**
  *
  * @author Anderson Souza
- * @param <T>
+ * @param T Parametro qq
  */
 public interface ObserverDao<T> {
     //FUNCIONANDO

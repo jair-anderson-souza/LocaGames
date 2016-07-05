@@ -31,7 +31,7 @@ public class JogoDaoImpl implements JogoDao {
     /**
      * Funcionando
      *
-     * @return
+     * @return {@link List}
      */
     @Override
     public List<Jogo> listaDeJogos() {
@@ -65,9 +65,9 @@ public class JogoDaoImpl implements JogoDao {
     /**
      * Funcionando
      *
-     * @param idDoJogo
-     * @return
-     * @throws PersistenciaException
+     * @param idDoJogo Id do Jogo
+     * @return {@link Jogo} Jogo
+     * @throws PersistenciaException Exceção lançada
      */
     @Override
     public Jogo buscarPorId(Long idDoJogo) throws PersistenciaException {

@@ -81,7 +81,7 @@ public class ClienteDaoImpl implements ClienteDao {
      * Funcionando
      * @param cpf CPf 
      * @param email Email
-     * @return @{Cliente} Cliente de tretorno
+     * @return {@link Cliente} Cliente de tretorno
      * @throws PersistenciaException Exceção lançada
      */
     public Cliente buscarPorCpfEEmail(String cpf, String email) throws PersistenciaException {
