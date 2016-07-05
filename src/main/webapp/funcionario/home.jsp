@@ -66,7 +66,7 @@
                     </li>
                     <li>
                         <img src="" class="dj-image__funcionalidade">
-                        <a href="../front?action=logout">Sair</a>
+                        <a href="../front?command=sair">Sair</a>
                     </li>
                 </ul>
             </div>
