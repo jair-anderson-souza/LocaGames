@@ -77,12 +77,6 @@ public class DevolucaoDeJogoCommand implements Command {
         request.getSession().setAttribute("error", "Você não alugou este jogo!");
         return "funcionario/home.jsp";
     }
-//    catch (EmailException e) {
-//            e.printStackTrace();
-//        request.getSession().setAttribute("error", "Erro, retorne e tente novamente");
-//        return "funcionario/home.jsp";
-//    }
-//}
 
     public Cliente getCpfDoClienteDaSessao() {
         return ((Cliente) session.getAttribute("user"));

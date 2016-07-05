@@ -16,21 +16,15 @@ import io.github.jass2125.locagames.core.commands.CadastroDeClienteCommand;
 
 /**
  * Enumeração com os commandos possíveis
+ *
  * @author Anderson Souza
  */
 public enum CommandsEnum {
-    
-    
+
     /**
      * Enumeração correspondente ao login do cliente na aplicação
-     *//**
-     * Enumeração correspondente ao login do cliente na aplicação
-     *//**
-     * Enumeração correspondente ao login do cliente na aplicação
-     *//**
-     * Enumeração correspondente ao login do cliente na aplicação
      */
-     LOGIN_CLIENTE {
+    LOGIN_CLIENTE {
         @Override
         public Command getCommand() {
             return new LoginClienteCommand();
@@ -39,7 +33,7 @@ public enum CommandsEnum {
     /**
      * Enumeração do carregamento de todos os jogos da aplicaçao
      */
-     CARREGA_JOGOS {
+    CARREGA_JOGOS {
         @Override
         public Command getCommand() {
             return new CarregaJogosCommand();
@@ -48,23 +42,23 @@ public enum CommandsEnum {
     /**
      * Enumeração do carregamento de todos os jogos alugados da aplicação
      */
-     CARREGA_JOGOS_ALUGADOS {
+    CARREGA_JOGOS_ALUGADOS {
         @Override
         public Command getCommand() {
             return new CarregaJogosCommand();
         }
     },
     /**
-     * FAZER
+     * Enumeração do cadastro de um novo cliente
      */
-     CADASTRO_NOVO_CLIENTE {
+    CADASTRO_NOVO_CLIENTE {
         @Override
         public Command getCommand() {
             return new CadastroDeClienteCommand();
         }
     },
     /**
-     * Enumeração da devolução de um jogo 
+     * Enumeração da devolução de um jogo
      */
     DEVOLUCAO_DE_JOGO {
         @Override
@@ -89,7 +83,7 @@ public enum CommandsEnum {
         public Command getCommand() {
             return new LocacaoDeJogoCommand();
         }
-    }, 
+    },
     /**
      * Enumeração do carregamento dos jogos algados por determinado cliente
      */

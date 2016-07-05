@@ -18,11 +18,9 @@ import javax.servlet.http.HttpServletResponse;
  * @version 1.0
  */
 public class CarregaJogosCommand implements Command {
-
     private JogoDao dao;
 
     public CarregaJogosCommand() {
-        dao = new JogoDaoImpl();
     }
 
     /**
@@ -39,11 +37,11 @@ public class CarregaJogosCommand implements Command {
     }
 
     /**
-     * Recupera a lista com todos os games cadastrados
-     *
-     * @return List LIsta com todos jogos da aplicação
+     * Recupera a lista com todos os jogos cadastrados
+     * @return {@link List} com todos jogos da aplicação
      */
     public List<Jogo> getListaGames() {
+        dao = new JogoDaoImpl();
         return dao.listaDeJogos();
     }
 

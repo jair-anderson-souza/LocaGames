@@ -48,13 +48,14 @@ public class CadastroDeClienteCommand implements Command {
             request.getSession().setAttribute("error", "Padrao de CPF: xxx.xxx.xxx-xx");
             return "home.jsp";
         }
-//        } catch (PersistenciaException e) {
-//            e.printStackTrace();
-//            request.getSession().setAttribute("error", "Erro, retorne e tente novamente");
-//            return "home.jsp";
-//        }
     }
 
+    /**
+     * Método que recuperaos dados do cliente da sessão
+     *
+     * @param request {@link HttpServletRequest} Requisição HTTP do cliente
+     * @return {@link Cliente} Cliente
+     */
     public Cliente getDadosDoCliente(HttpServletRequest request) {
         String name = request.getParameter("name");
         String cpf = request.getParameter("cpf");
@@ -62,12 +63,25 @@ public class CadastroDeClienteCommand implements Command {
         return new Cliente(name, email, cpf);
     }
 
+    /**
+     * Método que valida o CPF np formato especifico
+     *
+     * @param cpf Cpf do {@link Cliente
+     * @return True esteja no formato esperado, false caso não esteja
+     */
     public boolean validaCpf(String cpf) {
         String regex = "(\\d{3})[.](\\d{3})[.](\\d{3})-(\\d{2})";
         boolean verification = cpf.matches(regex);
         return verification;
     }
 
+    /**
+     * Método que cadastra um novo cliente
+     *
+     * @param cliente {@link Cliente}
+     * @return
+     * @throws DadosInvalidosException
+     */
     private Cliente cadastrarNovoCliente(Cliente cliente) throws DadosInvalidosException {
         dao = new ClienteDaoImpl();
         return dao.salvar(cliente);
