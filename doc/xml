@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<system>
+	<pattern name="Factory Method">
+		<instance>
+			<role name="Creator" element="io.github.jass2125.locagames.core.enums.CommandsEnum" />
+			<role name="FactoryMethod()" element="io.github.jass2125.locagames.core.enums.CommandsEnum::getCommand():io.github.jass2125.locagames.core.commands.Command" />
+		</instance>
+		<instance>
+			<role name="Creator" element="io.github.jass2125.locagames.core.repository.JogoDao" />
+			<role name="FactoryMethod()" element="io.github.jass2125.locagames.core.repository.JogoDao::buscarPorId(java.lang.Long):io.github.jass2125.locagames.core.negocio.Jogo" />
+		</instance>
+		<instance>
+			<role name="Creator" element="io.github.jass2125.locagames.core.repository.ClienteDao" />
+			<role name="FactoryMethod()" element="io.github.jass2125.locagames.core.repository.ClienteDao::buscarPorCpfEEmail(java.lang.String, java.lang.String):io.github.jass2125.locagames.core.negocio.Cliente" />
+		</instance>
+	</pattern>
+	<pattern name="Prototype" />
+	<pattern name="Singleton">
+		<instance>
+			<role name="Singleton" element="io.github.jass2125.locagames.core.enums.CommandsEnum" />
+			<role name="uniqueInstance" element="io.github.jass2125.locagames.core.enums.CommandsEnum::LOGIN_CLIENTE:io.github.jass2125.locagames.core.enums.CommandsEnum" />
+			<role name="uniqueInstance" element="io.github.jass2125.locagames.core.enums.CommandsEnum::CARREGA_JOGOS:io.github.jass2125.locagames.core.enums.CommandsEnum" />
+			<role name="uniqueInstance" element="io.github.jass2125.locagames.core.enums.CommandsEnum::CARREGA_JOGOS_ALUGADOS:io.github.jass2125.locagames.core.enums.CommandsEnum" />
+			<role name="uniqueInstance" element="io.github.jass2125.locagames.core.enums.CommandsEnum::CADASTRO_NOVO_CLIENTE:io.github.jass2125.locagames.core.enums.CommandsEnum" />
+			<role name="uniqueInstance" element="io.github.jass2125.locagames.core.enums.CommandsEnum::DEVOLUCAO_DE_JOGO:io.github.jass2125.locagames.core.enums.CommandsEnum" />
+			<role name="uniqueInstance" element="io.github.jass2125.locagames.core.enums.CommandsEnum::LOGOUT:io.github.jass2125.locagames.core.enums.CommandsEnum" />
+			<role name="uniqueInstance" element="io.github.jass2125.locagames.core.enums.CommandsEnum::LOCACAO_DE_JOGO:io.github.jass2125.locagames.core.enums.CommandsEnum" />
+			<role name="uniqueInstance" element="io.github.jass2125.locagames.core.enums.CommandsEnum::CARREGA_JOGOS_DE_CLIENTE:io.github.jass2125.locagames.core.enums.CommandsEnum" />
+		</instance>
+		<instance>
+			<role name="Singleton" element="io.github.jass2125.locagames.core.state.GameState" />
+			<role name="uniqueInstance" element="io.github.jass2125.locagames.core.state.GameState::AVAILABLE:io.github.jass2125.locagames.core.state.GameState" />
+			<role name="uniqueInstance" element="io.github.jass2125.locagames.core.state.GameState::RENT:io.github.jass2125.locagames.core.state.GameState" />
+		</instance>
+	</pattern>
+	<pattern name="(Object)Adapter">
+		<instance>
+			<role name="Adaptee" element="io.github.jass2125.locagames.core.fabricas.FabricaDeConexoes" />
+			<role name="Adapter" element="io.github.jass2125.locagames.core.repository.LocacaoDaoImpl" />
+			<role name="adaptee" element="io.github.jass2125.locagames.core.repository.LocacaoDaoImpl::fabricaDeConexoes:io.github.jass2125.locagames.core.fabricas.FabricaDeConexoes" />
+			<role name="Request()" element="io.github.jass2125.locagames.core.repository.LocacaoDaoImpl::salvar(io.github.jass2125.locagames.core.negocio.Locacao):void" />
+			<role name="Request()" element="io.github.jass2125.locagames.core.repository.LocacaoDaoImpl::listarlocacoes():java.util.List" />
+			<role name="Request()" element="io.github.jass2125.locagames.core.repository.LocacaoDaoImpl::buscarLocacaoPorUsuario(java.lang.String, java.lang.Long):io.github.jass2125.locagames.core.negocio.Locacao" />
+			<role name="Request()" element="io.github.jass2125.locagames.core.repository.LocacaoDaoImpl::buscarLocacaoPorId(java.lang.Long):io.github.jass2125.locagames.core.negocio.Locacao" />
+		</instance>
+		<instance>
+			<role name="Adaptee" element="io.github.jass2125.locagames.core.fabricas.FabricaDeConexoes" />
+			<role name="Adapter" element="io.github.jass2125.locagames.core.repository.ClienteDaoImpl" />
+			<role name="adaptee" element="io.github.jass2125.locagames.core.repository.ClienteDaoImpl::fabricaDeConexao:io.github.jass2125.locagames.core.fabricas.FabricaDeConexoes" />
+			<role name="Request()" element="io.github.jass2125.locagames.core.repository.ClienteDaoImpl::salvar(io.github.jass2125.locagames.core.negocio.Cliente):io.github.jass2125.locagames.core.negocio.Cliente" />
+			<role name="Request()" element="io.github.jass2125.locagames.core.repository.ClienteDaoImpl::buscarPorCpf(java.lang.String):java.util.List" />
+			<role name="Request()" element="io.github.jass2125.locagames.core.repository.ClienteDaoImpl::buscarPorCpfEEmail(java.lang.String, java.lang.String):io.github.jass2125.locagames.core.negocio.Cliente" />
+		</instance>
+		<instance>
+			<role name="Adaptee" element="io.github.jass2125.locagames.core.fabricas.FabricaDeConexoes" />
+			<role name="Adapter" element="io.github.jass2125.locagames.core.repository.JogoDaoImpl" />
+			<role name="adaptee" element="io.github.jass2125.locagames.core.repository.JogoDaoImpl::fabricaConexao:io.github.jass2125.locagames.core.fabricas.FabricaDeConexoes" />
+			<role name="Request()" element="io.github.jass2125.locagames.core.repository.JogoDaoImpl::listaDeJogos():java.util.List" />
+			<role name="Request()" element="io.github.jass2125.locagames.core.repository.JogoDaoImpl::buscarPorId(java.lang.Long):io.github.jass2125.locagames.core.negocio.Jogo" />
+			<role name="Request()" element="io.github.jass2125.locagames.core.repository.JogoDaoImpl::editarEstado(java.lang.Long, java.lang.String):void" />
+			<role name="Request()" element="io.github.jass2125.locagames.core.repository.JogoDaoImpl::listaDeJogosLocadosDeUmUsuario(java.lang.String):java.util.List" />
+		</instance>
+		<instance>
+			<role name="Adaptee" element="io.github.jass2125.locagames.core.fabricas.FabricaDeConexoes" />
+			<role name="Adapter" element="io.github.jass2125.locagames.core.repository.ObserverDaoImpl" />
+			<role name="adaptee" element="io.github.jass2125.locagames.core.repository.ObserverDaoImpl::fabricaDeConexoes:io.github.jass2125.locagames.core.fabricas.FabricaDeConexoes" />
+			<role name="Request()" element="io.github.jass2125.locagames.core.repository.ObserverDaoImpl::adicionaObservador(java.lang.String, java.lang.Long):void" />
+			<role name="Request()" element="io.github.jass2125.locagames.core.repository.ObserverDaoImpl::getListaDeObservadores(java.lang.Long):java.util.Set" />
+			<role name="Request()" element="io.github.jass2125.locagames.core.repository.ObserverDaoImpl::deleteObservador(java.lang.Long):void" />
+		</instance>
+	</pattern>
+	<pattern name="Command" />
+	<pattern name="Composite" />
+	<pattern name="Decorator" />
+	<pattern name="Observer" />
+	<pattern name="State">
+		<instance>
+			<role name="Context" element="io.github.jass2125.locagames.core.commands.CarregaJogosCommand" />
+			<role name="State" element="io.github.jass2125.locagames.core.repository.JogoDao" />
+			<role name="state" element="io.github.jass2125.locagames.core.commands.CarregaJogosCommand::dao:io.github.jass2125.locagames.core.repository.JogoDao" />
+			<role name="Request()" element="io.github.jass2125.locagames.core.commands.CarregaJogosCommand::getListaGames():java.util.List" />
+		</instance>
+		<instance>
+			<role name="Context" element="io.github.jass2125.locagames.core.commands.CarregaJogosDeUmClienteCommand" />
+			<role name="State" element="io.github.jass2125.locagames.core.repository.JogoDao" />
+			<role name="state" element="io.github.jass2125.locagames.core.commands.CarregaJogosDeUmClienteCommand::dao:io.github.jass2125.locagames.core.repository.JogoDao" />
+			<role name="Request()" element="io.github.jass2125.locagames.core.commands.CarregaJogosDeUmClienteCommand::getListGamesAvailables(java.lang.String):java.util.List" />
+		</instance>
+		<instance>
+			<role name="Context" element="io.github.jass2125.locagames.core.commands.DevolucaoDeJogoCommand" />
+			<role name="State" element="io.github.jass2125.locagames.core.repository.JogoDao" />
+			<role name="state" element="io.github.jass2125.locagames.core.commands.DevolucaoDeJogoCommand::dao:io.github.jass2125.locagames.core.repository.JogoDao" />
+			<role name="Request()" element="io.github.jass2125.locagames.core.commands.DevolucaoDeJogoCommand::getJogoAlugado(java.lang.Long):io.github.jass2125.locagames.core.negocio.Jogo" />
+			<role name="Request()" element="io.github.jass2125.locagames.core.commands.DevolucaoDeJogoCommand::devolveJogo(java.lang.Long, java.lang.String):void" />
+		</instance>
+		<instance>
+			<role name="Context" element="io.github.jass2125.locagames.core.commands.LocacaoDeJogoCommand" />
+			<role name="State" element="io.github.jass2125.locagames.core.repository.JogoDao" />
+			<role name="state" element="io.github.jass2125.locagames.core.commands.LocacaoDeJogoCommand::daoJogo:io.github.jass2125.locagames.core.repository.JogoDao" />
+			<role name="Request()" element="io.github.jass2125.locagames.core.commands.LocacaoDeJogoCommand::getJogoAlugado(java.lang.Long):io.github.jass2125.locagames.core.negocio.Jogo" />
+			<role name="Request()" element="io.github.jass2125.locagames.core.commands.LocacaoDeJogoCommand::alterarEstadoDoJogo(java.lang.Long):void" />
+		</instance>
+		<instance>
+			<role name="Context" element="io.github.jass2125.locagames.core.commands.LocacaoDeJogoCommand" />
+			<role name="State" element="io.github.jass2125.locagames.core.repository.LocacaoDao" />
+			<role name="state" element="io.github.jass2125.locagames.core.commands.LocacaoDeJogoCommand::daoLocacao:io.github.jass2125.locagames.core.repository.LocacaoDao" />
+			<role name="Request()" element="io.github.jass2125.locagames.core.commands.LocacaoDeJogoCommand::buscarDataDeDevolucaoDoJogo(java.lang.Long):java.lang.String" />
+			<role name="Request()" element="io.github.jass2125.locagames.core.commands.LocacaoDeJogoCommand::registraLocacao(java.lang.Long, java.lang.String):void" />
+		</instance>
+		<instance>
+			<role name="Context" element="io.github.jass2125.locagames.core.commands.DevolucaoDeJogoCommand" />
+			<role name="State" element="io.github.jass2125.locagames.core.repository.ObserverDao" />
+			<role name="state" element="io.github.jass2125.locagames.core.commands.DevolucaoDeJogoCommand::daoObserver:io.github.jass2125.locagames.core.repository.ObserverDao" />
+			<role name="Request()" element="io.github.jass2125.locagames.core.commands.DevolucaoDeJogoCommand::removeObservers(java.lang.Long):void" />
+			<role name="Request()" element="io.github.jass2125.locagames.core.commands.DevolucaoDeJogoCommand::recuperarObservadoresDeUmJogo(java.lang.Long):java.util.Set" />
+		</instance>
+		<instance>
+			<role name="Context" element="io.github.jass2125.locagames.core.commands.LocacaoDeJogoCommand" />
+			<role name="State" element="io.github.jass2125.locagames.core.repository.ObserverDao" />
+			<role name="state" element="io.github.jass2125.locagames.core.commands.LocacaoDeJogoCommand::daoObservadores:io.github.jass2125.locagames.core.repository.ObserverDao" />
+			<role name="Request()" element="io.github.jass2125.locagames.core.commands.LocacaoDeJogoCommand::adicionaObservador(java.lang.Long, java.lang.String):void" />
+		</instance>
+		<instance>
+			<role name="Context" element="io.github.jass2125.locagames.core.excecoes.AplicacaoException" />
+			<role name="State" element="io.github.jass2125.locagames.core.excecoes.Erro" />
+			<role name="state" element="io.github.jass2125.locagames.core.excecoes.AplicacaoException::erro:io.github.jass2125.locagames.core.excecoes.Erro" />
+			<role name="Request()" element="io.github.jass2125.locagames.core.excecoes.AplicacaoException::printStackTrace(java.io.PrintWriter):void" />
+		</instance>
+		<instance>
+			<role name="Context" element="io.github.jass2125.locagames.core.excecoes.ArquivoNaoEncontradoException" />
+			<role name="State" element="io.github.jass2125.locagames.core.excecoes.Erro" />
+			<role name="state" element="io.github.jass2125.locagames.core.excecoes.ArquivoNaoEncontradoException::erro:io.github.jass2125.locagames.core.excecoes.Erro" />
+			<role name="Request()" element="io.github.jass2125.locagames.core.excecoes.ArquivoNaoEncontradoException::printStackTrace(java.io.PrintWriter):void" />
+		</instance>
+		<instance>
+			<role name="Context" element="io.github.jass2125.locagames.core.excecoes.ConexaoException" />
+			<role name="State" element="io.github.jass2125.locagames.core.excecoes.Erro" />
+			<role name="state" element="io.github.jass2125.locagames.core.excecoes.ConexaoException::erro:io.github.jass2125.locagames.core.excecoes.Erro" />
+			<role name="Request()" element="io.github.jass2125.locagames.core.excecoes.ConexaoException::printStackTrace(java.io.PrintWriter):void" />
+		</instance>
+		<instance>
+			<role name="Context" element="io.github.jass2125.locagames.core.excecoes.DadosInvalidosException" />
+			<role name="State" element="io.github.jass2125.locagames.core.excecoes.Erro" />
+			<role name="state" element="io.github.jass2125.locagames.core.excecoes.DadosInvalidosException::erro:io.github.jass2125.locagames.core.excecoes.Erro" />
+			<role name="Request()" element="io.github.jass2125.locagames.core.excecoes.DadosInvalidosException::printStackTrace(java.io.PrintWriter):void" />
+		</instance>
+		<instance>
+			<role name="Context" element="io.github.jass2125.locagames.core.excecoes.PersistenciaException" />
+			<role name="State" element="io.github.jass2125.locagames.core.excecoes.Erro" />
+			<role name="state" element="io.github.jass2125.locagames.core.excecoes.PersistenciaException::erro:io.github.jass2125.locagames.core.excecoes.Erro" />
+			<role name="Request()" element="io.github.jass2125.locagames.core.excecoes.PersistenciaException::printStackTrace(java.io.PrintWriter):void" />
+		</instance>
+		<instance>
+			<role name="Context" element="io.github.jass2125.locagames.core.commands.CadastroDeClienteCommand" />
+			<role name="State" element="io.github.jass2125.locagames.core.repository.ClienteDao" />
+			<role name="state" element="io.github.jass2125.locagames.core.commands.CadastroDeClienteCommand::dao:io.github.jass2125.locagames.core.repository.ClienteDao" />
+			<role name="Request()" element="io.github.jass2125.locagames.core.commands.CadastroDeClienteCommand::cadastrarNovoCliente(io.github.jass2125.locagames.core.negocio.Cliente):io.github.jass2125.locagames.core.negocio.Cliente" />
+		</instance>
+		<instance>
+			<role name="Context" element="io.github.jass2125.locagames.core.commands.LoginClienteCommand" />
+			<role name="State" element="io.github.jass2125.locagames.core.repository.ClienteDao" />
+			<role name="state" element="io.github.jass2125.locagames.core.commands.LoginClienteCommand::clienteDao:io.github.jass2125.locagames.core.repository.ClienteDao" />
+			<role name="Request()" element="io.github.jass2125.locagames.core.commands.LoginClienteCommand::buscaCliente(java.lang.String, java.lang.String):io.github.jass2125.locagames.core.negocio.Cliente" />
+		</instance>
+		<instance>
+			<role name="Context" element="io.github.jass2125.locagames.core.negocio.Jogo" />
+			<role name="State" element="io.github.jass2125.locagames.core.state.State" />
+			<role name="state" element="io.github.jass2125.locagames.core.negocio.Jogo::estado:io.github.jass2125.locagames.core.state.State" />
+			<role name="Request()" element="io.github.jass2125.locagames.core.negocio.Jogo::devolution():io.github.jass2125.locagames.core.state.State" />
+			<role name="Request()" element="io.github.jass2125.locagames.core.negocio.Jogo::location():io.github.jass2125.locagames.core.state.State" />
+		</instance>
+	</pattern>
+	<pattern name="Strategy">
+		<instance>
+			<role name="Strategy" element="io.github.jass2125.locagames.core.strategy.CalculadoraDeLocacaoStrategy" />
+			<role name="Context" element="io.github.jass2125.locagames.core.negocio.Locacao" />
+			<role name="strategy" element="io.github.jass2125.locagames.core.negocio.Locacao::strategy:io.github.jass2125.locagames.core.strategy.CalculadoraDeLocacaoStrategy" />
+			<role name="ContextInterface()" element="io.github.jass2125.locagames.core.negocio.Locacao::calculateValueLocation():java.math.BigDecimal" />
+		</instance>
+	</pattern>
+	<pattern name="Bridge" />
+	<pattern name="Template Method" />
+	<pattern name="Visitor" />
+	<pattern name="Proxy" />
+	<pattern name="Proxy2" />
+	<pattern name="Chain of Responsibility" />
+</system>
+

@@ -8,6 +8,7 @@ package io.github.jass2125.locagames.core.commands;
 import io.github.jass2125.locagames.core.negocio.Jogo;
 import io.github.jass2125.locagames.core.negocio.Locacao;
 import io.github.jass2125.locagames.core.negocio.Cliente;
+import io.github.jass2125.locagames.core.observer.Observable;
 import io.github.jass2125.locagames.core.repository.JogoDao;
 import io.github.jass2125.locagames.core.repository.JogoDaoImpl;
 import io.github.jass2125.locagames.core.repository.LocacaoDaoImpl;
