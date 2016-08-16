@@ -20,9 +20,9 @@ import java.util.Properties;
  */
 public class FabricaDeConexoes {
 
-    private String url = "jdbc:postgresql://localhost:5432/locagames";
-    private String usuario = "postgres";
-    private String senha = "123";
+    private String url = "postgres://qlcgtblnwqjygl:7B-fnnqjFD5O_3GeOJMrPveCMO@ec2-54-235-183-28.compute-1.amazonaws.com:5432/d70f3qd66okfrq";
+    private String usuario = "qlcgtblnwqjygl";
+    private String senha = "7B-fnnqjFD5O_3GeOJMrPveCMO";
     private String driver = "org.postgresql.Driver";
     private Properties properties;
 
@@ -50,8 +50,8 @@ public class FabricaDeConexoes {
     }
 
     private FabricaDeConexoes inicializaParametrosDoBanco() {
-        this.url = "jdbc:postgresql://localhost:5432/locagames";
-        this.usuario = "postgres";
+        this.url = "postgres://qlcgtblnwqjygl:7B-fnnqjFD5O_3GeOJMrPveCMO@ec2-54-235-183-28.compute-1.amazonaws.com:5432/d70f3qd66okfrq";
+        this.usuario = "qlcgtblnwqjygl";
         this.senha = "123";
         this.driver = "org.postgresql.Driver";
         return this;
