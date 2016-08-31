@@ -22,8 +22,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Anderson Souza
  */
-@WebFilter(filterName = "filterUserLogon", urlPatterns = {"/funcionario/*"})
-public class AuthorizationFilter implements Filter {
+@WebFilter(filterName = "filterUsuarioLogado", urlPatterns = {"/funcionario/*"})
+public class AutorizacaoFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -38,10 +38,10 @@ public class AuthorizationFilter implements Filter {
 
         String path = req.getContextPath();
 
-        Cliente user = (Cliente) session.getAttribute("user");
+        Cliente user = (Cliente) session.getAttribute("usuarioLogado");
         //System.out.println(user.toString());
         if (user == null) {
-            session.setAttribute("error", "Realize o login");
+            session.setAttribute("erro", "Realize o login");
             resp.sendRedirect(path + "/home.jsp");
         }
     }

@@ -12,7 +12,7 @@
     <body>
         <%@include file="header.jsp" %>
         <div class="dj-modal__section">
-            <c:if test="${sessionScope.user == null}">
+            <c:if test="${sessionScope.usuarioLogado == null}">
                 <button data-toggle="modal" data-target="#modal" class="btn btn-info btn-sm">Identifique o cliente</button>
                 <div class="text-right">
                     
@@ -37,13 +37,13 @@
                         </tr>
                     </thead>
                     <tbody id="table">
-                        <c:forEach items="${sessionScope.listLocations}" var="jogo">
+                        <c:forEach items="${sessionScope.listaDeLocacoes}" var="jogo">
                             <tr>
                                 <td>${jogo.idDoJogo}</td>
                                 <td>${jogo.nomeDoJogo}</td>
                                 <td>${jogo.genero}</td>
                                 <c:choose>
-                                    <c:when test="${sessionScope.user != null}">
+                                    <c:when test="${sessionScope.usuarioLogado != null}">
                                         <td><a href="../front?command=devolverJogo&idDoJogo=${jogo.idDoJogo}">Devolver</a></td>
                                     </c:when>
                                     <c:otherwise>

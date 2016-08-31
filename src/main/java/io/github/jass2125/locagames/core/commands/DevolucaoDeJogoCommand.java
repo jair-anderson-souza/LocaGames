@@ -13,7 +13,7 @@ import io.github.jass2125.locagames.core.repository.JogoDaoImpl;
 import io.github.jass2125.locagames.core.repository.LocacaoDaoImpl;
 import io.github.jass2125.locagames.core.repository.ObserverDaoImpl;
 import io.github.jass2125.locagames.core.observer.Observer;
-import io.github.jass2125.locagames.core.state.GameState;
+import io.github.jass2125.locagames.core.state.JogoState;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.Set;
@@ -22,8 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.mail.EmailException;
 import io.github.jass2125.locagames.core.repository.ObserverDao;
 import io.github.jass2125.locagames.core.strategy.CalculadoraDeLocacaoStrategy;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import io.github.jass2125.locagames.core.utilitarios.SessaoUtil;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -64,16 +63,16 @@ public class DevolucaoDeJogoCommand implements Command {
                 jogo.notificarObservadores();
             } catch (EmailException ex) {
             }
-
-            request.getSession().setAttribute("price", valorDoAluguel);
-            request.getSession().setAttribute("success", "Jogo devolvido com sucesso");
-
+            SessaoUtil.limpaSessao(session);
+            request.getSession().setAttribute("preco", valorDoAluguel);
+            request.getSession().setAttribute("sucesso", "Jogo devolvido com sucesso");
+            
             removeObservers(idDoJogo);
 
             return "funcionario/home.jsp";
         }
-
-        request.getSession().setAttribute("error", "Você não alugou este jogo!");
+        SessaoUtil.limpaSessao(session);
+        request.getSession().setAttribute("erro", "Você não alugou este jogo!");
         return "funcionario/home.jsp";
     }
     /**
@@ -81,7 +80,7 @@ public class DevolucaoDeJogoCommand implements Command {
      * @return {@link Cliente} Cliente
      */
     public Cliente getCpfDoClienteDaSessao() {
-        return ((Cliente) session.getAttribute("user"));
+        return ((Cliente) session.getAttribute("usuarioLogado"));
     }
 
     /**
@@ -93,7 +92,7 @@ public class DevolucaoDeJogoCommand implements Command {
     private Jogo getJogoAlugado(Long idDoJogo) {
         dao = new JogoDaoImpl();
         Jogo game = dao.buscarPorId(idDoJogo);
-        return (game.getEstado().equals(GameState.RENT) ? game : null);
+        return (game.getEstado().equals(JogoState.ALUGADO) ? game : null);
     }
 
     /**
@@ -127,7 +126,7 @@ public class DevolucaoDeJogoCommand implements Command {
      */
     private void devolveJogo(Long idDoJogod, String estado) {
         dao = new JogoDaoImpl();
-        dao.editarEstado(idDoJogod, GameState.AVAILABLE.name());
+        dao.editarEstado(idDoJogod, JogoState.DISPONIVEL.name());
     }
 
     /**

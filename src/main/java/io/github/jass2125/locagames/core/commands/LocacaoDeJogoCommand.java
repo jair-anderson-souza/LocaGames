@@ -12,7 +12,7 @@ import io.github.jass2125.locagames.core.repository.JogoDao;
 import io.github.jass2125.locagames.core.repository.JogoDaoImpl;
 import io.github.jass2125.locagames.core.repository.LocacaoDaoImpl;
 import io.github.jass2125.locagames.core.utilitarios.ConvertDate;
-import io.github.jass2125.locagames.core.state.GameState;
+import io.github.jass2125.locagames.core.state.JogoState;
 import io.github.jass2125.locagames.core.strategy.CalculadoraDeLocacaoComumStrategy;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -24,6 +24,7 @@ import io.github.jass2125.locagames.core.repository.ObserverDao;
 import io.github.jass2125.locagames.core.repository.ObserverDaoImpl;
 import io.github.jass2125.locagames.core.strategy.CalculadoraDeLocacaoEspecialStrategy;
 import io.github.jass2125.locagames.core.strategy.CalculadoraDeLocacaoStrategy;
+import io.github.jass2125.locagames.core.utilitarios.SessaoUtil;
 
 /**
  * @author Anderson Souza
@@ -50,19 +51,22 @@ public class LocacaoDeJogoCommand implements Command {
         Jogo jogo = getJogoAlugado(idDoJogo);
         if (jogo != null) {
             registraLocacao(idDoJogo, cliente.getCpf());
-            request.getSession().setAttribute("success", "Jogo locado com sucesso");
+            SessaoUtil.limpaSessao(session);
+            request.getSession().setAttribute("sucesso", "Jogo locado com sucesso");
             return "funcionario/home.jsp";
         }
 
         String dataDeEntrega = buscarDataDeDevolucaoDoJogo(idDoJogo);
         adicionarObservador(idDoJogo, cliente);
-
+        SessaoUtil.limpaSessao(session);
         request.getSession().setAttribute("info", dataDeEntrega);
-        request.getSession().setAttribute("error", "Jogo já esta alugado");
+        request.getSession().setAttribute("erro", "Jogo já esta alugado");
         return "funcionario/home.jsp";
     }
+
     /**
      * Método que busca o dia da devolução do jogo
+     *
      * @param idDoJogo {@link Long} Identificador do jogo
      * @return {@link String} Data de Devolução
      */
@@ -71,27 +75,30 @@ public class LocacaoDeJogoCommand implements Command {
         Locacao locacao = daoLocacao.buscarLocacaoPorId(idDoJogo);
         return this.getDataDeDevolucaoDoJogo(locacao);
     }
+
     /**
      * Método que adiciona um observador ao jogo
+     *
      * @param idDoJogo {@link Long} Identificador do jogo
      * @param cliente {@link Cliente}
      */
-    
     public void adicionarObservador(Long idDoJogo, Cliente cliente) {
         daoObservadores = new ObserverDaoImpl();
         this.adicionaObservador(idDoJogo, cliente.getCpf());
     }
-    
+
     /**
      * Método que retorna o cliente da sessão
+     *
      * @return {@link Cliente} Cliente
      */
     public Cliente getClienteDaSessao() {
-        return (Cliente) session.getAttribute("user");
+        return (Cliente) session.getAttribute("usuarioLogado");
     }
-    
+
     /**
      * Método que retorna o id do jogo
+     *
      * @param request {@link HttpServletRequest} Requisição HTTP
      * @return {@link Long} Long
      */
@@ -122,26 +129,28 @@ public class LocacaoDeJogoCommand implements Command {
      *
      * @return {@link CalculadoraDeLocacaoStrategy}
      */
-
     public CalculadoraDeLocacaoStrategy recuperaTipoDeLocacao() {
         if (calcularDataDeDevolucao().equals(calcularDataDeDevolucao().plusDays(2))) {
             return new CalculadoraDeLocacaoEspecialStrategy();
         }
         return new CalculadoraDeLocacaoComumStrategy();
     }
+
     /**
      * Método que que informa se o jogo tá alugado
+     *
      * @param idDoJogo Identificador do {@link Jogo}
      * @return {@link Jogo} Jogo
      */
     private Jogo getJogoAlugado(Long idDoJogo) {
         daoJogo = new JogoDaoImpl();
         Jogo jogo = daoJogo.buscarPorId(idDoJogo);
-        return (jogo.getEstado().equals(GameState.AVAILABLE) ? jogo : null);
+        return (jogo.getEstado().equals(JogoState.DISPONIVEL) ? jogo : null);
     }
 
     /**
      * Método que calcula a data de devolução do jogo
+     *
      * @return {@link LocalDate} LocaDate
      */
     private LocalDate calcularDataDeDevolucao() {
@@ -168,7 +177,7 @@ public class LocacaoDeJogoCommand implements Command {
      * @param idDoJogo Atributo identificador do Jogo
      */
     private void alterarEstadoDoJogo(Long idDoJogo) {
-        daoJogo.editarEstado(idDoJogo, GameState.RENT.name());
+        daoJogo.editarEstado(idDoJogo, JogoState.ALUGADO.name());
     }
 
 }

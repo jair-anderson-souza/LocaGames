@@ -9,6 +9,7 @@ import io.github.jass2125.locagames.core.excecoes.DadosInvalidosException;
 import io.github.jass2125.locagames.core.negocio.Cliente;
 import io.github.jass2125.locagames.core.repository.ClienteDao;
 import io.github.jass2125.locagames.core.repository.ClienteDaoImpl;
+import io.github.jass2125.locagames.core.utilitarios.SessaoUtil;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -38,14 +39,18 @@ public class CadastroDeClienteCommand implements Command {
         if (validaCpf(cliente.getCpf())) {
             try {
                 cadastrarNovoCliente(cliente);
-                request.getSession().setAttribute("user", cliente);
+                SessaoUtil.limpaSessao(request.getSession());
+                request.getSession().setAttribute("usuarioLogado", cliente);
+                request.getSession().setAttribute("sucesso", "Cadastro efetuado com sucesso");
                 return "funcionario/home.jsp";
             } catch (DadosInvalidosException e) {
-                request.getSession().setAttribute("error", "Esse CPF já consta nos nossos registros.");
+                SessaoUtil.limpaSessao(request.getSession());
+                request.getSession().setAttribute("erro", "Esse CPF já consta nos nossos registros.");
                 return "home.jsp";
             }
         } else {
-            request.getSession().setAttribute("error", "Padrao de CPF: xxx.xxx.xxx-xx");
+            SessaoUtil.limpaSessao(request.getSession());
+            request.getSession().setAttribute("erro", "Padrao de CPF: xxx.xxx.xxx-xx");
             return "home.jsp";
         }
     }
@@ -57,15 +62,21 @@ public class CadastroDeClienteCommand implements Command {
      * @return {@link Cliente} Cliente
      */
     public Cliente getDadosDoCliente(HttpServletRequest request) {
-        String name = request.getParameter("name");
+        String name = request.getParameter("nome");
         String cpf = request.getParameter("cpf");
         String email = request.getParameter("email");
         return new Cliente(name, email, cpf);
     }
 
-    
-    public boolean validaCpf(String cpf) {
-        
+    /**
+     * método que valida o formato do CPF
+     *
+     * @param cpf Cpf informado pelo usuário
+     * @return boolean True caso atenda o formato esperado - false caso não
+     * atenda
+     */
+    private boolean validaCpf(String cpf) {
+
         String regex = "(\\d{3})[.](\\d{3})[.](\\d{3})-(\\d{2})";
         boolean verification = cpf.matches(regex);
         return verification;

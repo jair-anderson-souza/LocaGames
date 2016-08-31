@@ -16,9 +16,9 @@
         <div class="dj-modal__section">
             <div class="dj-titulo__left">
                 <c:choose>
-                    <c:when test="${sessionScope.success != null}">
+                    <c:when test="${sessionScope.sucesso != null}">
                         <div class="alert alert-success">
-                            <strong>Sucesso</strong> ${sessionScope.success}
+                            <strong>Sucesso</strong> ${sessionScope.sucesso}
                         </div>
                     </c:when>
                     <c:when test="${sessionScope.info != null}">
@@ -27,15 +27,15 @@
                             ${sessionScope.info}
                         </div>
                     </c:when>
-                    <c:when test="${sessionScope.error != null}">
+                    <c:when test="${sessionScope.erro != null}">
                         <div class="alert alert-danger">
-                            <strong>Falha</strong> ${sessionScope.error}
+                            <strong>Falha</strong> ${sessionScope.erro}
                         </div>
                     </c:when>
                 </c:choose>
 
             </div>
-            <c:if test="${sessionScope.user == null}">
+            <c:if test="${sessionScope.usuarioLogado == null}">
                 <button data-toggle="modal" data-target="#modal" class="btn btn-info btn-sm">Identifique o cliente</button>
                 <div class="text-right">
 
@@ -77,8 +77,8 @@
             </div>
 
         </div>
-        <c:remove scope="session" var="success"></c:remove>
-        <c:remove scope="session" var="error"></c:remove>
+        <c:remove scope="session" var="sucesso"></c:remove>
+        <c:remove scope="session" var="erro"></c:remove>
         <c:remove var="success" scope="session" />
         <c:remove scope="session" var="info"></c:remove>
     </body>

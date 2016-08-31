@@ -17,7 +17,7 @@ import java.util.Map;
 public class PersistenciaException extends RuntimeException {
 
     private Erro erro;
-    private Map<String, String> map = new HashMap<>();
+    private Map<Integer, String> map = new HashMap<>();
 
     public PersistenciaException() {
     }
@@ -51,7 +51,7 @@ public class PersistenciaException extends RuntimeException {
         this.erro = erro;
     }
 
-    public PersistenciaException inserirMensagemDeErro(String chave, String valor) {
+    public PersistenciaException inserirMensagemDeErro(Integer chave, String valor) {
         this.map.put(chave, valor);
         return this;
     }

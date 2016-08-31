@@ -14,8 +14,8 @@ import java.sql.SQLException;
  */
 public interface State {
 
-    public State rentedGame() throws SQLException, ClassNotFoundException, GameException;
+    public State jogoAlugado() throws SQLException, ClassNotFoundException, GameException;
 
-    public State availableGame()throws SQLException, ClassNotFoundException, GameException;
+    public State jogoDisponivel()throws SQLException, ClassNotFoundException, GameException;
 
 }

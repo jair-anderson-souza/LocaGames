@@ -5,6 +5,7 @@
  */
 package io.github.jass2125.locagames.core.repository;
 
+import io.github.jass2125.locagames.core.enums.ExcecoesEnum;
 import io.github.jass2125.locagames.core.negocio.Cliente;
 import io.github.jass2125.locagames.core.fabricas.FabricaDeConexoes;
 import io.github.jass2125.locagames.core.excecoes.PersistenciaException;
@@ -38,7 +39,8 @@ public class ObserverDaoImpl implements ObserverDao<Observer> {
                 preparedStatement.execute();
             }
         } catch (SQLException e) {
-            throw new PersistenciaException();
+            throw new PersistenciaException(ExcecoesEnum.ERRO_NA_CONSULTA).
+                    inserirMensagemDeErro(12, "Verifique seus dados e tente novamente!!!");
         }
     }
 
@@ -62,8 +64,8 @@ public class ObserverDaoImpl implements ObserverDao<Observer> {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new PersistenciaException();
+            throw new PersistenciaException(ExcecoesEnum.ERRO_NA_CONSULTA).
+                    inserirMensagemDeErro(13, "Verifique seus dados e tente novamente!!!");
         }
         return listaDeObservadores;
     }
@@ -77,8 +79,8 @@ public class ObserverDaoImpl implements ObserverDao<Observer> {
                 preparedStatement.execute();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new PersistenciaException();
+            throw new PersistenciaException(ExcecoesEnum.ERRO_NA_CONSULTA).
+                    inserirMensagemDeErro(14, "Verifique seus dados e tente novamente!!!");
         }
     }
 

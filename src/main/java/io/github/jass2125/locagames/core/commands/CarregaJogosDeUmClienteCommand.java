@@ -9,8 +9,7 @@ import io.github.jass2125.locagames.core.negocio.Cliente;
 import io.github.jass2125.locagames.core.negocio.Jogo;
 import io.github.jass2125.locagames.core.repository.JogoDao;
 import io.github.jass2125.locagames.core.repository.JogoDaoImpl;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import io.github.jass2125.locagames.core.utilitarios.SessaoUtil;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,15 +33,17 @@ public class CarregaJogosDeUmClienteCommand implements Command {
         Cliente cliente = getSessionUser();
 
         if (cliente != null) {
-            request.getSession().setAttribute("listLocations", getListGamesAvailables(cliente.getCpf()));
+            SessaoUtil.limpaSessao(session);
+            request.getSession().setAttribute("listaDeLocacoes", getListGamesAvailables(cliente.getCpf()));
             return "funcionario/devolver.jsp";
         }
-        request.getSession().setAttribute("error", "Faça o login/cadastro!");
+        SessaoUtil.limpaSessao(session);
+        request.getSession().setAttribute("erro", "Faça o login/cadastro!");
         return "home.jsp";
     }
 
     public Cliente getSessionUser() {
-        return (Cliente) session.getAttribute("user");
+        return (Cliente) session.getAttribute("usuarioLogado");
     }
 
     public List<Jogo> getListGamesAvailables(String cpf) {

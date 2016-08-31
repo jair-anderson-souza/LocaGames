@@ -34,6 +34,7 @@ public class ClienteDaoImpl implements ClienteDao {
      *
      * @param cliente Objeto {@link Cliente} que será armazenado
      * @return {@link Cliente} Cliente
+     * @throws io.github.jass2125.locagames.core.excecoes.DadosInvalidosException
      * @throws PersistenciaException Exceção lançada quando a aplicação tentar
      * estabelecer comunicação com o banco de dados
      * <br>Ver - {@link FabricaDeConexoes#getConexao()}
@@ -50,10 +51,12 @@ public class ClienteDaoImpl implements ClienteDao {
             }
             return cliente;
         } catch (SQLException e) {
-            throw new DadosInvalidosException(e, "Ops, ocorreu um erro.!!");
+            throw new DadosInvalidosException(ExcecoesEnum.ERRO_NA_CONSULTA)
+                    .inserirMensagemDeErro(1, "Verifique seus dados e tente novamente!!!");
         }
     }
 
+    @Override
     public List<Cliente> buscarPorCpf(String cpf) throws SQLException, ClassNotFoundException {
         List<Cliente> listObservers = null;
         try (Connection conexao = fabricaDeConexao.getConexao()) {
@@ -66,13 +69,14 @@ public class ClienteDaoImpl implements ClienteDao {
                     while (rs.next()) {
                         String nome = rs.getString("nome");
                         String email = rs.getString("email");
-                        String cpf2 = rs.getString("cpf");
                         user = new Cliente(nome, cpf, email);
                         listObservers.add(user);
                     }
                 }
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            throw new PersistenciaException(ExcecoesEnum.ERRO_NA_CONSULTA)
+                    .inserirMensagemDeErro(2, "Verifique seus dados e tente novamente!!!");
         }
         return listObservers;
     }
@@ -85,6 +89,7 @@ public class ClienteDaoImpl implements ClienteDao {
      * @return {@link Cliente} Cliente de tretorno
      * @throws PersistenciaException Exceção lançada
      */
+    @Override
     public Cliente buscarPorCpfEEmail(String cpf, String email) throws PersistenciaException {
         try (Connection connection = fabricaDeConexao.getConexao()) {
             String sql = "select * from cliente where cpf = ? and email = ?;";
@@ -100,8 +105,7 @@ public class ClienteDaoImpl implements ClienteDao {
             }
         } catch (SQLException e) {
             throw new PersistenciaException(ExcecoesEnum.ERRO_NA_CONSULTA)
-                    //aqui pode ficar o log, sendo uma atributo na exceção
-                    .inserirMensagemDeErro("Mensagem de Erro: ", "Não foi possível realizar uma consulta no seu banco de dados.");
+                    .inserirMensagemDeErro(3, "Verifique seus dados e tente novamente!!!");
         }
         return null;
     }

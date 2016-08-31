@@ -12,10 +12,10 @@ import java.util.Set;
 /**
  *
  * @author Anderson Souza
- * @param T Parametro qq
+ * @param <T>
  */
 public interface ObserverDao<T> {
-    //FUNCIONANDO
+
     public void adicionaObservador(String cpf, Long idGame) throws PersistenciaException;
 
     public Set<Observer> getListaDeObservadores(Long idGame) throws PersistenciaException;

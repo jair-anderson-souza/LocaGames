@@ -17,7 +17,7 @@ import java.util.Map;
 public class DadosInvalidosException extends Exception {
 
     private Erro erro;
-    private Map<String, String> map = new HashMap<>();
+    private Map<Integer, String> map = new HashMap<>();
 
     public DadosInvalidosException() {
     }
@@ -51,7 +51,7 @@ public class DadosInvalidosException extends Exception {
         this.erro = erro;
     }
 
-    public DadosInvalidosException inserirMensagemDeErro(String chave, String valor) {
+    public DadosInvalidosException inserirMensagemDeErro(Integer chave, String valor) {
         this.map.put(chave, valor);
         return this;
     }

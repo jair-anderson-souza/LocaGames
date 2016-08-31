@@ -16,9 +16,9 @@ import java.util.List;
 public interface JogoDao {
 
     public List<Jogo> listaDeJogos() throws PersistenciaException;
-    //FUNCIONANDO
+
     public Jogo buscarPorId(Long idGame) throws PersistenciaException;
-    //FUNCIONANDO
+
     public void editarEstado(Long idGame, String state) throws PersistenciaException;
 
     public List<Jogo> listaDeJogosLocadosDeUmUsuario(String cpf) throws PersistenciaException;

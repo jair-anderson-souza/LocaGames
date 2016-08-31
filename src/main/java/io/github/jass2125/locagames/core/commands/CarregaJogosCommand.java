@@ -8,6 +8,7 @@ package io.github.jass2125.locagames.core.commands;
 import io.github.jass2125.locagames.core.negocio.Jogo;
 import io.github.jass2125.locagames.core.repository.JogoDao;
 import io.github.jass2125.locagames.core.repository.JogoDaoImpl;
+import io.github.jass2125.locagames.core.utilitarios.SessaoUtil;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  * @version 1.0
  */
 public class CarregaJogosCommand implements Command {
+
     private JogoDao dao;
 
     public CarregaJogosCommand() {
@@ -32,15 +34,17 @@ public class CarregaJogosCommand implements Command {
      */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        request.getSession().setAttribute("listGames", getListaGames());
+        SessaoUtil.limpaSessao(request.getSession());
+        request.getSession().setAttribute("listaDeJogos", getListaDeJogos());
         return "funcionario/alugar.jsp";
     }
 
     /**
      * Recupera a lista com todos os jogos cadastrados
+     *
      * @return {@link List} com todos jogos da aplicação
      */
-    public List<Jogo> getListaGames() {
+    public List<Jogo> getListaDeJogos() {
         dao = new JogoDaoImpl();
         return dao.listaDeJogos();
     }

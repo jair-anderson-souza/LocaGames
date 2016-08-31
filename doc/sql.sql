@@ -1,7 +1,3 @@
-drop table observadores;
-drop table locacao;
-drop table jogo;
-drop table cliente;
 create table if not exists cliente(
     nome varchar(50) not null,
     email varchar(50) not null unique,
@@ -37,5 +33,7 @@ create table if not exists observadores(
     primary key(idDoObservador)
 );
 insert into cliente values('Root', 'root@hotmail.com','123');
-
+insert into cliente values('Jair', 'jair@hotmail.com','12345');
+insert into jogo values(1, 'Mario', 'Aventura', 'ALUGADO');
+insert into locacao values(1, '12345', 1, '2016-08-30', '2016-08-31','ESPECIAL');
 

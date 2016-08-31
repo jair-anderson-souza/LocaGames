@@ -29,6 +29,7 @@ public class LocacaoDaoImpl implements LocacaoDao {
         fabricaDeConexoes = new FabricaDeConexoes();
     }
 
+    @Override
     public void salvar(Locacao locacao) throws PersistenciaException {
         try (Connection connection = fabricaDeConexoes.getConexao()) {
             String sql = "insert into locacao(idDoCliente, idDoJogo, dataDaLocacao, dataDeDevolucao, estrategia) values(?, ?, ? ,?, ?);";
@@ -41,17 +42,17 @@ public class LocacaoDaoImpl implements LocacaoDao {
                 preparedStatement.execute();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new PersistenciaException(ExcecoesEnum.ERRO_NA_CONSULTA)
-                    //aqui pode ficar o log, sendo uma atributo na exceção
-                    .inserirMensagemDeErro("Mensagem de Erro: ", "Não foi possível realizar uma locação.");
+            throw new PersistenciaException(ExcecoesEnum.ERRO_NA_CONSULTA).
+                    inserirMensagemDeErro(8, "Verifique seus dados e tente novamente!!!");
         }
     }
 
+    @Override
+    @Deprecated
     public List<Locacao> listarlocacoes() throws PersistenciaException {
         List<Locacao> listGames;
         try (Connection connection = fabricaDeConexoes.getConexao()) {
-            String sql = "select * from location where location.idGame in();";
+            String sql = "select * from locacao where locacao.idJogo in();";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 try (ResultSet resulSet = preparedStatement.executeQuery()) {
                     listGames = new ArrayList<>();
@@ -69,14 +70,16 @@ public class LocacaoDaoImpl implements LocacaoDao {
                 }
             }
         } catch (SQLException e) {
-            throw new PersistenciaException();
+            throw new PersistenciaException(ExcecoesEnum.ERRO_NA_CONSULTA).
+                    inserirMensagemDeErro(9, "Verifique seus dados e tente novamente!!!");
         }
         return listGames;
     }
 
+    @Override
     public Locacao buscarLocacaoPorUsuario(String cpf, Long idGame) throws PersistenciaException {
         try (Connection connection = fabricaDeConexoes.getConexao()) {
-            String sql = "select l.idDaLocacao, l.idDoCliente, l.dataDaLocacao, l.dataDedevolucao, l.estrategia from locacao as l join jogo as j on l.idDoJogo = j.idDoJogo where l.idDoCliente = ? and j.idDoJogo = ? and j.estado = 'RENT';";
+            String sql = "select l.idDaLocacao, l.idDoCliente, l.dataDaLocacao, l.dataDedevolucao, l.estrategia from locacao as l join jogo as j on l.idDoJogo = j.idDoJogo where l.idDoCliente = ? and j.idDoJogo = ? and j.estado = 'ALUGADO';";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setString(1, cpf);
                 preparedStatement.setLong(2, idGame);
@@ -92,24 +95,24 @@ public class LocacaoDaoImpl implements LocacaoDao {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new PersistenciaException();
+            throw new PersistenciaException(ExcecoesEnum.ERRO_NA_CONSULTA).
+                    inserirMensagemDeErro(10, "Verifique seus dados e tente novamente!!!");
         }
         return null;
 
     }
 
+    @Override
     public Locacao buscarLocacaoPorId(Long idDoJogo) throws PersistenciaException {
         try (Connection connection = fabricaDeConexoes.getConexao()) {
-            
-            String sql = "select * from locacao inner join jogo on locacao.idDoJogo = jogo.idDoJogo where jogo.estado = 'RENT' and locacao.idDoJogo = ?;";
+
+            String sql = "select * from locacao inner join jogo on locacao.idDoJogo = jogo.idDoJogo where jogo.estado = 'ALUGADO' and locacao.idDoJogo = ?;";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setLong(1, idDoJogo);
                 try (ResultSet rs = preparedStatement.executeQuery()) {
                     if (rs.next()) {
                         Long idDaLocacao = rs.getLong("idDaLocacao");
                         String idUser = rs.getString("idDoCliente");
-//            String idGame = rs.getString("idGame");
                         LocalDate dateLocation = rs.getDate("dataDaLocacao").toLocalDate();
                         LocalDate dateDevolution = rs.getDate("dataDeDevolucao").toLocalDate();
                         String strategy = rs.getString("estrategia");
@@ -118,8 +121,8 @@ public class LocacaoDaoImpl implements LocacaoDao {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new PersistenciaException();
+            throw new PersistenciaException(ExcecoesEnum.ERRO_NA_CONSULTA).
+                    inserirMensagemDeErro(11, "Verifique seus dados e tente novamente!!!");
         }
         return null;
 

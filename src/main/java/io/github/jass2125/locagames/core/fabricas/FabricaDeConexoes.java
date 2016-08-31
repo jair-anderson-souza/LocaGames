@@ -22,7 +22,7 @@ public class FabricaDeConexoes {
 
     private String url = "jdbc:postgresql://localhost:5432/locagames";
     private String usuario = "postgres";
-    private String senha = "123";
+    private String senha = "123456";
     private String driver = "org.postgresql.Driver";
     private Properties properties;
 
@@ -52,7 +52,7 @@ public class FabricaDeConexoes {
     private FabricaDeConexoes inicializaParametrosDoBanco() {
         this.url = "jdbc:postgresql://localhost:5432/locagames";
         this.usuario = "postgres";
-        this.senha = "123";
+        this.senha = "123456";
         this.driver = "org.postgresql.Driver";
         return this;
     }

@@ -13,32 +13,31 @@ import java.sql.SQLException;
  * @author Anderson Souza
  * @since 12:25:19, 24-Feb-2016
  */
-public enum GameState implements State {
-    AVAILABLE{
-
+public enum JogoState implements State {
+    DISPONIVEL{
         @Override
-        public State rentedGame() throws SQLException, ClassNotFoundException, GameException {
-            return RENT;
+        public State jogoAlugado() throws SQLException, ClassNotFoundException, GameException {
+            return ALUGADO;
         }
 
         @Override
-        public State availableGame() throws SQLException, ClassNotFoundException, GameException {
+        public State jogoDisponivel() throws SQLException, ClassNotFoundException, GameException {
             throw new GameException("O jogo está disponivel!!");
         }
 
         
         
     },
-    RENT{
+    ALUGADO{
 
         @Override
-        public State rentedGame() throws SQLException, ClassNotFoundException, GameException {
+        public State jogoAlugado() throws SQLException, ClassNotFoundException, GameException {
                 throw new GameException("O jogo está alugado!!");
         }
 
         @Override
-        public State availableGame() throws SQLException, ClassNotFoundException, GameException {
-            return AVAILABLE;
+        public State jogoDisponivel() throws SQLException, ClassNotFoundException, GameException {
+            return DISPONIVEL;
         }
     }
     

@@ -25,13 +25,13 @@ public class LogoutCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession(false);
-        session.removeAttribute("user");
-        session.removeAttribute("success");
-        session.removeAttribute("listGames");
-        session.removeAttribute("listLocations");
-        session.removeAttribute("price");
+        session.removeAttribute("usuarioLocado");
+        session.removeAttribute("sucesso");
+        session.removeAttribute("listaDeJogos");
+        session.removeAttribute("listaDeLocacoes");
+        session.removeAttribute("preco");
         session.removeAttribute("info");
-        session.removeAttribute("error");
+        session.removeAttribute("erro");
         session.invalidate();
         return "home.jsp";
     }

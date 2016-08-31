@@ -55,8 +55,7 @@ public class JogoDaoImpl implements JogoDao {
             }
         } catch (SQLException e) {
             throw new PersistenciaException(ExcecoesEnum.ERRO_NA_CONSULTA)
-                    //aqui pode ficar o log, sendo uma atributo na exceção
-                    .inserirMensagemDeErro("Mensagem de Erro: ", "Não foi possível realizar uma consulta no seu banco de dados.");
+                    .inserirMensagemDeErro(4, "Verifique seus dados e tente novamente!!!");
         }
         return listaDeJogos;
 
@@ -85,8 +84,8 @@ public class JogoDaoImpl implements JogoDao {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new PersistenciaException();
+            throw new PersistenciaException(ExcecoesEnum.ERRO_NA_CONSULTA)
+                    .inserirMensagemDeErro(5, "Verifique seus dados e tente novamente!!!");
         }
         return null;
     }
@@ -101,38 +100,16 @@ public class JogoDaoImpl implements JogoDao {
                 ps.execute();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new PersistenciaException();
+            throw new PersistenciaException(ExcecoesEnum.ERRO_NA_CONSULTA)
+                    .inserirMensagemDeErro(6, "Verifique seus dados e tente novamente!!!");
         }
-    }
-
-    public List<Jogo> listGamesLocated() throws ClassNotFoundException, SQLException {
-        Connection connection = fabricaConexao.getConexao();
-        String sql = "select * from game inner join location where location.idGame = game.idGame and game.state = 'RENT'";
-        PreparedStatement ps = connection.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery();
-        List<Jogo> listGames = new ArrayList<>();
-        Jogo game = null;
-        while (rs.next()) {
-            Long idGame = rs.getLong("idGame");
-            String nameGame = rs.getString("nameGame");
-            String gender = rs.getString("gender");
-            String state = rs.getString("state");
-            game = new Jogo(idGame, nameGame, gender, state);
-
-            listGames.add(game);
-        }
-        rs.close();
-        ps.close();
-        connection.close();
-        return listGames;
     }
 
     @Override
     public List<Jogo> listaDeJogosLocadosDeUmUsuario(String cpf) throws PersistenciaException {
         List<Jogo> listaDeJogos;
         try (Connection connection = fabricaConexao.getConexao()) {
-            String sql = "select distinct j.idDoJogo, j.nomeDoJogo, j.genero, j.estado from jogo as j inner join locacao as l on j.estado = 'RENT' and l.idDoCliente = ? and j.idDoJogo = l.idDoJogo;";
+            String sql = "select distinct j.idDoJogo, j.nomeDoJogo, j.genero, j.estado from jogo as j inner join locacao as l on j.estado = 'ALUGADO' and l.idDoCliente = ? and j.idDoJogo = l.idDoJogo;";
             try (PreparedStatement ps = connection.prepareStatement(sql)) {
                 ps.setString(1, cpf);
                 try (ResultSet rs = ps.executeQuery()) {
@@ -149,7 +126,8 @@ public class JogoDaoImpl implements JogoDao {
                 }
             }
         } catch (SQLException e) {
-            throw new PersistenciaException();
+            throw new PersistenciaException(ExcecoesEnum.ERRO_NA_CONSULTA)
+                    .inserirMensagemDeErro(7, "Verifique seus dados e tente novamente!!!");
         }
         return listaDeJogos;
     }

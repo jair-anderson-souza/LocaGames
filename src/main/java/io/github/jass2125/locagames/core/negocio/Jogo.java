@@ -8,7 +8,7 @@ package io.github.jass2125.locagames.core.negocio;
 import io.github.jass2125.locagames.core.excecoes.GameException;
 import io.github.jass2125.locagames.core.observer.Observable;
 import io.github.jass2125.locagames.core.observer.Observer;
-import io.github.jass2125.locagames.core.state.GameState;
+import io.github.jass2125.locagames.core.state.JogoState;
 import io.github.jass2125.locagames.core.state.State;
 import java.io.Serializable;
 import java.sql.SQLException;
@@ -35,8 +35,8 @@ public class Jogo implements Serializable, Observable {
     public Jogo(Long idDoJogo, String nome, String genero, String estado) {
         this.idDoJogo = idDoJogo;
         this.nomeDoJogo = nome;
-        this.genero = estado;
-        this.estado = GameState.valueOf(estado);
+        this.genero = genero;
+        this.estado = JogoState.valueOf(estado);
     }
 
     public Long getIdDoJogo() {
@@ -93,13 +93,13 @@ public class Jogo implements Serializable, Observable {
     }
 
     public State devolution() throws SQLException, ClassNotFoundException, GameException {
-        State state = this.estado.availableGame();
+        State state = this.estado.jogoDisponivel();
         this.setEstado(state);
         return state;
     }
 
     public State location() throws SQLException, ClassNotFoundException, GameException {
-        State state = this.estado.rentedGame();
+        State state = this.estado.jogoAlugado();
         this.setEstado(state);
         return state;
     }

@@ -8,6 +8,7 @@ package io.github.jass2125.locagames.core.commands;
 import io.github.jass2125.locagames.core.negocio.Cliente;
 import io.github.jass2125.locagames.core.repository.ClienteDao;
 import io.github.jass2125.locagames.core.repository.ClienteDaoImpl;
+import io.github.jass2125.locagames.core.utilitarios.SessaoUtil;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -36,11 +37,13 @@ public class LoginClienteCommand implements Command {
 
         if (cliente != null) {
             session.setMaxInactiveInterval(60 * 30);
-            session.setAttribute("success", "Autenticação feita com sucesso");
-            session.setAttribute("user", cliente);
+            SessaoUtil.limpaSessao(session);
+            session.setAttribute("sucesso", "Autenticação feita com sucesso");
+            session.setAttribute("usuarioLogado", cliente);
             return "funcionario/home.jsp";
         } else {
-            request.getSession().setAttribute("error", "Erro na autenticação");
+            SessaoUtil.limpaSessao(session);
+            request.getSession().setAttribute("erro", "Erro na autenticação");
             return "home.jsp";
         }
     }

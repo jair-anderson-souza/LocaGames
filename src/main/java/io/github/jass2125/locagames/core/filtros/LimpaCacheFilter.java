@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  * @since 03:08:03, 14-Feb-2016
  */
 @WebFilter(urlPatterns = {"/*"})
-public class ClearCacheFilter implements Filter {
+public class LimpaCacheFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {}

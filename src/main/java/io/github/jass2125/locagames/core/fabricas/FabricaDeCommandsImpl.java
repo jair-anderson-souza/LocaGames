@@ -38,6 +38,7 @@ public class FabricaDeCommandsImpl implements FabricaDeCommands {
      * @param request {@link HttpServletRequest} Requisiçao Http do cliente
      * @return {@link Command} Commando a ser executado
      */
+    @Override
     public Command getCommand(HttpServletRequest request) {
         Command command = commands.get(request.getParameter("command")).getCommand();
         if (command == null) {

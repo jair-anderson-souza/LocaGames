@@ -17,7 +17,7 @@
                 
                 <div class="form-group dj-form__input">
                     <label for="name">Nome:</label>
-                    <input class="dj-button form-control" id="nome" name="name" autofocus="">
+                    <input class="dj-button form-control" id="nome" name="nome" autofocus="">
                 </div>
                 <br>
                 <div class="form-group dj-form__input">
